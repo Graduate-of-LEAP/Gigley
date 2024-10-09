@@ -30,12 +30,12 @@ export const PopularServices = () => {
   const [taskType, setTaskType] = useState('amazon');
   const [displayText, setDisplayText] = useState(arr[0].text);
 
-  const handleClick = (el) => {
-    const filteredArr = arr.find((obj) => obj.icon === el);
-    if (filteredArr) {
-      setDisplayText(filteredArr.text);
-    }
-  };
+  // const handleClick = (el) => {
+  //   const filteredArr = arr.find((obj) => obj.icon === el);
+  //   if (filteredArr) {
+  //     setDisplayText(filteredArr.text);
+  //   }
+  // };
 
   return (
     <Container className="bg-white">
