@@ -40,7 +40,7 @@ export const HowItWorks = () => {
                 <div className="px-[22px] py-3 bg-[#E3FFEF] rounded-full text-2xl font-bold">
                   3
                 </div>
-                <div>Choose a Tasker by price, skills, and reviews.</div>
+                <div>Choose a Tasker by price, skills, and reviewsa.</div>
               </div>
             </div>
           </div>
