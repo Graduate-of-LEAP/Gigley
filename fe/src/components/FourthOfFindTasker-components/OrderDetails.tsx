@@ -1,3 +1,3 @@
-export const FilterSideBar = () => {
+export const OrderDetails = () => {
   return <div className=""></div>;
 };

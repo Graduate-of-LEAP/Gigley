@@ -1,3 +1,3 @@
-export const TaskerDetails = () => {
+export const ComfirmDetails = () => {
   return <div className=""></div>;
 };

@@ -1,9 +1,9 @@
 import { Container } from '../assets/Container';
 
-export const DescriptionOfLocation = () => {
+export const TaskDetailedDescription = () => {
   return (
     <Container className="bg-white">
-      <div className="h-10 bg-purple-200">DescriptionOfLocation</div>
+      <div className="h-10 bg-purple-600">HireTasker</div>
     </Container>
   );
 };
