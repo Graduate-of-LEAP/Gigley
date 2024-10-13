@@ -30,7 +30,7 @@ export const PopularServices = () => {
   const [taskType, setTaskType] = useState('amazon');
   const [displayText, setDisplayText] = useState(arr[0].text);
 
-  const handleClick = (el) => {
+  const handleClick = (el: string) => {
     const filteredArr = arr.find((obj) => obj.icon === el);
     if (filteredArr) {
       setDisplayText(filteredArr.text);
