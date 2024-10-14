@@ -9,7 +9,7 @@ export const HeroSection = () => {
     <Container className="bg-white">
       <div className="h-[250px]">
         <div className="w-[1200px] h-[154px] flex flex-col justify-center items-center">
-          <h1 className="text-[55px] text-[#2b4c32] font-bold w-[550px] leading-tight text-center">
+          <h1 className="text-[55px] text-[#1167b1] font-bold w-[550px] leading-tight text-center">
             Таний итгэж болох гэрийн туслах
           </h1>
         </div>
@@ -18,11 +18,11 @@ export const HeroSection = () => {
             type="text"
             placeholder="Та шаардлагатай үйлчилгээгээ хайна уу"
             name="search"
-            className="w-[541px] h-[64px] rounded-s-full border border-[#2b4c32]"
+            className="w-[541px] h-[64px] rounded-s-full border border-[#1167b1]"
           />
           <Button
             type="submit"
-            className="bg-[#2b4c32] rounded-r-full h-[64px] w-[88px]"
+            className="bg-[#1167b1] rounded-r-full h-[64px] w-[88px]"
           >
             <FaSearch className="text-white text-lg" />
           </Button>
