@@ -1,89 +1,115 @@
 'use client';
-import { FaAmazon, FaEbay, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { Container } from '../assets/Container';
 import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Armchair, Car, Drill, House } from 'lucide-react';
 
-const services = [
-  { icon: FaAmazon, name: 'amazon', label: 'AMAZON IS HERE' },
-  { icon: FaEbay, name: 'ebay', label: 'NOT HERE' },
-  { icon: FaFacebook, name: 'fb', label: 'NOT HERE' },
-  { icon: FaInstagram, name: 'ig', label: 'NOT HERE' },
+const assemblyData = [
+  'IKEA-н тавилга',
+  'Ширээ угсралт',
+  'Шүүгээ угсралт',
+  'Ор угсралт',
 ];
-
-const arr = [
-  {
-    icon: 'icon1',
-    text: 'text1',
-  },
-  {
-    icon: 'icon2',
-    text: 'text2',
-  },
-  {
-    icon: 'icon3',
-    text: 'text3',
-  },
+const mountingData = [
+  'Зураг, толь тогтоолт',
+  'Tелевиз тогтоолт',
+  'Цонх, хөшиг тогтоолт',
+  'Ханын тавиур тогтоолт',
 ];
-const arrText = ['icon1', 'icon2', 'icon3'];
+const cleaningData = [
+  'Орон сууцны цэвэрлэгээ',
+  'Үдэшлэгийн дараах цэвэрлэгээ',
+  'Гараж цэвэрлэгээ',
+  'Нүүлгэлтийн цэвэрлэгээ',
+  'Гүн цэвэрлэгээ',
+];
+const movingData = [
+  'Нүүлгэлтийн туслах',
+  'Машинтай нүүлгэлт',
+  'Хог, тавилга устгал',
+  'Хүнд өргөлт,нүүлгэлт',
+  'Тавилгын байршил өөрчлөх',
+];
 
 export const PopularServices = () => {
-  const [taskType, setTaskType] = useState('amazon');
-  const [displayText, setDisplayText] = useState(arr[0].text);
-
-  // const handleClick = (el) => {
-  //   const filteredArr = arr.find((obj) => obj.icon === el);
-  //   if (filteredArr) {
-  //     setDisplayText(filteredArr.text);
-  //   }
-  // };
+  const [activeTab, setActiveTab] = useState('assembly');
+  const data = [
+    {
+      data: assemblyData,
+      value: 'assembly',
+      name: 'Тавилга угсралт',
+      icon: Armchair,
+      color: 'text-blue-300 font-bold',
+    },
+    {
+      data: mountingData,
+      value: 'mounting',
+      name: 'Өрөмдөлт, тогтоолт',
+      icon: Drill,
+      color: 'text-green-300 font-bold',
+    },
+    {
+      data: cleaningData,
+      value: 'cleaning',
+      name: 'Цэвэрлэгээ',
+      icon: House,
+      color: 'text-purple-300 font-bold',
+    },
+    {
+      data: movingData,
+      value: 'moving',
+      name: 'Нүүлгэлт',
+      icon: Car,
+      color: 'text-amber-300 font-bold',
+    },
+  ];
 
   return (
     <Container className="bg-white">
+      <div></div>
+      <div className="mt-4"></div>
       <div>
-        {arrText.map((el) => (
-          <div onClick={() => handleClick(el)}>{el}</div>
-        ))}
-      </div>
-      <div className="mt-4">{displayText && <div>{displayText}</div>}</div>
-      <div className="bg-green-400">
         PopularServices
         <div className="flex gap-10 justify-center">
-          {/* {services.map((service, index) => {
-            return <div key={index}>
-
-            </div>;
-          })} */}
-          <div>
-            <FaAmazon
-              onClick={() => setTaskType('amazon')}
-              className={`w-14 h-14 ${taskType === 'amazon' ? 'text-purple-500' : ''}`}
-            />
-          </div>
-          <div>
-            <FaEbay
-              onClick={() => setTaskType('ebay')}
-              className={`w-14 h-14 ${taskType === 'ebay' ? 'text-purple-500' : ''}`}
-            />
-          </div>
-          <div>
-            <FaFacebook
-              onClick={() => setTaskType('fb')}
-              className={`w-14 h-14 ${taskType === 'fb' ? 'text-purple-500' : ''}`}
-            />
-          </div>
-          <div>
-            <FaInstagram
-              onClick={() => setTaskType('ig')}
-              className={`w-14 h-14 ${taskType === 'ig' ? 'text-purple-500' : ''}`}
-            />
-          </div>
-        </div>
-        <div className="font-bold text-5xl text-center">
-          {taskType === 'amazon'
-            ? 'AMAZON IS HERE'
-            : taskType === 'fb'
-              ? 'FACEBOOK IS HERE'
-              : 'Ebay is here'}
+          <Tabs defaultValue="assembly" className="w-fit">
+            <TabsList className="h-fit flex border-b border-black">
+              {data.map((el, i) => {
+                const Icon = el.icon;
+                return (
+                  <TabsTrigger
+                    key={i}
+                    value={el.value}
+                    onClick={() => setActiveTab(el.value)}
+                  >
+                    <div
+                      className={`flex flex-col gap-1 items-center w-40 ${activeTab === el.value ? el.color : ''}`}
+                    >
+                      {Icon && <Icon size={40} />}
+                      <div>{el.name}</div>
+                    </div>
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+            {data?.map((el, i) => {
+              return (
+                <TabsContent value={el.value} key={i} className="w-full py-4">
+                  <div className="flex flex-wrap gap-6 max-w-screen-md">
+                    {el.data?.map((item, index) => {
+                      return (
+                        <div
+                          className="hover:bg-green-100 w-fit px-10 py-2 rounded-full border border-black font-bold cursor-pointer"
+                          key={index}
+                        >
+                          {item}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </TabsContent>
+              );
+            })}
+          </Tabs>
         </div>
         <div></div>
       </div>
