@@ -8,6 +8,7 @@ import {
   Testimonials,
   TrustAndGuarantees,
   HowItWorks,
+  GetHelpToday,
 } from '@/components/homepage-components';
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
       <Testimonials />
       <TrustAndGuarantees />
       <HowItWorks />
+      <GetHelpToday />
       <Footer />
     </>
   );
