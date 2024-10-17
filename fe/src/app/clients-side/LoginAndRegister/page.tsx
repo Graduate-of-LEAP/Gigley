@@ -1,9 +1,12 @@
+"use client"
 import { LoginAndRegister } from '@/components/LoginAndRegister';
 
-export default function () {
+const Page= () =>{
   return (
     <>
       <LoginAndRegister />
     </>
   );
 }
+
+export default Page;
