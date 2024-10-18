@@ -1,3 +1,9 @@
+import { Container } from '../assets/Container';
+
 export const OrderDetails = () => {
-  return <div className=""></div>;
+  return;
+
+  <Container className="bg-white">
+    <div></div>
+  </Container>;
 };
