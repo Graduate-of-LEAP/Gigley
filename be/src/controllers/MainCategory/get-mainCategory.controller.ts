@@ -1,8 +1,9 @@
 import { RequestHandler } from 'express';
 import { mainCategoryModel } from '../../models/mainCategory.schema';
 
-export const getCategoryController: RequestHandler = async (req, res) => {
+export const getCategoryController: RequestHandler = async (_req, res) => {
   try {
+    console.log('getCategoryController');
     const categoriesData = await mainCategoryModel.find();
 
     res.json(categoriesData);
