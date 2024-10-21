@@ -10,7 +10,7 @@ export default function () {
       <Header />
       <YourTodoList />
       <HireTasker />
-      <PressMentions />
+
       <Footer />
     </>
   );
