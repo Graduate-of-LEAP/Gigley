@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
-const taskerSchema = new Schema({
-  name: {
+const userSchema = new Schema({
+  userName: {
     type: String,
     required: true,
   },
@@ -26,4 +26,4 @@ const taskerSchema = new Schema({
   },
 });
 
-export const taskerModel = model('Tasker', taskerSchema);
+export const userModel = model('User', userSchema);
