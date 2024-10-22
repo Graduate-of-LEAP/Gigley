@@ -4,12 +4,9 @@ import { mainCategoryModel } from '../../models/mainCategory.schema';
 export const createCategoryController: RequestHandler = async (req, res) => {
   try {
     const { name } = req.body;
-    console.log(name);
 
     await mainCategoryModel.create({
-      name: name,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      ...req.body,
     });
 
     res.status(201).json({
