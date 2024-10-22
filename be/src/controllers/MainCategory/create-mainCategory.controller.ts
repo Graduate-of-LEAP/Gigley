@@ -6,9 +6,7 @@ export const createCategoryController: RequestHandler = async (req, res) => {
     const { name } = req.body;
 
     await mainCategoryModel.create({
-      name: name,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      ...req.body,
     });
 
     res.status(201).json({

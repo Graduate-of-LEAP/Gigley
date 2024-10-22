@@ -6,6 +6,11 @@ const mainCategorySchema = new Schema({
     type: String,
     required: true,
   },
+  subCategories: {
+    type: [Schema.Types.ObjectId],
+    ref: 'subCategory',
+    required: true,
+  },
   createdAt: {
     type: Date,
     required: true,

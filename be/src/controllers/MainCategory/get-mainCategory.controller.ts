@@ -3,8 +3,9 @@ import { mainCategoryModel } from '../../models/mainCategory.schema';
 
 export const getCategoryController: RequestHandler = async (_req, res) => {
   try {
-    console.log('getCategoryController');
-    const categoriesData = await mainCategoryModel.find();
+    const categoriesData = await mainCategoryModel
+      .find()
+      .populate('subCategories');
 
     res.json(categoriesData);
   } catch (error) {
