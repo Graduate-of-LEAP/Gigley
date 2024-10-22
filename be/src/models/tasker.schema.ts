@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 const taskerSchema = new Schema({
-  name: {
+  taskerName: {
     type: String,
     required: true,
   },
