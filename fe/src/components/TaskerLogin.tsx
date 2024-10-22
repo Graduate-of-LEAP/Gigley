@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from './ui/input';
 import { Label } from '@radix-ui/react-label';
 
-export const Login = () => {
+export const TaskerLogin = () => {
   return (
     <div className=" relative w-screen h-screen">
       <Image

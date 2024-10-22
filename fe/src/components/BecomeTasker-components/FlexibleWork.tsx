@@ -1,3 +1,5 @@
+'use client';
+
 import { Container } from '../assets/Container';
 import {
   Select,
@@ -6,8 +8,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useEffect, useState } from 'react';
+import { api } from '@/lib';
 
 export const FlexibleWork = () => {
+  type Category = {
+    _id: string;
+    name: string;
+  };
+
+  const [mainCategories, setMainCategories] = useState<Category[]>([]);
+
+  console.log('mainCategories:', mainCategories);
+
+  useEffect(() => {
+    const getCategoriesData = async () => {
+      try {
+        const response = await api.get(
+          'http://localhost:3001/mainCategory/get'
+        );
+
+        setMainCategories(response.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    getCategoriesData();
+  }, []);
+
   return (
     <Container className="bg-white py-12">
       <div className="flex flex-col lg:flex-row items-center lg:items-start lg:justify-between gap-8">
@@ -40,9 +69,25 @@ export const FlexibleWork = () => {
                 <SelectValue placeholder="Select Area" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="area1">Area 1</SelectItem>
-                <SelectItem value="area2">Area 2</SelectItem>
-                <SelectItem value="area3">Area 3</SelectItem>
+                <SelectItem value="Чингэлтэй дүүрэг">
+                  Чингэлтэй дүүрэг
+                </SelectItem>
+                <SelectItem value="Хан-Уул дүүрэг">Хан-Уул дүүрэг</SelectItem>
+                <SelectItem value="Сүхбаатар дүүрэг">
+                  Сүхбаатар дүүрэг
+                </SelectItem>
+                <SelectItem value="Баянгол дүүрэг">Баянгол дүүрэг</SelectItem>
+                <SelectItem value=" Багануур дүүрэг">
+                  Багануур дүүрэг
+                </SelectItem>
+                <SelectItem value="Баянзүрх дүүрэг">Баянзүрх дүүрэг</SelectItem>
+                <SelectItem value="Сонгинохайрхан дүүрэг">
+                  Сонгинохайрхан дүүрэг
+                </SelectItem>
+                <SelectItem value="Багахангай дүүрэг">
+                  Багахангай дүүрэг
+                </SelectItem>
+                <SelectItem value="Налайх дүүрэг">Налайх дүүрэг</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -60,9 +105,11 @@ export const FlexibleWork = () => {
                 <SelectValue placeholder="Select Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="category1">Category 1</SelectItem>
-                <SelectItem value="category2">Category 2</SelectItem>
-                <SelectItem value="category3">Category 3</SelectItem>
+                {mainCategories.map((item) => (
+                  <SelectItem key={item._id} value={item._id}>
+                    {item.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

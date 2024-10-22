@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from './ui/input';
 import { Label } from '@radix-ui/react-label';
 
-export const Register = () => {
+export const TaskerRegister = () => {
   return (
     <div className="relative w-screen h-screen ">
       <Image
@@ -19,7 +19,7 @@ export const Register = () => {
             {' '}
             GiGley
           </h1>
-          <h5 className="text-xl m-auto ">Become user</h5>
+          <h5 className="text-xl m-auto ">Become tasker</h5>
           <div className="flex flex-col gap-4">
             <Input placeholder="Name" />
             <Input placeholder="LastName" />
