@@ -6,6 +6,12 @@ import { useEffect, useState } from 'react';
 type CategoryType = {
   _id: string;
   name: string;
+  subCategories: SubCategoryType[];
+};
+
+type SubCategoryType = {
+  _id: string;
+  subCategoryName: string;
 };
 
 export const HireTasker = () => {
@@ -36,6 +42,11 @@ export const HireTasker = () => {
               <div key={i} className="border">
                 <div className="text-center font-semibold text-green-700 hover:text-black">
                   {category.name}
+                </div>
+                <div>
+                  {category.subCategories.map((sub, i) => {
+                    return <div key={i}>{sub.subCategoryName}</div>;
+                  })}
                 </div>
               </div>
             );
