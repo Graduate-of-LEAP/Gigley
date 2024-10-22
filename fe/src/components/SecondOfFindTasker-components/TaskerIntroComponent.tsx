@@ -44,9 +44,9 @@ export const TaskerIntroComponent = ({ item }: itemtype) => {
       <div className="text-[#595c5b] bg-[#f4f7f6] p-3 rounded-md mt-6">
         <div className="font-bold mb-2">How I can help:</div>
         <div className="w-[480px]">{item.introDescription}</div>
-        <button className="text-[#2a9df4] font-semibold">
+        <div className="text-[#2a9df4] font-semibold">
           <TaskerDetailedProfileCard />
-        </button>
+        </div>
       </div>
 
       {reviewData.slice(0, 1).map((item, index) => {
