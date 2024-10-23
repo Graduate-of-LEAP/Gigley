@@ -2,9 +2,10 @@ import { Router } from 'express';
 import { taskerRegisterController } from '../controllers/tasker/register-tasker.controller';
 import { taskerLoginController } from '../controllers/tasker/login-tasker.controller';
 
-const taskerRouter = Router();
+const authTaskerRouter = Router();
 
-taskerRouter.post('/register', taskerRegisterController);
-taskerRouter.post('/login', taskerLoginController);
+authTaskerRouter.post('/register', taskerRegisterController);
+authTaskerRouter.post('/login', taskerLoginController);
+authTaskerRouter.post('/tasker', taskerLoginController);
 
-export { taskerRouter };
+export { authTaskerRouter };

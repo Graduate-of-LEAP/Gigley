@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState, createContext, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { ReactNode } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 
 type UserType = {
   id: string;
@@ -15,12 +16,18 @@ type UserType = {
 type AuthContextType = {
   user: UserType | null;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string) => Promise<void>;
+  register: (
+    email: string,
+    password: string,
+    name: string,
+    lastName: string,
+    phone: string
+  ) => Promise<void>;
 };
 
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+const AuthTaskerContext = createContext<AuthContextType>({} as AuthContextType);
 
-const authPaths = ['/Login', '/Register'];
+const authPaths = ['/TaskerLogin', '/TaskerRegister'];
 
 type PropsChildren = {
   children: ReactNode;
@@ -35,9 +42,9 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
   const [isReady, setIsReady] = useState(false);
 
   // Login function
-  const login = async (name: string, password: string) => {
+  const login = async (email: string, password: string) => {
     try {
-      const res = await api.post('/auth/login', { name, password });
+      const res = await api.post('/authTasker/login', { email, password });
 
       localStorage.setItem('token', res.data.token);
 
@@ -45,23 +52,36 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
 
       toast.success('Login successful');
 
-      router.push('/');
+      setTimeout(() => {
+        router.push('/');
+      }, 1000);
     } catch (err: any) {
       console.log(err);
       toast.error('Invalid credentials');
     }
   };
 
-  const register = async (email: string, password: string, name: string) => {
+  const register = async (
+    email: string,
+    password: string,
+    name: string,
+    lastName: string,
+    phone: string
+  ) => {
     try {
-      await api.post('/auth/create', {
+      await api.post('/authTasker/register', {
         name,
         email,
         password,
+        lastName,
+        phone,
       });
 
       toast.success('Registration successful! Please login.');
-      router.push('/Login');
+
+      setTimeout(() => {
+        router.push('/tasker-side/TaskerLogin');
+      }, 1000);
     } catch (err: any) {
       console.log(err);
       toast.error(err?.response?.data?.message || 'Registration failed');
@@ -77,7 +97,7 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
 
         if (!token) return;
 
-        const res = await api.get('/user/me', {
+        const res = await api.get('/authTasker/tasker', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -105,16 +125,16 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
 
     if (user) return;
 
-    router.push('/Login');
+    router.push('/tasker-side/TaskerLogin');
   }, [pathname, user, isReady]);
 
   if (!isReady) return null;
 
   return (
-    <AuthContext.Provider value={{ user, login, register }}>
+    <AuthTaskerContext.Provider value={{ user, login, register }}>
       {children}
-    </AuthContext.Provider>
+    </AuthTaskerContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useTaskerAuth = () => useContext(AuthTaskerContext);

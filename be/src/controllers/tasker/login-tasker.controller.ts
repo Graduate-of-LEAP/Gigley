@@ -1,28 +1,33 @@
 import { RequestHandler } from 'express';
-import { userModel } from '../../models';
+import { taskerModel } from '../../models';
 const jwt = require('jsonwebtoken');
 import bcrypt from 'bcrypt';
 
 export const taskerLoginController: RequestHandler = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body as {
+    email: string;
+    password: string;
+  };
 
-  const user = await userModel.findOne({ email });
+  const tasker = await taskerModel.findOne({ email });
 
-  if (!user) {
+  if (!tasker) {
     return res
       .status(400)
       .json({ message: 'Ийм бүртгэлтэй хэрэглэгч байхгүй байна.' });
   }
 
-  const isPasswordValid = await bcrypt.compare(password, user.password);
+  const isPasswordValid = await bcrypt.compare(password, tasker.password);
   if (!isPasswordValid) {
     return res.status(400).json({ message: 'Нууц үг буруу.' });
   }
   const token = jwt.sign(
     {
-      userName: user.userName,
-      email: user.email,
-      id: user._id,
+      firstName: tasker.firstName,
+      email: tasker.email,
+      phone: tasker.phone,
+      lastName: tasker.lastName,
+      id: tasker._id,
     },
     process.env.JWT_SECRET as string
   );
@@ -30,9 +35,11 @@ export const taskerLoginController: RequestHandler = async (req, res) => {
   return res.status(200).json({
     token,
     user: {
-      userName: user.userName,
-      email: user.email,
-      id: user._id,
+      firstName: tasker.firstName,
+      email: tasker.email,
+      phone: tasker.phone,
+      lastName: tasker.lastName,
+      id: tasker._id,
     },
   });
 };

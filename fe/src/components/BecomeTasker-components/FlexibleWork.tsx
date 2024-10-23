@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/select';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib';
+import Link from 'next/link';
 
 export const FlexibleWork = () => {
   type Category = {
@@ -117,9 +118,11 @@ export const FlexibleWork = () => {
           <p className="text-lg font-bold text-green-600">$50 per hour</p>
 
           {/* CTA Button */}
-          <button className="bg-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-500 transition">
-            Get Started
-          </button>
+          <Link href="/tasker-side/TaskerRegister">
+            <button className="bg-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-500 transition">
+              Get Started
+            </button>
+          </Link>
           <p>Already have an account? Sign in</p>
         </div>
       </div>

@@ -3,8 +3,17 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from './ui/input';
 import { Label } from '@radix-ui/react-label';
+import { useState } from 'react';
+import { useTaskerAuth } from './context/auth.taskerProvider';
 
 export const TaskerRegister = () => {
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const { register } = useTaskerAuth();
+
   return (
     <div className="relative w-screen h-screen ">
       <Image
@@ -21,17 +30,45 @@ export const TaskerRegister = () => {
           </h1>
           <h5 className="text-xl m-auto ">Become tasker</h5>
           <div className="flex flex-col gap-4">
-            <Input placeholder="Name" />
-            <Input placeholder="LastName" />
-            <Input placeholder="Email address" />
-            <Input placeholder="Phone number" />
-            <Input placeholder="Password" />
+            <Input
+              placeholder="Name"
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
+            />
+            <Input
+              placeholder="LastName"
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
+            />
+            <Input
+              placeholder="Email address"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
+            <Input
+              placeholder="Phone number"
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
+            />
+            <Input
+              placeholder="Password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
             <Input placeholder="Re-password" />
           </div>
 
           <Button
             variant="outline"
             className="h-[43px] w-[356px] rounded-full bg-green-800 text-white mt-6"
+            onClick={() =>
+              register(email, password, firstName, lastName, phone)
+            }
           >
             Бүртгүүлэх
           </Button>

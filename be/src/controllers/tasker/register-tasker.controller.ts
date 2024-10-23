@@ -1,30 +1,37 @@
 import { RequestHandler } from 'express';
-import { userModel } from '../../models';
+import { taskerModel } from '../../models';
 import bcrypt from 'bcrypt';
 
 export const taskerRegisterController: RequestHandler = async (req, res) => {
   try {
-    const { taskerName, email, password } = req.body as {
-      taskerName: string;
+    const { name, email, password, phone, lastName } = req.body as {
+      name: string;
       email: string;
       password: string;
+      lastName: string;
+      phone: string;
     };
+
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
 
-    const user = await userModel.findOne({ email });
+    const tasker = await taskerModel.findOne({ email });
 
-    if (user) {
+    if (tasker) {
       return res
         .status(400)
         .json({ message: 'Ийм бүртгэлтэй харилцагч байна.' });
     }
 
-    const newTasker = await userModel.create({
-      taskerName,
-      email,
+    await taskerModel.create({
+      firstName: name,
+      email: email,
       password: hashedPassword,
+      phone: phone,
+      lastName: lastName,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
-    await newTasker.save();
+
     res.status(200).json({ message: 'Хэрэглэгчийн бүртгэл амжилттай үүслээ.' });
   } catch (error) {
     console.log(error);
