@@ -2,10 +2,16 @@ import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 const taskerSchema = new Schema({
-  name: {
+  firstName: {
     type: String,
     required: true,
   },
+
+  lastName: {
+    type: String,
+    required: true,
+  },
+
   email: {
     type: String,
     required: true,
@@ -14,6 +20,12 @@ const taskerSchema = new Schema({
     type: String,
     required: true,
   },
+
+  phone: {
+    type: Number,
+    requirted: true,
+  },
+
   createdAt: {
     type: Date,
     required: true,
@@ -26,4 +38,4 @@ const taskerSchema = new Schema({
   },
 });
 
-export const taskerModel = model('Tasker', taskerSchema);
+export const taskerModel = model('taskers', taskerSchema);

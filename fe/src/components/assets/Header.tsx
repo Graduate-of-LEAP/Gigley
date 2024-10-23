@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Container } from './Container';
 
 export const Header = () => {
@@ -11,9 +12,11 @@ export const Header = () => {
             <p>Sign Up /</p>
             <p>Login</p>
           </div>
-          <button className="border border-[#2a9df4] rounded-lg text-[#2a9df4] px-7 py-2">
-            Ажил олгогчоор бүртгүүлэх
-          </button>
+          <Link href="/tasker-side/BecomeTasker">
+            <button className="border border-[#2a9df4] rounded-lg text-[#2a9df4] px-7 py-2">
+              Ажил олгогчоор бүртгүүлэх
+            </button>
+          </Link>
         </div>
       </div>
     </Container>

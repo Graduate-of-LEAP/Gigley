@@ -3,8 +3,14 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from './ui/input';
 import { Label } from '@radix-ui/react-label';
+import { useState } from 'react';
+import { useTaskerAuth } from './context/auth.taskerProvider';
 
 export const TaskerLogin = () => {
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const { login } = useTaskerAuth();
+
   return (
     <div className=" relative w-screen h-screen">
       <Image
@@ -19,19 +25,32 @@ export const TaskerLogin = () => {
             {' '}
             GiGley
           </h1>
+
+          <h5 className="text-xl m-auto ">Please tasker log in</h5>
           <div>
             <Label htmlFor="Email">Email</Label>
-            <Input placeholder="Email" />
+            <Input
+              placeholder="Email"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
           </div>
 
           <div>
-            <Label htmlFor="Email">Email</Label>
-            <Input placeholder="Password" />
+            <Label htmlFor="Email">Password</Label>
+            <Input
+              placeholder="Password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
           </div>
 
           <Button
             variant="outline"
             className="h-[43px] w-[356px] rounded-full bg-green-800 text-white"
+            onClick={() => login(email, password)}
           >
             Нэвтрэх
           </Button>
