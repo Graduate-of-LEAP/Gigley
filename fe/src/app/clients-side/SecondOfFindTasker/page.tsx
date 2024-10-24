@@ -3,6 +3,7 @@ import { TaskerDetailedProfileCard } from '@/components/assets/TaskerDetailedPro
 import { TaskerProfileCard } from '@/components/assets/TaskerProfileCard';
 import { DescriptionOfSecond } from '@/components/SecondOfFindTasker-components/DescriptionOfSecond';
 import { FilterSideBar } from '@/components/SecondOfFindTasker-components/FilterSideBar';
+import { MainBody } from '@/components/SecondOfFindTasker-components/MainBody';
 import { SortedBy } from '@/components/SecondOfFindTasker-components/SortedBy';
 import { ChooseDateAndTime } from '@/components/ThirdOfFindTasker-components/ChooseDateAndTime';
 
@@ -11,10 +12,8 @@ export default function () {
     <>
       <Header />
       <DescriptionOfSecond />
-      <SortedBy />
-      <FilterSideBar />
-      <TaskerProfileCard />
-      <TaskerDetailedProfileCard />
+      <MainBody />
+
       <ChooseDateAndTime />
     </>
   );

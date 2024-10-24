@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 
 type PropsChildren = {
-  children: ReactNode;
-  className: string;
+  children: React.ReactNode;
+  className?: string;
 };
 
 export const Container = ({ children, className }: PropsChildren) => {
