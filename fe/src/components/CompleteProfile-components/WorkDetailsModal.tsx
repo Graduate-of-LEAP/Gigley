@@ -58,7 +58,7 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
           <div className="flex justify-end">
             <button
               type="button"
-              className="bg-green-500 text-white px-4 py-2 rounded-lg"
+              className="bg-[#1167b1] text-white px-4 py-2 rounded-lg"
               onClick={onClose}
             >
               Save

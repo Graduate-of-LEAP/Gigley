@@ -122,7 +122,7 @@ export const JobPreference = () => {
                     key={category._id}
                     className={`cursor-pointer p-2 rounded-lg ${
                       selectedCategory?._id === category._id
-                        ? 'bg-green-100 text-green-700'
+                        ? 'bg-[#1167b1] text-white'
                         : 'bg-gray-100 text-gray-700'
                     }`}
                     onClick={() => setSelectedCategory(category)}
@@ -174,7 +174,7 @@ export const JobPreference = () => {
             <h2 className="text-lg font-semibold text-gray-700 mb-3">
               Selected Subcategories
             </h2>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               {selectedSubCategories.map((subcategory) => (
                 <SubCategoryCard
                   key={subcategory._id}
