@@ -53,7 +53,7 @@ export const ComfirmDetails = () => {
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>
-                <Checkbox id="donate" />
+                {/* <Checkbox id="donate" /> */}
                 <label htmlFor="donate" className="ml-2 font-bold">
                   Сайн сайхны төлөө Gigley-д 1 доллар хандивлая
                 </label>
