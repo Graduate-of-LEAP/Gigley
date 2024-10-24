@@ -3,12 +3,24 @@ import { useState } from 'react';
 interface WorkDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSave: (details: any) => void;
 }
 
 export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
   isOpen,
   onClose,
+  onSave,
 }) => {
+  const [minHours, setMinHours] = useState('');
+  const [vehicles, setVehicles] = useState('');
+  const [tools, setTools] = useState('');
+  const [skillsAndExperience, setSkillsAndExperience] = useState('');
+  const [taskName, setTaskName] = useState('');
+
+  const handleSave = () => {
+    onSave({ minHours, vehicles, tools, skillsAndExperience, taskName });
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -18,12 +30,25 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
 
         <form>
           <div className="mb-4">
+            <label className="block text-gray-700">Task Name</label>
+            <input
+              type="text"
+              className="border border-gray-300 rounded-lg w-full p-2"
+              value={taskName}
+              onChange={(e) => setTaskName(e.target.value)}
+              placeholder="e.g. Plumbing"
+            />
+          </div>
+
+          <div className="mb-4">
             <label className="block text-gray-700">
               Minimum Hours Available
             </label>
             <input
               type="number"
               className="border border-gray-300 rounded-lg w-full p-2"
+              value={minHours}
+              onChange={(e) => setMinHours(e.target.value)}
               placeholder="e.g. 5 hours"
             />
           </div>
@@ -33,6 +58,8 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
             <input
               type="text"
               className="border border-gray-300 rounded-lg w-full p-2"
+              value={vehicles}
+              onChange={(e) => setVehicles(e.target.value)}
               placeholder="e.g. Truck, Van"
             />
           </div>
@@ -42,6 +69,8 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
             <input
               type="text"
               className="border border-gray-300 rounded-lg w-full p-2"
+              value={tools}
+              onChange={(e) => setTools(e.target.value)}
               placeholder="e.g. Drill, Ladder"
             />
           </div>
@@ -50,6 +79,8 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
             <label className="block text-gray-700">Skills and Experience</label>
             <textarea
               className="border border-gray-300 rounded-lg w-full p-2"
+              value={skillsAndExperience}
+              onChange={(e) => setSkillsAndExperience(e.target.value)}
               rows={4}
               placeholder="Describe your relevant experience..."
             />
@@ -59,7 +90,7 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
             <button
               type="button"
               className="bg-[#1167b1] text-white px-4 py-2 rounded-lg"
-              onClick={onClose}
+              onClick={handleSave}
             >
               Save
             </button>

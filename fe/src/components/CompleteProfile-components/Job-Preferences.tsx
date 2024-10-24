@@ -28,6 +28,7 @@ export const JobPreference = () => {
   const [selectedSubCategories, setSelectedSubCategories] = useState<
     SubCategory[]
   >([]);
+  const [workDetails, setWorkDetails] = useState<any[]>([]); // Store all work details fetched from the database
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSubCategory, setActiveSubCategory] =
     useState<SubCategory | null>(null);
@@ -39,7 +40,7 @@ export const JobPreference = () => {
     }
   }, []);
 
-  // Fetch main categories and set the first category as default
+  // Fetch main categories and set the first category as default (on initial page load)
   useEffect(() => {
     const getMainCategories = async () => {
       if (!authorization) {
@@ -73,24 +74,87 @@ export const JobPreference = () => {
     }
   }, [authorization]);
 
+  // Fetch work details once (when the component mounts)
+  useEffect(() => {
+    const fetchWorkDetails = async () => {
+      if (!authorization) {
+        console.error('Authorization token is missing');
+        return;
+      }
+
+      try {
+        const response = await api.get(
+          'http://localhost:3001/workDetails/get',
+          {
+            headers: {
+              Authorization: `Bearer ${authorization}`,
+            },
+          }
+        );
+        setWorkDetails(response.data); // Set the fetched work details
+      } catch (error) {
+        console.error('Error fetching work details:', error);
+      }
+    };
+
+    if (authorization) {
+      fetchWorkDetails(); // Call the function here
+    }
+  }, [authorization]);
+
   // Handle checkbox selection for subcategories
   const handleSubCategorySelect = (subcategory: SubCategory) => {
-    // If the subcategory is already selected, remove it, otherwise add it
     if (selectedSubCategories.find((sc) => sc._id === subcategory._id)) {
-      // Uncheck subcategory, remove from selected list
       setSelectedSubCategories((prev) =>
         prev.filter((sc) => sc._id !== subcategory._id)
       );
     } else {
-      // Add subcategory to selected list
       setSelectedSubCategories((prev) => [...prev, subcategory]);
     }
   };
 
-  // Handle card click for subcategories
+  // Open modal and assign active subcategory
   const handleCardClick = (subcategory: SubCategory) => {
     setActiveSubCategory(subcategory);
     setIsModalOpen(true);
+  };
+
+  // Fetch the updated work details after saving the data
+  const fetchUpdatedWorkDetails = async () => {
+    try {
+      const response = await api.get('http://localhost:3001/workDetails/get', {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+        },
+      });
+      setWorkDetails(response.data); // Update the local state with fetched work details
+    } catch (error) {
+      console.error('Error fetching updated work details:', error);
+    }
+  };
+
+  // Save the work details to the database and fetch updated data
+  const handleSave = async (details: any) => {
+    try {
+      const response = await api.post(
+        'http://localhost:3001/workDetails/create',
+        {
+          subCategoryId: activeSubCategory?._id,
+          ...details, // This is the request body
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authorization}`, // This is the config object for headers
+          },
+        }
+      );
+
+      // After saving, fetch the updated work details from the database
+      await fetchUpdatedWorkDetails(); // Fetch the updated work details and update local state
+    } catch (error) {
+      console.error('Error saving work details:', error);
+    }
+    setIsModalOpen(false); // Close the modal after saving
   };
 
   const closeModal = () => {
@@ -101,7 +165,6 @@ export const JobPreference = () => {
     <Container className="bg-white">
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 py-10">
         <div className="max-w-4xl w-full p-6 bg-white shadow-lg rounded-lg">
-          {/* Header */}
           <h1 className="text-2xl font-semibold text-gray-900 mb-4">
             Great, so what kind of work are you here to do?
           </h1>
@@ -109,7 +172,6 @@ export const JobPreference = () => {
             Don’t worry, you can change these choices later on.
           </p>
 
-          {/* Categories and Subcategories */}
           <div className="grid grid-cols-2 gap-6">
             {/* Categories */}
             <div>
@@ -120,11 +182,7 @@ export const JobPreference = () => {
                 {mainCategories.map((category) => (
                   <li
                     key={category._id}
-                    className={`cursor-pointer p-2 rounded-lg ${
-                      selectedCategory?._id === category._id
-                        ? 'bg-[#1167b1] text-white'
-                        : 'bg-gray-100 text-gray-700'
-                    }`}
+                    className={`cursor-pointer p-2 rounded-lg ${selectedCategory?._id === category._id ? 'bg-[#1167b1] text-white' : 'bg-gray-100 text-gray-700'}`}
                     onClick={() => setSelectedCategory(category)}
                   >
                     {category.name}
@@ -152,9 +210,7 @@ export const JobPreference = () => {
                           checked={selectedSubCategories.some(
                             (sc) => sc._id === subcategory._id
                           )}
-                          onChange={(e) => {
-                            handleSubCategorySelect(subcategory);
-                          }}
+                          onChange={() => handleSubCategorySelect(subcategory)}
                         />
                         {subcategory.subCategoryName}
                       </label>
@@ -179,6 +235,9 @@ export const JobPreference = () => {
                 <SubCategoryCard
                   key={subcategory._id}
                   subCategory={subcategory.subCategoryName}
+                  workDetails={workDetails.filter(
+                    (detail) => detail.subCategoryId === subcategory._id
+                  )} // Pass only the work details related to this subcategory
                   onEdit={() => handleCardClick(subcategory)}
                 />
               ))}
@@ -186,7 +245,11 @@ export const JobPreference = () => {
           </div>
 
           {/* Modal for Work Details */}
-          <WorkDetailsModal isOpen={isModalOpen} onClose={closeModal} />
+          <WorkDetailsModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            onSave={handleSave}
+          />
         </div>
       </div>
     </Container>
