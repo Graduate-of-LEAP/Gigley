@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { taskerModel } from '../../models';
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 export const taskerLoginController: RequestHandler = async (req, res) => {
@@ -21,12 +21,13 @@ export const taskerLoginController: RequestHandler = async (req, res) => {
   if (!isPasswordValid) {
     return res.status(400).json({ message: 'Нууц үг буруу.' });
   }
+
   const token = jwt.sign(
     {
       firstName: tasker.firstName,
+      lastName: tasker.lastName,
       email: tasker.email,
       phone: tasker.phone,
-      lastName: tasker.lastName,
       id: tasker._id,
     },
     process.env.JWT_SECRET as string
@@ -34,11 +35,11 @@ export const taskerLoginController: RequestHandler = async (req, res) => {
 
   return res.status(200).json({
     token,
-    user: {
+    tasker: {
       firstName: tasker.firstName,
+      lastName: tasker.lastName,
       email: tasker.email,
       phone: tasker.phone,
-      lastName: tasker.lastName,
       id: tasker._id,
     },
   });

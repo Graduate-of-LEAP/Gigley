@@ -2,27 +2,35 @@
 
 import { api } from '@/lib';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState, createContext, useContext } from 'react';
+import {
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+  ReactNode,
+} from 'react';
 import { toast } from 'react-toastify';
-import { ReactNode } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 
 type UserType = {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
+  phone: string;
 };
 
 type AuthContextType = {
-  user: UserType | null;
+  tasker: UserType | null;
   login: (email: string, password: string) => Promise<void>;
   register: (
     email: string,
     password: string,
-    name: string,
+    firstName: string,
     lastName: string,
     phone: string
   ) => Promise<void>;
+  logout: () => void;
 };
 
 const AuthTaskerContext = createContext<AuthContextType>({} as AuthContextType);
@@ -38,17 +46,16 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [user, setUser] = useState<UserType | null>(null);
+  const [tasker, setTasker] = useState<UserType | null>(null);
   const [isReady, setIsReady] = useState(false);
 
   // Login function
   const login = async (email: string, password: string) => {
     try {
       const res = await api.post('/authTasker/login', { email, password });
+      console.log('res:', res);
 
       localStorage.setItem('token', res.data.token);
-
-      setUser(res.data.user);
 
       toast.success('Login successful');
 
@@ -64,16 +71,16 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
   const register = async (
     email: string,
     password: string,
-    name: string,
+    firstName: string,
     lastName: string,
     phone: string
   ) => {
     try {
       await api.post('/authTasker/register', {
-        name,
+        firstName,
+        lastName,
         email,
         password,
-        lastName,
         phone,
       });
 
@@ -89,23 +96,24 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
   };
 
   useEffect(() => {
-    const loadUser = async () => {
+    const loadTasker = async () => {
       try {
         setIsReady(false);
 
         const token = localStorage.getItem('token');
 
-        if (!token) return;
+        if (!token) {
+          setIsReady(true);
+          return;
+        }
 
-        const res = await api.get('/authTasker/tasker', {
+        const res = await api.get('/tasker/get', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        console.log(res, 'getme');
-
-        setUser(res.data);
+        setTasker(res.data);
       } catch (err) {
         console.log('err:', err);
         localStorage.removeItem('token');
@@ -115,7 +123,7 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
       }
     };
 
-    loadUser();
+    loadTasker();
   }, []);
 
   useEffect(() => {
@@ -123,15 +131,22 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
 
     if (!isReady) return;
 
-    if (user) return;
+    if (tasker) return;
 
     router.push('/tasker-side/TaskerLogin');
-  }, [pathname, user, isReady]);
+  }, [pathname, tasker, isReady]);
 
   if (!isReady) return null;
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    setTasker(null);
+    toast.success('You have been logged out.');
+    router.push('/tasker-side/TaskerLogin'); // Redirect to login page
+  };
+
   return (
-    <AuthTaskerContext.Provider value={{ user, login, register }}>
+    <AuthTaskerContext.Provider value={{ tasker, login, register, logout }}>
       {children}
     </AuthTaskerContext.Provider>
   );
