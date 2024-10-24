@@ -39,7 +39,7 @@ const taskerData = [
 
 export const TaskerProfileCard = () => {
   return (
-    <div className=" w-fit h-fit flex gap-x-6 p-6 border rounded-lg">
+    <div className=" w-fit h-fit flex gap-x-6 p-6 border border-[#848484] rounded-2xl bg-white ">
       <div className="flex flex-col items-center">
         {taskerData.map((item, index) => {
           return (
