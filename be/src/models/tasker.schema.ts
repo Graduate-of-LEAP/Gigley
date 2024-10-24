@@ -4,7 +4,6 @@ const { Schema, model } = mongoose;
 const taskerSchema = new Schema({
   firstName: {
     type: String,
-    required: true,
   },
 
   lastName: {
