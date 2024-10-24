@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaRegCreditCard } from 'react-icons/fa6';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 import {
