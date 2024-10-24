@@ -6,6 +6,5 @@ const authTaskerRouter = Router();
 
 authTaskerRouter.post('/register', taskerRegisterController);
 authTaskerRouter.post('/login', taskerLoginController);
-authTaskerRouter.post('/tasker', taskerLoginController);
 
 export { authTaskerRouter };
