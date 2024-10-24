@@ -9,7 +9,7 @@ export const DescriptionOfSecond = () => {
           <HiOutlineUsers />
         </div>
         <div className="h-10">
-          Filter and sort to find your Tasker. Then view their availability to
+          Filter and sort to find your Tasker Then view their availability to
           request your <br></br> date and time.
         </div>
       </div>
