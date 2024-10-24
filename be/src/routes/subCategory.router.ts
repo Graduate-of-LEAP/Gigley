@@ -4,8 +4,7 @@ import { getSubcategoryController } from '../controllers/subCategory/get-all-sub
 
 const subcategoryRouter = Router();
 
-subcategoryRouter
-  .post('', createSubCategoryController)
-  .get('', getSubcategoryController);
+subcategoryRouter.post('/create', createSubCategoryController);
+subcategoryRouter.get('/get', getSubcategoryController);
 
 export { subcategoryRouter };
