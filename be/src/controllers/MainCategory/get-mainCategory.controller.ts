@@ -6,7 +6,6 @@ export const getCategoryController: RequestHandler = async (_req, res) => {
     const categoriesData = await mainCategoryModel
       .find()
       .populate('subCategories');
-
     res.json(categoriesData);
   } catch (error) {
     console.error('Error logging in:', error);
