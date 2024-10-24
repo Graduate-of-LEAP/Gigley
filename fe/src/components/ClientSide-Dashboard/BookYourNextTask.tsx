@@ -26,7 +26,7 @@ export const BookYourNextTask = () => {
       <div className="h-[451px] bg-white py-[80px]">
         <div className="flex flex-col  ">
           <h1 className="text-[32px] flex justify-center">
-            Дараагийн даалгавраа захиалаарай
+            Дараагийн даалгавраа захиалаарай.
           </h1>
 
           <div className="flex justify-center mt-2 items-center rounded   ">
