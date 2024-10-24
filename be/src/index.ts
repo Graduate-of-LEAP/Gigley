@@ -9,14 +9,11 @@ import { authMiddleware } from './middlewares/auth.middlewares';
 import { getTaskerRouter } from './routes/getTasker.router';
 
 dotenv.config();
-
 connectToDatabase();
-
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(authMiddleware);
-
 app.use('/mainCategory', mainCategoryRouter);
 app.use('/user', userRouter);
 app.use('/authTasker', authTaskerRouter);
