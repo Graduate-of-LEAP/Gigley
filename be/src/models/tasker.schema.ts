@@ -5,12 +5,10 @@ const taskerSchema = new Schema({
   firstName: {
     type: String,
   },
-
   lastName: {
     type: String,
     required: true,
   },
-
   email: {
     type: String,
     required: true,
@@ -19,12 +17,16 @@ const taskerSchema = new Schema({
     type: String,
     required: true,
   },
-
   phone: {
     type: Number,
-    requirted: true,
+    required: true,
   },
-
+  workDetails: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'workDetails', // Reference to the workDetails model
+    },
+  ],
   createdAt: {
     type: Date,
     required: true,

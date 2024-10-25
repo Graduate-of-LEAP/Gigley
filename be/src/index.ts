@@ -9,6 +9,7 @@ import { authMiddleware } from './middlewares/auth.middlewares';
 import { getTaskerRouter } from './routes/getTasker.router';
 import { subcategoryRouter } from './routes/subCategory.router';
 import { workDetailsRouter } from './routes/workDetails.router';
+import { submitTaskerRouter } from './routes/taskerDataUpdate.router';
 
 dotenv.config();
 connectToDatabase();
@@ -22,6 +23,7 @@ app.use('/user', userRouter);
 app.use('/authTasker', authTaskerRouter);
 app.use('/tasker', getTaskerRouter);
 app.use('/workDetails', workDetailsRouter);
+app.use('/submitWorkDetails', submitTaskerRouter);
 
 app.listen(3001, () => {
   console.log('Server is running on http://localhost:3001');

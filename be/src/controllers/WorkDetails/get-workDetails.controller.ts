@@ -13,8 +13,6 @@ export const getWorkDetailsController: RequestHandler = async (req, res) => {
     // Fetch all work details related to this tasker
     const workDetails = await workDetailsModel.find({ taskerId });
 
-    console.log('workDetails:', workDetails);
-
     if (!workDetails) {
       return res.status(404).json({ message: 'No work details found' });
     }

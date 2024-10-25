@@ -11,7 +11,7 @@ export const JobPreference = () => {
   type SubCategory = {
     _id: string;
     subCategoryName: string;
-    mainCategoryId: string; // This links the subcategory to its main category
+    mainCategoryId: string;
   };
 
   type MainCategory = {
@@ -28,19 +28,22 @@ export const JobPreference = () => {
   const [selectedSubCategories, setSelectedSubCategories] = useState<
     SubCategory[]
   >([]);
-  const [workDetails, setWorkDetails] = useState<any[]>([]); // Store all work details fetched from the database
+  const [workDetails, setWorkDetails] = useState<any[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSubCategory, setActiveSubCategory] =
     useState<SubCategory | null>(null);
+  const [editingWorkDetails, setEditingWorkDetails] = useState<any | null>(
+    null
+  );
 
-  // Get Authorization token from localStorage
+  console.log('editingWorkDetails', editingWorkDetails);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setAuthorization(localStorage.getItem('token'));
     }
   }, []);
 
-  // Fetch main categories and set the first category as default (on initial page load)
   useEffect(() => {
     const getMainCategories = async () => {
       if (!authorization) {
@@ -52,15 +55,11 @@ export const JobPreference = () => {
         const response = await api.get(
           'http://localhost:3001/mainCategory/get',
           {
-            headers: {
-              Authorization: `Bearer ${authorization}`,
-            },
+            headers: { Authorization: `Bearer ${authorization}` },
           }
         );
-
         setMainCategories(response.data);
 
-        // Automatically select the first category after fetching categories
         if (response.data.length > 0) {
           setSelectedCategory(response.data[0]);
         }
@@ -71,38 +70,26 @@ export const JobPreference = () => {
 
     if (authorization) {
       getMainCategories();
+      fetchUpdatedWorkDetails();
     }
   }, [authorization]);
 
-  // Fetch work details once (when the component mounts)
-  useEffect(() => {
-    const fetchWorkDetails = async () => {
-      if (!authorization) {
-        console.error('Authorization token is missing');
-        return;
-      }
-
-      try {
-        const response = await api.get(
-          'http://localhost:3001/workDetails/get',
-          {
-            headers: {
-              Authorization: `Bearer ${authorization}`,
-            },
-          }
-        );
-        setWorkDetails(response.data); // Set the fetched work details
-      } catch (error) {
-        console.error('Error fetching work details:', error);
-      }
-    };
-
-    if (authorization) {
-      fetchWorkDetails(); // Call the function here
+  const fetchUpdatedWorkDetails = async () => {
+    if (!authorization) {
+      console.error('Authorization token is missing');
+      return;
     }
-  }, [authorization]);
 
-  // Handle checkbox selection for subcategories
+    try {
+      const response = await api.get('http://localhost:3001/workDetails/get', {
+        headers: { Authorization: `Bearer ${authorization}` },
+      });
+      setWorkDetails(response.data);
+    } catch (error) {
+      console.error('Error fetching updated work details:', error);
+    }
+  };
+
   const handleSubCategorySelect = (subcategory: SubCategory) => {
     if (selectedSubCategories.find((sc) => sc._id === subcategory._id)) {
       setSelectedSubCategories((prev) =>
@@ -113,52 +100,102 @@ export const JobPreference = () => {
     }
   };
 
-  // Open modal and assign active subcategory
-  const handleCardClick = (subcategory: SubCategory) => {
+  const handleCardClick = (
+    subcategory: SubCategory,
+    existingDetails: any = null
+  ) => {
     setActiveSubCategory(subcategory);
+
+    if (existingDetails) {
+      setEditingWorkDetails(existingDetails);
+    } else {
+      setEditingWorkDetails(null);
+    }
+
     setIsModalOpen(true);
   };
 
-  // Fetch the updated work details after saving the data
-  const fetchUpdatedWorkDetails = async () => {
+  const handleDelete = async (subCategoryId: string) => {
     try {
-      const response = await api.get('http://localhost:3001/workDetails/get', {
-        headers: {
-          Authorization: `Bearer ${authorization}`,
-        },
-      });
-      setWorkDetails(response.data); // Update the local state with fetched work details
-    } catch (error) {
-      console.error('Error fetching updated work details:', error);
-    }
-  };
-
-  // Save the work details to the database and fetch updated data
-  const handleSave = async (details: any) => {
-    try {
-      const response = await api.post(
-        'http://localhost:3001/workDetails/create',
+      await api.delete(
+        `http://localhost:3001/workDetails/delete/${subCategoryId}`,
         {
-          subCategoryId: activeSubCategory?._id,
-          ...details, // This is the request body
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${authorization}`, // This is the config object for headers
-          },
+          headers: { Authorization: `Bearer ${authorization}` },
         }
       );
 
-      // After saving, fetch the updated work details from the database
-      await fetchUpdatedWorkDetails(); // Fetch the updated work details and update local state
+      setWorkDetails((prev) =>
+        prev.filter((detail) => detail.subCategoryId !== subCategoryId)
+      );
+    } catch (error) {
+      console.error('Error deleting work details:', error);
+    }
+  };
+
+  const handleEdit = (details: any) => {
+    setIsModalOpen(true);
+    setEditingWorkDetails(details);
+  };
+
+  const handleSave = async (details: any) => {
+    if (!activeSubCategory) {
+      console.error('No subcategory selected');
+      return;
+    }
+
+    try {
+      if (editingWorkDetails) {
+        if (!editingWorkDetails._id) {
+          console.error('No valid ID for editing work details');
+          return;
+        }
+
+        await api.put(
+          `http://localhost:3001/workDetails/update/${editingWorkDetails._id}`,
+          { ...details, taskName: activeSubCategory.subCategoryName },
+          { headers: { Authorization: `Bearer ${authorization}` } }
+        );
+      } else {
+        const response = await api.post(
+          'http://localhost:3001/workDetails/create',
+          {
+            subCategoryId: activeSubCategory._id,
+            taskName: activeSubCategory.subCategoryName,
+            ...details,
+          },
+          { headers: { Authorization: `Bearer ${authorization}` } }
+        );
+        setWorkDetails((prev) => [...prev, response.data]);
+      }
+
+      await fetchUpdatedWorkDetails();
     } catch (error) {
       console.error('Error saving work details:', error);
     }
-    setIsModalOpen(false); // Close the modal after saving
+
+    setIsModalOpen(false);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setEditingWorkDetails(null);
+  };
+
+  // Submit all work details (Submit all work details IDs to Tasker database)
+  const handleSubmit = async () => {
+    const workDetailsIds = workDetails.map((detail) => detail._id); // Collect all workDetails IDs
+
+    try {
+      await api.post(
+        'http://localhost:3001/submitWorkDetails/submit',
+        { workDetailsIds },
+        { headers: { Authorization: `Bearer ${authorization}` } }
+      );
+
+      alert('Work details submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting work details:', error);
+    }
   };
 
   return (
@@ -173,7 +210,6 @@ export const JobPreference = () => {
           </p>
 
           <div className="grid grid-cols-2 gap-6">
-            {/* Categories */}
             <div>
               <h2 className="text-lg font-semibold text-gray-700 mb-3">
                 Select 1 category
@@ -182,7 +218,11 @@ export const JobPreference = () => {
                 {mainCategories.map((category) => (
                   <li
                     key={category._id}
-                    className={`cursor-pointer p-2 rounded-lg ${selectedCategory?._id === category._id ? 'bg-[#1167b1] text-white' : 'bg-gray-100 text-gray-700'}`}
+                    className={`cursor-pointer p-2 rounded-lg ${
+                      selectedCategory?._id === category._id
+                        ? 'bg-[#1167b1] text-white'
+                        : 'bg-gray-100 text-gray-700'
+                    }`}
                     onClick={() => setSelectedCategory(category)}
                   >
                     {category.name}
@@ -191,7 +231,6 @@ export const JobPreference = () => {
               </ul>
             </div>
 
-            {/* Subcategories */}
             <div>
               <h2 className="text-lg font-semibold text-gray-700 mb-3">
                 Now, select your specialties
@@ -225,7 +264,6 @@ export const JobPreference = () => {
             </div>
           </div>
 
-          {/* Display Selected Subcategories */}
           <div className="mt-8">
             <h2 className="text-lg font-semibold text-gray-700 mb-3">
               Selected Subcategories
@@ -235,10 +273,14 @@ export const JobPreference = () => {
                 <SubCategoryCard
                   key={subcategory._id}
                   subCategory={subcategory.subCategoryName}
+                  subCategoryId={subcategory._id} // Pass subCategoryId
                   workDetails={workDetails.filter(
                     (detail) => detail.subCategoryId === subcategory._id
-                  )} // Pass only the work details related to this subcategory
-                  onEdit={() => handleCardClick(subcategory)}
+                  )} // Filter work details by subCategoryId
+                  onEdit={(existingDetails) =>
+                    handleCardClick(subcategory, existingDetails)
+                  } // Pass details to handleCardClick
+                  onDelete={() => handleDelete(subcategory._id)} // Pass subCategoryId to handleDelete
                 />
               ))}
             </div>
@@ -249,7 +291,16 @@ export const JobPreference = () => {
             isOpen={isModalOpen}
             onClose={closeModal}
             onSave={handleSave}
+            existingDetails={editingWorkDetails}
           />
+
+          {/* Submit Button */}
+          <button
+            className="mt-6 bg-[#1167b1] text-white py-2 px-4 rounded-lg w-full"
+            onClick={handleSubmit}
+          >
+            Submit All Work Details
+          </button>
         </div>
       </div>
     </Container>
