@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import ImageUploader from './ImageUploader';
 
 interface WorkDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (details: any) => void;
-  existingDetails?: any | null; // For editing, we pass in existing details
+  existingDetails?: any | null;
+  Authorization: string | null;
 }
 
 export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
@@ -12,37 +14,50 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
   onClose,
   onSave,
   existingDetails,
+  Authorization,
 }) => {
   const [minHours, setMinHours] = useState('');
   const [vehicles, setVehicles] = useState('');
   const [tools, setTools] = useState('');
   const [skillsAndExperience, setSkillsAndExperience] = useState('');
+  const [images, setImages] = useState<string[]>([]);
 
-  // Pre-fill form fields if we're editing an existing entry
   useEffect(() => {
     if (existingDetails) {
       setMinHours(existingDetails.minHours || '');
       setVehicles(existingDetails.vehicles || '');
       setTools(existingDetails.tools || '');
       setSkillsAndExperience(existingDetails.skillsAndExperience || '');
+      setImages(existingDetails.images || []);
     } else {
-      // Reset the form if no existing details are provided (create new mode)
       setMinHours('');
       setVehicles('');
       setTools('');
       setSkillsAndExperience('');
+      setImages([]);
     }
   }, [existingDetails]);
 
   const handleSave = () => {
-    // Gather all form data into an object and pass to the onSave callback
+    if (
+      !minHours ||
+      !vehicles ||
+      !tools ||
+      !skillsAndExperience ||
+      images.length === 0
+    ) {
+      alert('Please complete all fields and upload at least one image.');
+      return;
+    }
+
     const details = {
       minHours,
       vehicles,
       tools,
       skillsAndExperience,
+      images,
     };
-    onSave(details); // Trigger the onSave handler with the details
+    onSave(details);
   };
 
   if (!isOpen) return null;
@@ -98,6 +113,14 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
               placeholder="Describe your relevant experience..."
               value={skillsAndExperience}
               onChange={(e) => setSkillsAndExperience(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-4">
+            <ImageUploader
+              images={images}
+              setImages={setImages}
+              Authorization={Authorization}
             />
           </div>
 

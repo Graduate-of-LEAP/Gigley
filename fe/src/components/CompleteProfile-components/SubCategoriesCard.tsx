@@ -2,10 +2,10 @@ import { IoIosAddCircle } from 'react-icons/io';
 
 interface SubCategoryCardProps {
   subCategory: string;
-  subCategoryId: string; // Pass the subCategoryId
-  workDetails: any[]; // The work details for this subcategory
-  onEdit: (details: any) => void; // Function to handle both add and edit
-  onDelete: (subCategoryId: string) => void; // Function to handle delete, accepts subCategoryId
+  subCategoryId: string;
+  workDetails: any[]; // Array of work details, including images
+  onEdit: (details: any) => void;
+  onDelete: (workDetailId: string) => void;
 }
 
 export const SubCategoryCard: React.FC<SubCategoryCardProps> = ({
@@ -16,24 +16,18 @@ export const SubCategoryCard: React.FC<SubCategoryCardProps> = ({
   onDelete,
 }) => {
   return (
-    <div
-      className="h-fit border-2 border-dashed border-[#2a9df4] p-4 rounded-lg flex flex-col items-center justify-between cursor-pointer"
-      // Open modal for adding or editing work details
-    >
-      {/* Conditionally render the prompt when no work details are present */}
-      {workDetails.length === 0 && (
+    <div className="h-fit border-2 border-dashed border-[#2a9df4] p-4 rounded-lg flex flex-col items-center justify-between">
+      {workDetails.length === 0 ? (
         <>
+          {/* Add prompt to add details */}
           <span className="text-[#2a9df4]">{subCategory}</span>
-          <span className="text-[#1167b1]">нэмэлт мэдээллээ оруулна уу!</span>
+          <span className="text-[#1167b1]">Please add your details!</span>
           <IoIosAddCircle
             className="w-10 h-10 text-[#1167b1]"
-            onClick={() => onEdit(workDetails[0] || null)}
+            onClick={() => onEdit(null)}
           />
         </>
-      )}
-
-      {/* Display the work details when they exist */}
-      {workDetails.length > 0 &&
+      ) : (
         workDetails.map((detail) => (
           <div key={detail._id} className="rounded-lg w-full h-full">
             <p>
@@ -53,23 +47,38 @@ export const SubCategoryCard: React.FC<SubCategoryCardProps> = ({
               {detail.skillsAndExperience}
             </p>
 
+            {/* Display uploaded images */}
+            {detail.images && detail.images.length > 0 && (
+              <div className="grid grid-cols-3 gap-2 mt-4">
+                {detail.images.map((image: string, index: number) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`uploaded image ${index + 1}`}
+                    className="w-20 h-20 object-cover rounded-md border"
+                  />
+                ))}
+              </div>
+            )}
+
             {/* Edit and Delete buttons */}
             <div className="flex justify-end space-x-2 mt-2">
               <button
                 className="text-blue-500 hover:text-blue-700"
-                onClick={() => onEdit(detail)} // Edit action
+                onClick={() => onEdit(detail)}
               >
                 Edit
               </button>
               <button
                 className="text-red-500 hover:text-red-700"
-                onClick={() => onDelete(subCategoryId)} // Delete the entire cart
+                onClick={() => onDelete(detail._id)}
               >
-                Delete Cart
+                Delete
               </button>
             </div>
           </div>
-        ))}
+        ))
+      )}
     </div>
   );
 };

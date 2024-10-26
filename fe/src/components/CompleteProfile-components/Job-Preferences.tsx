@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { Container } from '../assets/Container';
 import { api } from '@/lib';
-
 import { WorkDetailsModal } from './WorkDetailsModal';
 import { SubCategoryCard } from './SubCategoriesCard';
 
@@ -36,8 +35,9 @@ export const JobPreference = () => {
     null
   );
 
-  console.log('editingWorkDetails', editingWorkDetails);
+  console.log('Current Editing Work Details:', editingWorkDetails);
 
+  // Fetch token and categories on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setAuthorization(localStorage.getItem('token'));
@@ -45,40 +45,28 @@ export const JobPreference = () => {
   }, []);
 
   useEffect(() => {
-    const getMainCategories = async () => {
-      if (!authorization) {
-        console.error('Authorization token is missing');
-        return;
-      }
-
-      try {
-        const response = await api.get(
-          'http://localhost:3001/mainCategory/get',
-          {
-            headers: { Authorization: `Bearer ${authorization}` },
-          }
-        );
-        setMainCategories(response.data);
-
-        if (response.data.length > 0) {
-          setSelectedCategory(response.data[0]);
-        }
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
-
     if (authorization) {
       getMainCategories();
       fetchUpdatedWorkDetails();
     }
   }, [authorization]);
 
-  const fetchUpdatedWorkDetails = async () => {
-    if (!authorization) {
-      console.error('Authorization token is missing');
-      return;
+  const getMainCategories = async () => {
+    if (!authorization) return;
+
+    try {
+      const response = await api.get('http://localhost:3001/mainCategory/get', {
+        headers: { Authorization: `Bearer ${authorization}` },
+      });
+      setMainCategories(response.data);
+      if (response.data.length > 0) setSelectedCategory(response.data[0]);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
     }
+  };
+
+  const fetchUpdatedWorkDetails = async () => {
+    if (!authorization) return;
 
     try {
       const response = await api.get('http://localhost:3001/workDetails/get', {
@@ -90,70 +78,60 @@ export const JobPreference = () => {
     }
   };
 
-  const handleSubCategorySelect = (subcategory: SubCategory) => {
-    if (selectedSubCategories.find((sc) => sc._id === subcategory._id)) {
+  const handleSubCategorySelect = async (subcategory: SubCategory) => {
+    const isSelected = selectedSubCategories.some(
+      (sc) => sc._id === subcategory._id
+    );
+
+    if (isSelected) {
+      // Uncheck logic: delete the related workDetails
       setSelectedSubCategories((prev) =>
         prev.filter((sc) => sc._id !== subcategory._id)
       );
+
+      try {
+        await api.delete(
+          `http://localhost:3001/workDetails/delete/${subcategory._id}`,
+          {
+            headers: { Authorization: `Bearer ${authorization}` },
+          }
+        );
+        setWorkDetails((prev) =>
+          prev.filter((detail) => detail.subCategoryId !== subcategory._id)
+        );
+      } catch (error) {
+        console.error('Error deleting work details:', error);
+      }
     } else {
+      // Check logic
       setSelectedSubCategories((prev) => [...prev, subcategory]);
     }
   };
 
-  const handleCardClick = (
-    subcategory: SubCategory,
-    existingDetails: any = null
-  ) => {
+  const handleCardClick = (subcategory: SubCategory) => {
     setActiveSubCategory(subcategory);
-
-    if (existingDetails) {
-      setEditingWorkDetails(existingDetails);
-    } else {
-      setEditingWorkDetails(null);
-    }
+    const relatedDetails = workDetails.find(
+      (detail) => detail.subCategoryId === subcategory._id
+    );
+    setEditingWorkDetails(relatedDetails || null); // Reset editingWorkDetails if no data exists
 
     setIsModalOpen(true);
-  };
-
-  const handleDelete = async (subCategoryId: string) => {
-    try {
-      await api.delete(
-        `http://localhost:3001/workDetails/delete/${subCategoryId}`,
-        {
-          headers: { Authorization: `Bearer ${authorization}` },
-        }
-      );
-
-      setWorkDetails((prev) =>
-        prev.filter((detail) => detail.subCategoryId !== subCategoryId)
-      );
-    } catch (error) {
-      console.error('Error deleting work details:', error);
-    }
-  };
-
-  const handleEdit = (details: any) => {
-    setIsModalOpen(true);
-    setEditingWorkDetails(details);
   };
 
   const handleSave = async (details: any) => {
-    if (!activeSubCategory) {
-      console.error('No subcategory selected');
-      return;
-    }
+    if (!activeSubCategory) return;
 
     try {
       if (editingWorkDetails) {
-        if (!editingWorkDetails._id) {
-          console.error('No valid ID for editing work details');
-          return;
-        }
-
         await api.put(
           `http://localhost:3001/workDetails/update/${editingWorkDetails._id}`,
-          { ...details, taskName: activeSubCategory.subCategoryName },
-          { headers: { Authorization: `Bearer ${authorization}` } }
+          {
+            ...details,
+            taskName: activeSubCategory.subCategoryName,
+          },
+          {
+            headers: { Authorization: `Bearer ${authorization}` },
+          }
         );
       } else {
         const response = await api.post(
@@ -163,7 +141,9 @@ export const JobPreference = () => {
             taskName: activeSubCategory.subCategoryName,
             ...details,
           },
-          { headers: { Authorization: `Bearer ${authorization}` } }
+          {
+            headers: { Authorization: `Bearer ${authorization}` },
+          }
         );
         setWorkDetails((prev) => [...prev, response.data]);
       }
@@ -181,17 +161,26 @@ export const JobPreference = () => {
     setEditingWorkDetails(null);
   };
 
-  // Submit all work details (Submit all work details IDs to Tasker database)
   const handleSubmit = async () => {
-    const workDetailsIds = workDetails.map((detail) => detail._id); // Collect all workDetails IDs
+    if (
+      selectedSubCategories.some(
+        (sc) => !workDetails.find((wd) => wd.subCategoryId === sc._id)
+      )
+    ) {
+      alert('You must complete details for all selected subcategories.');
+      return;
+    }
+
+    const workDetailsIds = workDetails.map((detail) => detail._id);
 
     try {
       await api.post(
         'http://localhost:3001/submitWorkDetails/submit',
         { workDetailsIds },
-        { headers: { Authorization: `Bearer ${authorization}` } }
+        {
+          headers: { Authorization: `Bearer ${authorization}` },
+        }
       );
-
       alert('Work details submitted successfully!');
     } catch (error) {
       console.error('Error submitting work details:', error);
@@ -218,11 +207,7 @@ export const JobPreference = () => {
                 {mainCategories.map((category) => (
                   <li
                     key={category._id}
-                    className={`cursor-pointer p-2 rounded-lg ${
-                      selectedCategory?._id === category._id
-                        ? 'bg-[#1167b1] text-white'
-                        : 'bg-gray-100 text-gray-700'
-                    }`}
+                    className={`cursor-pointer p-2 rounded-lg ${selectedCategory?._id === category._id ? 'bg-[#1167b1] text-white' : 'bg-gray-100 text-gray-700'}`}
                     onClick={() => setSelectedCategory(category)}
                   >
                     {category.name}
@@ -273,28 +258,25 @@ export const JobPreference = () => {
                 <SubCategoryCard
                   key={subcategory._id}
                   subCategory={subcategory.subCategoryName}
-                  subCategoryId={subcategory._id} // Pass subCategoryId
+                  subCategoryId={subcategory._id}
                   workDetails={workDetails.filter(
                     (detail) => detail.subCategoryId === subcategory._id
-                  )} // Filter work details by subCategoryId
-                  onEdit={(existingDetails) =>
-                    handleCardClick(subcategory, existingDetails)
-                  } // Pass details to handleCardClick
-                  onDelete={() => handleDelete(subcategory._id)} // Pass subCategoryId to handleDelete
+                  )}
+                  onEdit={() => handleCardClick(subcategory)}
+                  onDelete={() => handleSubCategorySelect(subcategory)}
                 />
               ))}
             </div>
           </div>
 
-          {/* Modal for Work Details */}
           <WorkDetailsModal
             isOpen={isModalOpen}
             onClose={closeModal}
             onSave={handleSave}
             existingDetails={editingWorkDetails}
+            Authorization={authorization}
           />
 
-          {/* Submit Button */}
           <button
             className="mt-6 bg-[#1167b1] text-white py-2 px-4 rounded-lg w-full"
             onClick={handleSubmit}
