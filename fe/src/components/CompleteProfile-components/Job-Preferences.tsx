@@ -35,7 +35,7 @@ export const JobPreference = () => {
     null
   );
 
-  console.log('Current Editing Work Details:', editingWorkDetails);
+  console.log('workDetail222s:', workDetails);
 
   // Fetch token and categories on mount
   useEffect(() => {
@@ -85,36 +85,38 @@ export const JobPreference = () => {
 
     if (isSelected) {
       // Uncheck logic: delete the related workDetails
+      const relatedWorkDetail = workDetails.find(
+        (detail) => detail.subCategoryId === subcategory._id
+      );
+
+      if (relatedWorkDetail) {
+        try {
+          await api.delete(
+            `http://localhost:3001/workDetails/delete/${relatedWorkDetail._id}`,
+            {
+              headers: { Authorization: `Bearer ${authorization}` },
+            }
+          );
+          setWorkDetails((prev) =>
+            prev.filter((detail) => detail._id !== relatedWorkDetail._id)
+          );
+        } catch (error) {
+          console.error('Error deleting work details:', error);
+        }
+      }
+
       setSelectedSubCategories((prev) =>
         prev.filter((sc) => sc._id !== subcategory._id)
       );
-
-      try {
-        await api.delete(
-          `http://localhost:3001/workDetails/delete/${subcategory._id}`,
-          {
-            headers: { Authorization: `Bearer ${authorization}` },
-          }
-        );
-        setWorkDetails((prev) =>
-          prev.filter((detail) => detail.subCategoryId !== subcategory._id)
-        );
-      } catch (error) {
-        console.error('Error deleting work details:', error);
-      }
     } else {
       // Check logic
       setSelectedSubCategories((prev) => [...prev, subcategory]);
     }
   };
 
-  const handleCardClick = (subcategory: SubCategory) => {
+  const handleCardClick = (subcategory: SubCategory, detail: any = null) => {
     setActiveSubCategory(subcategory);
-    const relatedDetails = workDetails.find(
-      (detail) => detail.subCategoryId === subcategory._id
-    );
-    setEditingWorkDetails(relatedDetails || null); // Reset editingWorkDetails if no data exists
-
+    setEditingWorkDetails(detail);
     setIsModalOpen(true);
   };
 
@@ -123,6 +125,7 @@ export const JobPreference = () => {
 
     try {
       if (editingWorkDetails) {
+        // Update existing work details
         await api.put(
           `http://localhost:3001/workDetails/update/${editingWorkDetails._id}`,
           {
@@ -133,8 +136,17 @@ export const JobPreference = () => {
             headers: { Authorization: `Bearer ${authorization}` },
           }
         );
+        // Update local state
+        setWorkDetails((prev) =>
+          prev.map((detail) =>
+            detail._id === editingWorkDetails._id
+              ? { ...detail, ...details }
+              : detail
+          )
+        );
       } else {
-        const response = await api.post(
+        // Create new work details
+        await api.post(
           'http://localhost:3001/workDetails/create',
           {
             subCategoryId: activeSubCategory._id,
@@ -145,20 +157,53 @@ export const JobPreference = () => {
             headers: { Authorization: `Bearer ${authorization}` },
           }
         );
-        setWorkDetails((prev) => [...prev, response.data]);
-      }
 
-      await fetchUpdatedWorkDetails();
+        // Fetch updated work details from the server
+        await fetchUpdatedWorkDetails();
+      }
     } catch (error) {
       console.error('Error saving work details:', error);
     }
 
     setIsModalOpen(false);
+    setEditingWorkDetails(null); // Reset after closing modal
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setEditingWorkDetails(null);
+    setEditingWorkDetails(null); // Reset when modal closes
+  };
+
+  const handleDeleteWorkDetail = async (
+    workDetailId: string,
+    subCategoryId: string
+  ) => {
+    try {
+      await api.delete(
+        `http://localhost:3001/workDetails/delete/${workDetailId}`,
+        {
+          headers: { Authorization: `Bearer ${authorization}` },
+        }
+      );
+      // Remove the deleted work detail from the state
+      setWorkDetails((prev) =>
+        prev.filter((detail) => detail._id !== workDetailId)
+      );
+
+      // Optionally, if no work details remain for the subcategory, remove it
+      const hasOtherDetails = workDetails.some(
+        (detail) =>
+          detail.subCategoryId === subCategoryId && detail._id !== workDetailId
+      );
+
+      if (!hasOtherDetails) {
+        setSelectedSubCategories((prev) =>
+          prev.filter((sc) => sc._id !== subCategoryId)
+        );
+      }
+    } catch (error) {
+      console.error('Error deleting work detail:');
+    }
   };
 
   const handleSubmit = async () => {
@@ -207,7 +252,11 @@ export const JobPreference = () => {
                 {mainCategories.map((category) => (
                   <li
                     key={category._id}
-                    className={`cursor-pointer p-2 rounded-lg ${selectedCategory?._id === category._id ? 'bg-[#1167b1] text-white' : 'bg-gray-100 text-gray-700'}`}
+                    className={`cursor-pointer p-2 rounded-lg ${
+                      selectedCategory?._id === category._id
+                        ? 'bg-[#1167b1] text-white'
+                        : 'bg-gray-100 text-gray-700'
+                    }`}
                     onClick={() => setSelectedCategory(category)}
                   >
                     {category.name}
@@ -262,8 +311,10 @@ export const JobPreference = () => {
                   workDetails={workDetails.filter(
                     (detail) => detail.subCategoryId === subcategory._id
                   )}
-                  onEdit={() => handleCardClick(subcategory)}
-                  onDelete={() => handleSubCategorySelect(subcategory)}
+                  onEdit={(detail) => handleCardClick(subcategory, detail)}
+                  onDelete={(workDetailId) =>
+                    handleDeleteWorkDetail(workDetailId, subcategory._id)
+                  }
                 />
               ))}
             </div>

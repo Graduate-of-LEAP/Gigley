@@ -60,7 +60,7 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
       toast.success('Login successful');
 
       setTimeout(() => {
-        router.push('/');
+        router.push('/tasker-side/CompleteProfile/GetStarted');
       }, 1000);
     } catch (err: any) {
       console.log(err);

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Container } from '../assets/Container';
 import { FaEnvelope } from 'react-icons/fa';
 import { FaUser } from 'react-icons/fa';
@@ -36,10 +37,11 @@ export const OpportunitySection = () => {
           </ul>
 
           {/* Button */}
-          <button className="bg-green-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-green-600 transition">
-            Get started
-          </button>
-
+          <Link href="/tasker-side/BecomeTasker">
+            <button className="bg-green-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-green-600 transition">
+              Get started
+            </button>
+          </Link>
           {/* Footer */}
           <p className="text-sm text-gray-500 mt-4">
             It only takes 5-10 minutes and you can edit it later. We’ll save as

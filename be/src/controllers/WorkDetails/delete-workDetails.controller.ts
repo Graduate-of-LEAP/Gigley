@@ -1,31 +1,30 @@
 import { Request, Response } from 'express';
 import { workDetailsModel } from '../../models/workDetails';
 
-export const deleteWorkDetailsController = async (
+export const deleteWorkDetailByIdController = async (
   req: Request,
   res: Response
 ) => {
-  const { subCategoryId } = req.params; // Get the subCategoryId from the request parameters
+  const { workDetailId } = req.params;
 
-  console.log('subCategoryId received in request:', subCategoryId); // Log the received subCategoryId
+  console.log('workDetailId received in request:', workDetailId);
 
   try {
-    // Delete all work details associated with the subCategoryId
-    const result = await workDetailsModel.deleteMany({ subCategoryId });
+    const result = await workDetailsModel.findByIdAndDelete(workDetailId);
 
-    if (result.deletedCount === 0) {
-      // No work details were found and deleted
+    if (!result) {
+      // No work detail was found and deleted
       return res
         .status(404)
-        .json({ message: 'No work details found for this subcategory' });
+        .json({ message: 'No work detail found with this ID' });
     }
 
-    // Successfully deleted all work details for the subCategoryId
+    // Successfully deleted the work detail
     return res
       .status(200)
-      .json({ message: 'Work details deleted successfully' });
+      .json({ message: 'Work detail deleted successfully' });
   } catch (error) {
-    console.error('Error deleting work details:', error);
-    return res.status(500).json({ message: 'Error deleting work details' });
+    console.error('Error deleting work detail:', error);
+    return res.status(500).json({ message: 'Error deleting work detail' });
   }
 };

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export const FlexibleWork = () => {
   type Category = {
@@ -18,30 +18,71 @@ export const FlexibleWork = () => {
     name: string;
   };
 
+  const [authorization, setAuthorization] = useState<string | null>(null);
+  const [selectedArea, setSelectedArea] = useState<string | null>(null); // State to track the selected area
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null); // State to track selected category
   const [mainCategories, setMainCategories] = useState<Category[]>([]);
-
-  console.log('mainCategories:', mainCategories);
+  const router = useRouter(); // Use Next.js useRouter hook
 
   useEffect(() => {
-    const getCategoriesData = async () => {
+    if (typeof window !== 'undefined') {
+      setAuthorization(localStorage.getItem('token'));
+    }
+  }, []);
+
+  useEffect(() => {
+    const getMainCategories = async () => {
+      if (!authorization) return;
+
       try {
         const response = await api.get(
-          'http://localhost:3001/mainCategory/get'
+          'http://localhost:3001/mainCategory/get',
+          {
+            headers: { Authorization: `Bearer ${authorization}` },
+          }
         );
-
         setMainCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
     };
 
-    getCategoriesData();
-  }, []);
+    if (authorization) {
+      getMainCategories();
+    }
+  }, [authorization]);
+
+  const handleAreaChange = (value: string) => {
+    setSelectedArea(value);
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedArea) {
+      alert('Please select an area.');
+      return;
+    }
+
+    try {
+      await api.post(
+        'http://localhost:3001/submitWorkDetails/saveLocation', // Assuming this route exists
+        { location: selectedArea },
+        { headers: { Authorization: `Bearer ${authorization}` } }
+      );
+      alert('Location saved successfully!');
+      // Navigate to the next page only when location is valid
+      router.push('/tasker-side/CompleteProfile/PreferencesJob');
+    } catch (error) {
+      console.error('Error saving location:', error);
+    }
+  };
 
   return (
     <Container className="bg-white py-12">
       <div className="flex flex-col lg:flex-row items-center lg:items-start lg:justify-between gap-8">
-        {/* Image Section */}
         <div className="lg:w-1/2">
           <img
             src="https://www.taskrabbit.com/v3/assets/hero_landing-fdeb7ef8f1a4361ec76f75d007d79546.jpg"
@@ -50,7 +91,6 @@ export const FlexibleWork = () => {
           />
         </div>
 
-        {/* Info Section */}
         <div className="lg:w-1/3 flex flex-col gap-6">
           <h2 className="text-2xl font-bold text-gray-900">
             Earn Money Your Way
@@ -65,7 +105,7 @@ export const FlexibleWork = () => {
             <label htmlFor="area" className="text-sm font-medium text-gray-700">
               Select Your Area
             </label>
-            <Select>
+            <Select onValueChange={handleAreaChange}>
               <SelectTrigger className="w-[180px]" aria-label="Select Area">
                 <SelectValue placeholder="Select Area" />
               </SelectTrigger>
@@ -78,9 +118,7 @@ export const FlexibleWork = () => {
                   Сүхбаатар дүүрэг
                 </SelectItem>
                 <SelectItem value="Баянгол дүүрэг">Баянгол дүүрэг</SelectItem>
-                <SelectItem value=" Багануур дүүрэг">
-                  Багануур дүүрэг
-                </SelectItem>
+                <SelectItem value="Багануур дүүрэг">Багануур дүүрэг</SelectItem>
                 <SelectItem value="Баянзүрх дүүрэг">Баянзүрх дүүрэг</SelectItem>
                 <SelectItem value="Сонгинохайрхан дүүрэг">
                   Сонгинохайрхан дүүрэг
@@ -101,7 +139,7 @@ export const FlexibleWork = () => {
             >
               Choose a Category
             </label>
-            <Select>
+            <Select onValueChange={handleCategoryChange}>
               <SelectTrigger className="w-[180px]" aria-label="Select Category">
                 <SelectValue placeholder="Select Category" />
               </SelectTrigger>
@@ -118,11 +156,12 @@ export const FlexibleWork = () => {
           <p className="text-lg font-bold text-green-600">$50 per hour</p>
 
           {/* CTA Button */}
-          <Link href="/tasker-side/TaskerRegister">
-            <button className="bg-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-500 transition">
-              Get Started
-            </button>
-          </Link>
+          <button
+            className="bg-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-500 transition"
+            onClick={handleSubmit}
+          >
+            Get Started
+          </button>
           <p>Already have an account? Sign in</p>
         </div>
       </div>

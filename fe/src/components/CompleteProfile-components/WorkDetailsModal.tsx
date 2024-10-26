@@ -23,20 +23,23 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
   const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
-    if (existingDetails) {
-      setMinHours(existingDetails.minHours || '');
-      setVehicles(existingDetails.vehicles || '');
-      setTools(existingDetails.tools || '');
-      setSkillsAndExperience(existingDetails.skillsAndExperience || '');
-      setImages(existingDetails.images || []);
-    } else {
-      setMinHours('');
-      setVehicles('');
-      setTools('');
-      setSkillsAndExperience('');
-      setImages([]);
+    if (isOpen) {
+      if (existingDetails) {
+        setMinHours(existingDetails.minHours || '');
+        setVehicles(existingDetails.vehicles || '');
+        setTools(existingDetails.tools || '');
+        setSkillsAndExperience(existingDetails.skillsAndExperience || '');
+        setImages(existingDetails.images || []);
+      } else {
+        // Reset form fields
+        setMinHours('');
+        setVehicles('');
+        setTools('');
+        setSkillsAndExperience('');
+        setImages([]);
+      }
     }
-  }, [existingDetails]);
+  }, [existingDetails, isOpen]);
 
   const handleSave = () => {
     if (
@@ -58,6 +61,16 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
       images,
     };
     onSave(details);
+  };
+
+  const handleCancel = () => {
+    // Reset form fields
+    setMinHours('');
+    setVehicles('');
+    setTools('');
+    setSkillsAndExperience('');
+    setImages([]);
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -128,7 +141,7 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
             <button
               type="button"
               className="bg-gray-500 text-white px-4 py-2 rounded-lg"
-              onClick={onClose}
+              onClick={handleCancel}
             >
               Cancel
             </button>

@@ -44,15 +44,15 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   };
 
   return (
-    <div className="p-4 rounded-lg shadow-lg bg-white w-full h-full">
+    <div className="p-4 border border-gray-300 rounded-lg  bg-white w-full h-full">
       <label className="block text-gray-700 font-medium mb-4">
-        Upload Images
+        Upload previous work images
       </label>
-      <div className="flex space-x-4">
+      <div className="flex space-x-4 ">
         {images.map((image, index) => (
           <div
             key={index}
-            className="w-24 h-24 border-2 border-dashed border-gray-300"
+            className="w-24 h-24 border border-dashed border-gray-300 "
           >
             <img
               src={image}
@@ -64,7 +64,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         <input
           type="file"
           onChange={handleAddImage}
-          className="w-24 h-24 bg-gray-200 hover:bg-gray-300"
+          className="w-24 h-24  hover:bg-gray-300 border border-dashed border-gray-300 rounded-sm flex justify-center items-center"
         />
       </div>
     </div>
