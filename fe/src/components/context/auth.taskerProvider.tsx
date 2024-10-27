@@ -49,6 +49,8 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
   const [tasker, setTasker] = useState<UserType | null>(null);
   const [isReady, setIsReady] = useState(false);
 
+  console.log('tasker', tasker);
+
   // Login function
   const login = async (email: string, password: string) => {
     try {

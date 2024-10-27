@@ -12,6 +12,7 @@ import { workDetailsRouter } from './routes/workDetails.router';
 import { submitTaskerRouter } from './routes/taskerDataUpdate.router';
 import multer, { memoryStorage } from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
+import getTaskerAllInforouter from './routes/getTaskerAlInfo';
 
 dotenv.config();
 connectToDatabase();
@@ -26,6 +27,7 @@ app.use('/authTasker', authTaskerRouter);
 app.use('/tasker', getTaskerRouter);
 app.use('/workDetails', workDetailsRouter);
 app.use('/submitWorkDetails', submitTaskerRouter);
+app.use('/getTaskerAllInforouter', getTaskerAllInforouter);
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
