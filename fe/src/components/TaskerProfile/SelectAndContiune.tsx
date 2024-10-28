@@ -71,7 +71,7 @@ export const SelectAndContinue = () => {
               className="bg-green-600 h-[46px] w-[200px] text-white font-bold"
               variant="outline"
             >
-              Select & Continue
+              Select & Continue...
             </Button>
           </div>
         ))}
