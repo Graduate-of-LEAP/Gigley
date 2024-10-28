@@ -2,7 +2,6 @@ import { Container } from '../assets/Container';
 import { TaskerAboutMe } from './AboutMe';
 import { SelectAndContinue } from './SelectAndContiune';
 import { TaskerSkillCard } from './TaskerSkillCard';
-
 import { TaskerSkills } from './TaskerSkills';
 
 export const TaskerProfile = () => {
