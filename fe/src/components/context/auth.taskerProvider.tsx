@@ -49,6 +49,8 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
   const [tasker, setTasker] = useState<UserType | null>(null);
   const [isReady, setIsReady] = useState(false);
 
+  console.log('tasker', tasker);
+
   // Login function
   const login = async (email: string, password: string) => {
     try {
@@ -60,7 +62,7 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
       toast.success('Login successful');
 
       setTimeout(() => {
-        router.push('/');
+        router.push('/tasker-side/CompleteProfile/GetStarted');
       }, 1000);
     } catch (err: any) {
       console.log(err);
@@ -117,7 +119,7 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
       } catch (err) {
         console.log('err:', err);
         localStorage.removeItem('token');
-        toast.error('Your session has expired. Please login again.');
+        toast.error('Your session has expired. Please login again');
       } finally {
         setIsReady(true);
       }

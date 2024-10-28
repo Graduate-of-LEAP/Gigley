@@ -11,6 +11,7 @@ export const taskerRegisterController: RequestHandler = async (req, res) => {
       lastName: string;
       phone: string;
     };
+    console.log('req.body:', req.body);
 
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
 

@@ -3,7 +3,12 @@ import { subCategoryModel } from '../../models/subCategory.schema';
 
 export const createSubCategoryController: RequestHandler = async (req, res) => {
   try {
-    await subCategoryModel.create({ ...req.body });
+    const { subCategoryName, mainCategoryId } = req.body;
+
+    await subCategoryModel.create({
+      subCategoryName: subCategoryName,
+      mainCategoryId: mainCategoryId,
+    });
 
     res.status(201).json({
       message: 'SubCategory created successfully',

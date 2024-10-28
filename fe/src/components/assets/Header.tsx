@@ -8,15 +8,16 @@ export const Header = () => {
         <p className="font-bold text-3xl">GiGley</p>
         <div className="flex items-center gap-4 font-medium">
           <p>Үйлчилгээ</p>
-          <div className="flex items-center gap-2 font-medium">
-            <p>Sign Up /</p>
-            <p>Login</p>
+
+          <div className="flex items-center gap-4 font-medium ">
+            <Link href="/clients-side/RegisterTaskerAndUser">
+              <p className="hover:text-[#1167b1] cursor-pointer">Бүртгүүлэх</p>
+            </Link>
+            <span>|</span>
+            <Link href="/clients-side/Login-tasker-user">
+              <p className="hover:text-[#1167b1] cursor-pointer">Нэвтрэх</p>
+            </Link>
           </div>
-          <Link href="/tasker-side/BecomeTasker">
-            <button className="border border-[#2a9df4] rounded-lg text-[#2a9df4] px-7 py-2">
-              Ажил олгогчоор бүртгүүлэх
-            </button>
-          </Link>
         </div>
       </div>
     </Container>

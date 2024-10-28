@@ -1,40 +1,50 @@
-"use client"
-import Image from "next/image";
-import { Button } from "@/components/ui/button"
-import Link from "next/link";
+'use client';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
-export const LoginAndRegister = () => {
+export const RegisterTaskerAndUser = () => {
   return (
     <div className="relative w-screen h-screen">
-    <Image
-      src="/picture/solo.png"
-      alt="Background Image"
-      layout="fill" 
-      objectFit="cover" 
-    />
-    <div className="flex justify-center">
-      <div className="w-[500px] h-[380px] rounded-lg bg-white absolute  mt-[200px] flex flex-col gap-5 px-16">
-        <h1 className="font-bold text-5xl text-green-950 px-24 py-10"> GiGley</h1>
-      
-     <Link href="/clients-side/Register">
-       <Button variant="outline" className="h-[43px] w-[356px] rounded-full bg-green-800 text-white">Шинээх бүртгүүлэх</Button>
-       </Link>
-     
-     <Link href="/clients-side/Login">
-     <Button variant="outline" className="h-[43px] w-[356px] border border-green-800 text-green-800 rounded-full">Нэвтрэх</Button>
-     </Link>
- 
-<div><p className="text-base text-center mt-8">By signing up you agree to our Terms of Use and Privacy Policy.</p></div> 
-      
+      <Image
+        src="/picture/solo.png"
+        alt="Background Image"
+        layout="fill"
+        objectFit="cover"
+      />
+      <div className="flex justify-center">
+        <div className="w-[500px] h-[380px] rounded-lg bg-white absolute  mt-[200px] flex flex-col gap-5 px-16">
+          <h1 className="font-bold text-5xl text-green-950 px-24 py-10">
+            {' '}
+            GiGley
+          </h1>
+
+          <Link href="/clients-side/Register">
+            <Button
+              variant="outline"
+              className="h-[43px] w-[356px] rounded-full bg-green-800 text-white"
+            >
+              Хэрэглэгчээр бүртгүүлэх
+            </Button>
+          </Link>
+
+          <Link href="/tasker-side/TaskerRegister">
+            <Button
+              variant="outline"
+              className="h-[43px] w-[356px] border border-green-800 text-green-800 rounded-full"
+            >
+              Гиглэгчээр бүртгүүлэх
+            </Button>
+          </Link>
+
+          <div>
+            <p className="text-base text-center mt-8">
+              By signing up you agree to our Terms of Use and Privacy Policy.
+            </p>
+          </div>
+        </div>
       </div>
-     
-
-      
-
     </div>
-   
-    </div>
-    
   );
 };
 
@@ -59,7 +69,7 @@ export const LoginAndRegister = () => {
 //       <div className="flex justify-center items-center h-full">
 //         <div className="w-[500px] h-[450px] rounded-lg bg-white flex flex-col gap-5 px-16">
 //           <h1 className="font-bold text-5xl text-green-950 px-24 py-8">GiGley</h1>
-          
+
 //           {isLogin ? (
 //             <>
 //               <div>
