@@ -4,9 +4,11 @@ import bcrypt from 'bcrypt';
 
 export const registerController: RequestHandler = async (req, res) => {
   try {
-    const { userName, email, password } = req.body as {
+    const { userName, lastName, email, phoneNumber, password } = req.body as {
       userName: string;
+      lastName: string;
       email: string;
+      phoneNumber: string;
       password: string;
     };
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
@@ -20,8 +22,10 @@ export const registerController: RequestHandler = async (req, res) => {
     }
 
     const newUser = await userModel.create({
-      userName,
-      email,
+      userName: userName,
+      lastName: lastName,
+      email: email,
+      phoneNumber: phoneNumber,
       password: hashedPassword,
     });
     await newUser.save();

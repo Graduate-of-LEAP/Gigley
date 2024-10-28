@@ -2,10 +2,9 @@ import { Request, Response } from 'express';
 
 const getTasker = async (req: Request, res: Response): Promise<void> => {
   try {
-    const tasker = req.tasker;
-    console.log('tasker', tasker);
+    const user = req.body;
 
-    res.json(tasker);
+    res.json(user);
   } catch (error) {
     console.error('Error in getTasker:', error);
 
