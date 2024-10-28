@@ -20,7 +20,7 @@ export const DashboardHeader = () => {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-64 p-4 shadow-lg bg-white text-black">
-            <p className="text-sm font-semibold">Notifications</p>
+            <p className="text-sm font-semibold">Notifications...</p>
             <ul className="space-y-2 mt-2">
               <li>No new notifications.</li>
               {/* Replace with actual notifications */}

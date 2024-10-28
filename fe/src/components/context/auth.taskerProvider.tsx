@@ -119,7 +119,7 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
       } catch (err) {
         console.log('err:', err);
         localStorage.removeItem('token');
-        toast.error('Your session has expired. Please login again.');
+        toast.error('Your session has expired. Please login again');
       } finally {
         setIsReady(true);
       }
