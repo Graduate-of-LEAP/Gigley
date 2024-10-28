@@ -3,8 +3,15 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from './ui/input';
 import { Label } from '@radix-ui/react-label';
+import { useEffect, useState } from 'react';
+import { useAuth } from './context/auth.customerProvider';
 
 export const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { login } = useAuth();
+
   return (
     <div className=" relative w-screen h-screen">
       <Image
@@ -21,17 +28,28 @@ export const Login = () => {
           </h1>
           <div>
             <Label htmlFor="Email">Email</Label>
-            <Input placeholder="Email" />
+            <Input
+              placeholder="Email"
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
           </div>
 
           <div>
-            <Label htmlFor="Email">Email</Label>
-            <Input placeholder="Password" />
+            <Label htmlFor="Email">Password</Label>
+            <Input
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
           </div>
 
           <Button
             variant="outline"
-            className="h-[43px] w-[356px] rounded-full bg-green-800 text-white"
+            className="h-[43px] w-[356px] rounded-full bg-[#1167b1] text-white"
+            onClick={() => login(email, password)}
           >
             Нэвтрэх
           </Button>

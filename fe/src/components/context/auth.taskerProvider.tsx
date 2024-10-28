@@ -135,7 +135,7 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
 
     if (tasker) return;
 
-    router.push('/tasker-side/TaskerLogin');
+    // router.push('/tasker-side/TaskerLogin');
   }, [pathname, tasker, isReady]);
 
   if (!isReady) return null;
