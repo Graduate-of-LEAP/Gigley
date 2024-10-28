@@ -1,10 +1,13 @@
 // DashboardHeader.tsx
 
+import { useTaskerAuth } from '../context/auth.taskerProvider';
 import { Button } from '../ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Bell, User } from 'lucide-react';
 
 export const DashboardHeader = () => {
+  const { logout } = useTaskerAuth();
+
   return (
     <header className="flex items-center justify-between bg-[#2a9df4] p-4 text-white shadow-md">
       <h1 className="text-xl font-semibold">Tasker Dashboard</h1>
@@ -53,6 +56,7 @@ export const DashboardHeader = () => {
                 <Button
                   variant="link"
                   className="text-[#2a9df4] hover:underline"
+                  onClick={() => logout()}
                 >
                   Sign Out
                 </Button>

@@ -1,7 +1,8 @@
 'use client';
 
+import { Tasker } from '@/app/tasker-side/TaskerDashboard/page';
 import { api } from '@/lib';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import {
   useEffect,
   useState,
@@ -48,8 +49,23 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
 
   const [tasker, setTasker] = useState<UserType | null>(null);
   const [isReady, setIsReady] = useState(false);
+  const [authorization, setAuthorization] = useState<string | null>(null);
+  const [profile, setProfile] = useState<Tasker | null>(null);
 
   console.log('tasker', tasker);
+
+  const fetchTaskerProfile = async (token: string) => {
+    try {
+      const response = await api.get(`/getTaskerAllInforouter/get`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setProfile(response.data);
+      return response.data;
+    } catch (err) {
+      console.error('Error fetching Tasker information:', err);
+      return null;
+    }
+  };
 
   // Login function
   const login = async (email: string, password: string) => {
@@ -57,12 +73,21 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
       const res = await api.post('/authTasker/login', { email, password });
       console.log('res:', res);
 
-      localStorage.setItem('token', res.data.token);
+      const token = res.data.token;
+      localStorage.setItem('token', token);
+
+      // Fetch the tasker's profile after login
+      const fetchedProfile = await fetchTaskerProfile(token);
 
       toast.success('Login successful');
 
       setTimeout(() => {
-        router.push('/tasker-side/CompleteProfile/GetStarted');
+        // Check if the profile contains necessary details
+        if (fetchedProfile && fetchedProfile.workDetails.length > 0) {
+          router.push('/tasker-side/TaskerDashboard'); // Redirect to the dashboard if profile is complete
+        } else {
+          router.push('/tasker-side/CompleteProfile/GetStarted'); // Redirect to the profile setup if not completed
+        }
       }, 1000);
     } catch (err: any) {
       console.log(err);
