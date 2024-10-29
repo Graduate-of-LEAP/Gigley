@@ -13,9 +13,33 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   onStatusChange,
   actionLabel,
 }) => {
-  const handleConfirm = () => onStatusChange(task._id, 'confirmed');
-  const handleComplete = () => onStatusChange(task._id, 'completed');
-  const handleCancel = () => onStatusChange(task._id, 'canceled');
+  const handleConfirm = () => {
+    console.log(
+      'handleConfirm called with taskId:',
+      task._id,
+      'status: confirmed'
+    );
+    onStatusChange(task._id, 'confirmed');
+  };
+
+  const handleComplete = () => {
+    console.log(
+      'handleComplete called with taskId:',
+      task._id,
+      'status: completed'
+    );
+    onStatusChange(task._id, 'completed');
+  };
+
+  const handleCancel = () => {
+    console.log(
+      'handleCancel called with taskId:',
+      task._id,
+      'status: canceled'
+    );
+    onStatusChange(task._id, 'canceled');
+  };
+
   return (
     <div className="border p-4 rounded-md shadow-sm bg-white">
       <h3 className="text-[#2a9df4] font-bold">{task.taskSize} Task</h3>

@@ -10,12 +10,6 @@ export const updateTaskStatusController = async (
 
   console.log('Received status:', status);
 
-  const validStatuses = ['pending', 'confirmed', 'completed', 'canceled'];
-  if (!validStatuses.includes(status)) {
-    console.error('Invalid status value received:', status);
-    return res.status(400).json({ error: 'Invalid status value' });
-  }
-
   try {
     const updatedTask = await taskModel.findByIdAndUpdate(
       taskId,

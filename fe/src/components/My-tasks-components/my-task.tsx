@@ -59,18 +59,30 @@ export const MyTasks = () => {
     taskId: string,
     newStatus: Task['status']
   ) => {
+    const validStatuses: Task['status'][] = [
+      'pending',
+      'confirmed',
+      'completed',
+      'canceled',
+    ];
+    if (!validStatuses.includes(newStatus)) {
+      console.error('Invalid status received:', newStatus);
+      return;
+    }
+
     try {
-      console.log('Updating task:', taskId, 'with status:', newStatus);
+      console.log('Updating task:', taskId, 'with newStatus:', newStatus); // Log the status update action
 
       await api.patch(
         `/task/update/${taskId}`,
-        { status: newStatus }, // Ensure `newStatus` is one of "pending", "confirmed", "completed", or "canceled"
-        { headers: { Authorization: `Bearer ${authorization}` } }
+        { status: newStatus },
+        {
+          headers: { Authorization: `Bearer ${authorization}` },
+        }
       );
 
       const updatedTask = { _id: taskId, status: newStatus } as Task;
 
-      // Update task lists based on new status
       setPendingTasks((prev) => prev.filter((task) => task._id !== taskId));
       setConfirmedTasks((prev) => prev.filter((task) => task._id !== taskId));
       setCompletedTasks((prev) => prev.filter((task) => task._id !== taskId));
@@ -98,13 +110,14 @@ export const MyTasks = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {pendingTasks.length > 0 ? (
             pendingTasks.map((task) => (
+              // MyTasks Component
               <TaskCard
                 key={task._id}
                 task={task}
-                onStatusChange={(newStatus) =>
-                  updateTaskStatus(task._id, newStatus as Task['status'])
-                }
-                actionLabel="Confirm"
+                onStatusChange={(taskId, status) =>
+                  updateTaskStatus(taskId, status)
+                } // Ensure newStatus is properly passed
+                actionLabel="Comfirm"
               />
             ))
           ) : (
@@ -119,12 +132,13 @@ export const MyTasks = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {confirmedTasks.length > 0 ? (
             confirmedTasks.map((task) => (
+              // MyTasks Component
               <TaskCard
                 key={task._id}
                 task={task}
-                onStatusChange={(newStatus) =>
-                  updateTaskStatus(task._id, newStatus as Task['status'])
-                }
+                onStatusChange={(taskId, status) =>
+                  updateTaskStatus(taskId, status)
+                } // Ensure newStatus is properly passed
                 actionLabel="Mark as Completed"
               />
             ))
