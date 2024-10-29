@@ -1,4 +1,4 @@
-// DashboardSidebar.tsx
+'use client';
 
 import Link from 'next/link';
 import { Home, ClipboardList, DollarSign, Settings } from 'lucide-react';
@@ -14,7 +14,7 @@ export const DashboardSidebar = () => {
 
   return (
     <div className="w-80 bg-white p-4 border-r shadow-lg  ">
-      <Link href="/dashboard">
+      <Link href="/tasker-side/TaskerDashboard">
         <Button
           variant="ghost"
           className={`w-full flex items-start mb-4 p-2 rounded-md  ${
@@ -28,11 +28,11 @@ export const DashboardSidebar = () => {
         </Button>
       </Link>
 
-      <Link href="/dashboard/tasks">
+      <Link href="/tasker-side/My-tasks">
         <Button
           variant="ghost"
           className={`w-full flex items-start mb-4 p-2 rounded-md ${
-            isActive('/dashboard/tasks')
+            isActive('/tasker-side/My-tasks')
               ? 'bg-[#2a9df4] text-white'
               : 'text-[#1167b1] hover:bg-gray-100'
           }`}
