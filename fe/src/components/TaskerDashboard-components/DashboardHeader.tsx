@@ -1,5 +1,3 @@
-// DashboardHeader.tsx
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -8,25 +6,29 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Bell, User } from 'lucide-react';
 import { api } from '@/lib';
 import { useTaskerAuth } from '../context/auth.taskerProvider';
-
-type TaskNotification = {
-  _id: string;
-  location: string;
-  taskSize: string;
-  description: string;
-  specificDate: string;
-  timeOfDay: string;
-};
+import { Task } from '../My-tasks-components/my-task';
 
 export const DashboardHeader = () => {
-  const [notifications, setNotifications] = useState<TaskNotification[]>([]);
+  const [notifications, setNotifications] = useState<Task[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [authorization, setAuthorization] = useState<string | null>(null);
 
   const { logout } = useTaskerAuth();
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      setAuthorization(token);
+      console.log('Authorization Token:', token);
+    }
+  }, []);
+
   const fetchNotifications = async () => {
+    if (!authorization) return;
     try {
-      const response = await api.get('/notification/new-tasks');
+      const response = await api.get('/task/notification', {
+        headers: { Authorization: `Bearer ${authorization}` },
+      });
       setNotifications(response.data);
       setUnreadCount(response.data.length);
     } catch (error) {
@@ -35,23 +37,25 @@ export const DashboardHeader = () => {
   };
 
   useEffect(() => {
-    fetchNotifications(); // Initial fetch
+    if (authorization) {
+      fetchNotifications();
+    }
 
-    // Set up polling every 30 seconds
-    const interval = setInterval(fetchNotifications, 30000);
+    const interval = setInterval(() => {
+      if (authorization) fetchNotifications();
+    }, 30000);
 
-    return () => clearInterval(interval); // Clean up on unmount
-  }, []);
+    return () => clearInterval(interval);
+  }, [authorization]);
 
   const clearNotifications = () => {
-    setUnreadCount(0); // Reset unread count when viewing notifications
+    setUnreadCount(0);
   };
 
   return (
     <header className="flex items-center justify-between bg-[#2a9df4] p-4 text-white shadow-md">
       <h1 className="text-xl font-semibold">Tasker Dashboard</h1>
       <div className="flex items-center space-x-4">
-        {/* Notifications */}
         <Popover onOpenChange={clearNotifications}>
           <PopoverTrigger asChild>
             <Button
@@ -72,15 +76,21 @@ export const DashboardHeader = () => {
               {notifications.length > 0 ? (
                 notifications.map((task) => (
                   <li key={task._id} className="border-b pb-2">
+                    <p className="font-medium">
+                      {task.subCategoryId.subCategoryName || 'No Subcategory'}{' '}
+                    </p>
                     <p className="font-medium">{task.taskSize} Task</p>
                     <p className="text-sm text-gray-600">
                       Location: {task.location}
                     </p>
                     <p className="text-sm text-gray-600">
-                      Date: {new Date(task.specificDate).toLocaleDateString()}
+                      Date:{' '}
+                      {task.specificDate
+                        ? new Date(task.specificDate).toLocaleDateString()
+                        : 'No date specified'}
                     </p>
                     <p className="text-sm text-gray-600">
-                      Time: {task.timeOfDay}
+                      Time: {task.timeOfDay || 'Anytime'}
                     </p>
                   </li>
                 ))
@@ -91,7 +101,6 @@ export const DashboardHeader = () => {
           </PopoverContent>
         </Popover>
 
-        {/* Profile */}
         <Popover>
           <PopoverTrigger asChild>
             <Button

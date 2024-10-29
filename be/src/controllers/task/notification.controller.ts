@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { taskModel } from '../../models/task.schema';
 
 export const getNewTasksForTasker = async (req: Request, res: Response) => {
-  const taskerId = req.tasker?.id;
+  const taskerId = req.tasker.id;
 
   if (!taskerId) {
     return res.status(400).json({ message: 'Tasker ID is missing' });
@@ -15,7 +15,8 @@ export const getNewTasksForTasker = async (req: Request, res: Response) => {
         taskerId,
         status: 'pending',
       })
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .populate('subCategoryId');
 
     res.status(200).json(newTasks);
   } catch (error) {
