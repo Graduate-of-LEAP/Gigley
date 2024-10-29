@@ -33,8 +33,6 @@ export type Tasker = {
 
 const Dashboard = () => {
   const [tasker, setTasker] = useState<Tasker | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [authorization, setAuthorization] = useState<string | null>(null);
 
   useEffect(() => {
@@ -50,11 +48,8 @@ const Dashboard = () => {
         headers: { Authorization: `Bearer ${authorization}` },
       });
       setTasker(response.data);
-      setLoading(false);
     } catch (error) {
       console.error('Error fetching Tasker information:', error);
-      setError('Failed to load Tasker information');
-      setLoading(false);
     }
   };
 
@@ -63,9 +58,6 @@ const Dashboard = () => {
       fetchTaskerInfo();
     }
   }, [authorization]);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
 
   return (
     <Container>

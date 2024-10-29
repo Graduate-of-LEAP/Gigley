@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 const getTasker = async (req: Request, res: Response): Promise<void> => {
   try {
     const tasker = req.tasker;
-    console.log('tasker', tasker);
 
     res.json(tasker);
   } catch (error) {
