@@ -1,107 +1,89 @@
 'use client';
 import { Container } from '../assets/Container';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Armchair, Car, Drill, House } from 'lucide-react';
+import { api } from '@/lib';
 
-const assemblyData = [
-  'IKEA-н тавилга',
-  'Ширээ угсралт',
-  'Шүүгээ угсралт',
-  'Ор угсралт',
-];
-const mountingData = [
-  'Зураг, толь тогтоолт',
-  'Tелевиз тогтоолт',
-  'Цонх, хөшиг тогтоолт',
-  'Ханын тавиур тогтоолт',
-];
-const cleaningData = [
-  'Орон сууцны цэвэрлэгээ',
-  'Үдэшлэгийн дараах цэвэрлэгээ',
-  'Гараж цэвэрлэгээ',
-  'Нүүлгэлтийн цэвэрлэгээ',
-  'Гүн цэвэрлэгээ',
-];
-const movingData = [
-  'Нүүлгэлтийн туслах',
-  'Машинтай нүүлгэлт',
-  'Хог, тавилга устгал',
-  'Хүнд өргөлт,нүүлгэлт',
-  'Тавилгын байршил өөрчлөх',
-];
+type CategoryType = {
+  name: string;
+  subCategories: SubCategoryType[];
+  _id: string;
+};
 
+type SubCategoryType = {
+  subCategoryName: string;
+  _id: string;
+};
+const categoryIcons = [Armchair, Car, Drill, House];
 export const PopularServices = () => {
-  const [activeTab, setActiveTab] = useState('assembly');
-  const data = [
-    {
-      data: assemblyData,
-      value: 'assembly',
-      name: 'Тавилга угсралт',
-      icon: Armchair,
-      color: 'text-blue-300 font-bold',
-    },
-    {
-      data: mountingData,
-      value: 'mounting',
-      name: 'Өрөмдөлт, тогтоолт',
-      icon: Drill,
-      color: 'text-green-300 font-bold',
-    },
-    {
-      data: cleaningData,
-      value: 'cleaning',
-      name: 'Цэвэрлэгээ',
-      icon: House,
-      color: 'text-purple-300 font-bold',
-    },
-    {
-      data: movingData,
-      value: 'moving',
-      name: 'Нүүлгэлт',
-      icon: Car,
-      color: 'text-amber-300 font-bold',
-    },
-  ];
+  const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
+  const [categories, setCategories] = useState<CategoryType[] | undefined>(
+    undefined
+  );
+  useEffect(() => {
+    if (categories && categories.length > 0) {
+      setActiveTab(categories[0]._id);
+    }
+  }, [categories]);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const res = await api.get('/mainCategory/get');
+        setCategories(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCategories();
+  }, []);
+
+  if (!categories || categories.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container className="bg-white">
-      <div></div>
       <div className="mt-4"></div>
       <div>
-        PopularServices
         <div className="flex gap-10 justify-center">
-          <Tabs defaultValue="assembly" className="w-fit">
-            <TabsList className="h-fit flex border-b border-black">
-              {data.map((el, i) => {
-                const Icon = el.icon;
+          <Tabs defaultValue={categories[0]._id} className="w-fit">
+            <TabsList className="h-fit w-fit mx-auto overflow-hidden flex border-b border-black p-0">
+              {categories?.map((category, i) => {
+                // const Icon = el.icon;
                 return (
                   <TabsTrigger
                     key={i}
-                    value={el.value}
-                    onClick={() => setActiveTab(el.value)}
+                    value={category._id}
+                    onClick={() => setActiveTab(category._id)}
+                    className="p-0"
                   >
                     <div
-                      className={`flex flex-col gap-1 items-center w-40 ${activeTab === el.value ? el.color : ''}`}
+                      className={`flex flex-col gap-1  items-center w-40 px-4 py-2 ${activeTab === category._id ? 'bg-blue-400 font-bold text-white' : ''}`}
                     >
-                      {Icon && <Icon size={40} />}
-                      <div>{el.name}</div>
+                      {/* {Icon && <Icon size={40} />} */}
+                      <div>{category.name}</div>
                     </div>
                   </TabsTrigger>
                 );
               })}
             </TabsList>
-            {data?.map((el, i) => {
+            {categories?.map((category, i) => {
               return (
-                <TabsContent value={el.value} key={i} className="w-full py-4">
-                  <div className="flex flex-wrap gap-6 max-w-screen-md">
-                    {el.data?.map((item, index) => {
+                <TabsContent
+                  value={category._id}
+                  key={i}
+                  className="w-full py-4"
+                >
+                  <div className="flex flex-wrap gap-6 max-w-screen-sm">
+                    {category.subCategories.map((subCategory, i) => {
                       return (
                         <div
-                          className="hover:bg-green-100 w-fit px-10 py-2 rounded-full border border-black font-bold cursor-pointer"
-                          key={index}
+                          className="hover:bg-blue-200 w-fit px-8 text-sm py-2 rounded-full border border-black font-bold cursor-pointer"
+                          key={i}
                         >
-                          {item}
+                          {subCategory.subCategoryName}
                         </div>
                       );
                     })}

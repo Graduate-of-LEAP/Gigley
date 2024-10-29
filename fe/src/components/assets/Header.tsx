@@ -3,7 +3,12 @@ import Link from 'next/link';
 import { Container } from './Container';
 import { useAuth } from '../context/auth.customerProvider';
 import { toast } from 'react-toastify';
-import { useEffect } from 'react';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { LogOut, UserRoundPen } from 'lucide-react';
 
 export const Header = () => {
   const { user, setUser } = useAuth();
@@ -21,10 +26,13 @@ export const Header = () => {
   return (
     <Container className="bg-white ">
       <div className="h-[70px]  flex justify-between items-center  border-b border-gray-500">
-        <p className="font-bold text-3xl">GiGley</p>
+        <Link href={'/'}>
+          <p className="font-bold text-3xl">GiGley</p>
+        </Link>
         <div className="flex items-center gap-4 font-medium">
-          <p>Үйлчилгээ</p>
-
+          <Link href="/clients-side/ServicesPage" className="cursor-pointer">
+            <p>Үйлчилгээ</p>
+          </Link>
           <div className="flex items-center gap-4 font-medium">
             <Link
               href="/clients-side/RegisterTaskerAndUser"
@@ -33,13 +41,28 @@ export const Header = () => {
               <p className="hover:text-[#1167b1] cursor-pointer">Бүртгүүлэх</p>
             </Link>
             <span>|</span>
-            <div>{user?.userName}</div>
-            <button
-              className={`${user ? 'block' : 'hidden'} cursor-pointer py-1 px-3 border border-black rounded-full hover:bg-black hover:text-white`}
-              onClick={logOut}
-            >
-              Log Out
-            </button>
+            {user && (
+              <div className="flex gap-4">
+                <div>Hi, {user.userName}</div>
+                <Popover>
+                  <PopoverTrigger className="hover:text-[#1167b1]">
+                    <UserRoundPen />
+                  </PopoverTrigger>
+                  <PopoverContent className="flex flex-col bg-white p-0 w-fit overflow-hidden">
+                    <div className="cursor-pointer hover:bg-[#1167b1] hover:text-white py-2 px-4">
+                      Хэрэглэгчийн мэдээлэл
+                    </div>
+                    <div
+                      onClick={logOut}
+                      className={`cursor-pointer hover:bg-[#1167b1] hover:text-white py-2 px-4 flex gap-2`}
+                    >
+                      <LogOut />
+                      <div>Гарах</div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            )}
             <Link
               href="/clients-side/Login-tasker-user"
               className={`${user ? 'hidden' : ''}`}

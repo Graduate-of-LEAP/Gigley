@@ -22,9 +22,8 @@ export const HireTasker = () => {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const res = await apiGig.get('/category/get');
+        const res = await apiGig.get('/mainCategory/get');
         setCategories(res.data);
-        console.log(res.data);
       } catch (error) {
         console.log(error);
       }
