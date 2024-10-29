@@ -23,16 +23,25 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
   const auth = req.headers.authorization;
 
-  const token = auth?.split(' ')[1];
+  if (!auth) {
+    console.log('Authorization header is missing');
+    return res.status(401).json({ error: 'Authorization header is missing' });
+  }
 
-  if (!token) return res.status(401).json({ error: 'Please log in!' });
+  const token = auth.split(' ')[1];
+  console.log('Extracted token:', token); // Log the token
+
+  if (!token) {
+    console.log('Token is missing after splitting authorization header');
+    return res.status(401).json({ error: 'Please log in!' });
+  }
 
   try {
     req.tasker = jwt.verify(token, process.env.JWT_SECRET!) as Tasker;
-
+    console.log('Token verified successfully:', req.tasker); // Log the decoded token details
     next();
   } catch (error) {
-    console.error('JWT Verification Error:', error); // Log the error
+    console.error('JWT Verification Error:', error);
     return res.status(401).json({ error: 'Invalid or expired token!' });
   }
 };

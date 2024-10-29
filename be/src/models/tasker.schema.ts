@@ -31,6 +31,9 @@ const taskerSchema = new Schema({
       ref: 'workDetails', // Reference to the workDetails model
     },
   ],
+  profileImage: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     required: true,

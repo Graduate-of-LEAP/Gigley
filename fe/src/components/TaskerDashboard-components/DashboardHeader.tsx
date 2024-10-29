@@ -21,12 +21,22 @@ type TaskNotification = {
 export const DashboardHeader = () => {
   const [notifications, setNotifications] = useState<TaskNotification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [authorization, setAuthorization] = useState<string | null>(null);
+
+  console.log('authorization', authorization);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setAuthorization(localStorage.getItem('token'));
+    }
+  }, []);
 
   const { logout } = useTaskerAuth();
 
   const fetchNotifications = async () => {
     try {
-      const response = await api.get('/notification/new-tasks');
+      const response = await api.get('/task/notification', {
+        headers: { Authorization: `Bearer ${authorization}` },
+      });
       setNotifications(response.data);
       setUnreadCount(response.data.length);
     } catch (error) {
