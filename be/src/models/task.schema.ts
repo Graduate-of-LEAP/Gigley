@@ -15,6 +15,11 @@ const taskSchema = new Schema({
     type: String,
     required: true,
   },
+  subCategoryId: {
+    type: Schema.Types.ObjectId,
+    ref: 'subCategory',
+    required: true,
+  },
   taskSize: {
     type: String,
     enum: ['Small', 'Medium', 'Large'],

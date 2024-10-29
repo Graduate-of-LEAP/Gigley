@@ -8,8 +8,6 @@ export const updateTaskStatusController = async (
   const { taskId } = req.params;
   const { status } = req.body;
 
-  console.log('Received status:', status);
-
   try {
     const updatedTask = await taskModel.findByIdAndUpdate(
       taskId,

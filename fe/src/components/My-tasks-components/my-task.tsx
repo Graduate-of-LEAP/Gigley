@@ -16,6 +16,10 @@ export type Task = {
   status: 'pending' | 'confirmed' | 'completed' | 'canceled';
   createdAt: string;
   updatedAt: string;
+  subCategoryId: {
+    _id: string;
+    subCategoryName: string;
+  };
 };
 
 export const MyTasks = () => {
@@ -25,7 +29,7 @@ export const MyTasks = () => {
   const [canceledTasks, setCanceledTasks] = useState<Task[]>([]);
   const [authorization, setAuthorization] = useState<string | null>(null);
 
-  console.log('confirmedTasks', confirmedTasks);
+  console.log('confirmedTasksaaaa', confirmedTasks);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
