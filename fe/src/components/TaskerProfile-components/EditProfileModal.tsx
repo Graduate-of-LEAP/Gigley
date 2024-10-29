@@ -10,20 +10,13 @@ import {
   DialogFooter,
 } from '../ui/dialog';
 import { api } from '@/lib';
-
-type Profile = {
-  fullName: string;
-  email: string;
-  phone: string;
-  location: string;
-  profileImage?: string;
-};
+import { ProfileData } from '@/app/tasker-side/TaskerProfile/page';
 
 type EditProfileDialogProps = {
-  profile: Profile;
+  profile: ProfileData;
   isOpen: boolean;
   onClose: () => void;
-  onSave: (updatedProfile: Profile) => void;
+  onSave: (updatedProfile: ProfileData) => void;
 };
 
 const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
@@ -32,7 +25,7 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
   onClose,
   onSave,
 }) => {
-  const [formData, setFormData] = useState<Profile>(profile);
+  const [formData, setFormData] = useState<ProfileData>(profile);
   const [isSaving, setIsSaving] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,12 +57,24 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
         <form className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Full Name
+              First Name
             </label>
             <input
               type="text"
-              name="fullName"
-              value={formData.fullName}
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Last Name
+            </label>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />

@@ -1,25 +1,19 @@
-// MainComponent.tsx
+// ProfileSection.tsx
+
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
-import EditProfileDialog from './EditProfileModal';
+import { User, Mail, Phone, MapPin } from 'lucide-react';
 
-type Profile = {
-  fullName: string;
-  email: string;
-  phone: string;
-  location: string;
-  profileImage?: string;
+import EditProfileDialog from './EditProfileModal';
+import { ProfileData } from '@/app/tasker-side/TaskerProfile/page';
+
+type ProfileSectionProps = {
+  profileData: ProfileData;
 };
 
-const MainComponent: React.FC = () => {
+const ProfileSection: React.FC<ProfileSectionProps> = ({ profileData }) => {
+  const fullName = `${profileData.lastName} ${profileData.firstName}`;
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [profile, setProfile] = useState<Profile>({
-    fullName: 'Nomin Batbayar',
-    email: 'creativitynomin@gmail.com',
-    phone: '+1 6264218421',
-    location: '60173',
-    profileImage: undefined,
-  });
 
   const handleOpenDialog = () => setIsEditDialogOpen(true);
   const handleCloseDialog = () => setIsEditDialogOpen(false);
@@ -37,19 +31,54 @@ const MainComponent: React.FC = () => {
         </Button>
       </div>
 
-      {/* Profile Information */}
+      <div className="flex items-center mb-6">
+        <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+          {profileData.profileImage ? (
+            <img
+              src={profileData.profileImage}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <User className="text-gray-400" size={48} />
+          )}
+        </div>
+      </div>
+
       <div className="space-y-4 text-gray-700">
-        <div>{/* Profile details here */}</div>
+        <div className="flex items-center space-x-2">
+          <User />
+          <span>{fullName}</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Mail />
+          <span>{profileData.email}</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Phone />
+          <span>{profileData.phone}</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <MapPin />
+          <span>{profileData.location}</span>
+        </div>
+      </div>
+
+      <div className="mt-6">
+        <Button variant="outline" className="w-full text-gray-700">
+          Log Out
+        </Button>
       </div>
 
       {/* Edit Profile Dialog */}
       {isEditDialogOpen && (
         <EditProfileDialog
           isOpen={isEditDialogOpen}
-          profile={profile}
+          profile={profileData}
           onClose={handleCloseDialog}
           onSave={(updatedProfile) => {
-            setProfile(updatedProfile);
+            // Here you would update the profile data if needed
+            console.log('Profile updated:', updatedProfile);
             handleCloseDialog();
           }}
         />
@@ -58,4 +87,4 @@ const MainComponent: React.FC = () => {
   );
 };
 
-export default MainComponent;
+export default ProfileSection;

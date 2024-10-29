@@ -2,27 +2,76 @@
 
 'use client';
 
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import ProfileSection from '@/components/TaskerProfile-components/ProfileSection';
 import TaskDetailsSection from '@/components/TaskerProfile-components/TaskDetailsSection';
 import { Container } from '@/components/assets/Container';
+import { api } from '@/lib';
+
+type WorkDetails = {
+  _id: string;
+  taskerId: string;
+  subCategoryId: string;
+  taskName: string;
+  images: [];
+  minHours: string;
+  vehicles: string;
+  tools: string;
+  skillsAndExperience: string;
+};
+
+export type ProfileData = {
+  _id: string;
+  lastName: string;
+  firstName: string;
+  email: string;
+  phone: string;
+  location: string;
+  profileImage: string;
+  workDetails: WorkDetails[];
+};
 
 const sections = [
   { name: 'Profile', component: ProfileSection },
-
   { name: 'Task Details', component: TaskDetailsSection },
 ];
 
-const TaskerProfilePage = () => {
+const TaskerProfilePage: React.FC = () => {
   const [activeSection, setActiveSection] = useState(sections[0].name);
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const response = await api.get('/getTaskerAllInforouter/get/', {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        });
+        setProfileData(response.data);
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfileData();
+  }, []);
 
   const renderSection = () => {
     const selectedSection = sections.find(
       (section) => section.name === activeSection
     );
-    return selectedSection ? <selectedSection.component /> : null;
+
+    if (!selectedSection || !profileData) return null;
+
+    const SectionComponent = selectedSection.component;
+
+    return <SectionComponent profileData={profileData} />;
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (!profileData) return <div>Failed to load profile data.</div>;
 
   return (
     <Container>
