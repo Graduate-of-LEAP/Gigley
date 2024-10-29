@@ -26,7 +26,9 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (
     req.path.startsWith('/authTasker') ||
     req.path.startsWith('/user/register') ||
-    req.path.startsWith('/user/login')
+    req.path.startsWith('/user/login') ||
+    req.path.startsWith('/mainCategory') ||
+    req.path.startsWith('/subCategory')
   )
     return next();
 

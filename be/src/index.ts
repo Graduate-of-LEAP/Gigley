@@ -22,7 +22,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(authMiddleware);
-app.use('/subcategory', subcategoryRouter);
+app.use('/subCategory', subcategoryRouter);
 app.use('/mainCategory', mainCategoryRouter);
 app.use('/user', userRouter);
 app.use('/authTasker', authTaskerRouter);

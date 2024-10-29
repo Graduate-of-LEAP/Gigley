@@ -3,7 +3,9 @@ import { subCategoryModel } from '../../models/subCategory.schema';
 
 export const getSubcategoryController: RequestHandler = async (req, res) => {
   try {
-    const subCategories = await subCategoryModel.find().populate('categoryId');
+    const subCategories = await subCategoryModel
+      .find()
+      .populate('mainCategoryId');
 
     res.json(subCategories);
   } catch (error) {
