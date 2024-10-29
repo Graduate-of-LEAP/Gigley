@@ -29,6 +29,7 @@ export const taskerLoginController: RequestHandler = async (req, res) => {
       email: tasker.email,
       phone: tasker.phone,
       id: tasker._id,
+      type: 'tasker',
     },
     process.env.JWT_SECRET as string
   );

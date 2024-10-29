@@ -23,6 +23,7 @@ export const loginController: RequestHandler = async (req, res) => {
       userName: user.userName,
       email: user.email,
       id: user._id,
+      type: 'user',
     },
     process.env.JWT_SECRET as string
   );
