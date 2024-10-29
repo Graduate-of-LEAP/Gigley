@@ -4,8 +4,8 @@ import bcrypt from 'bcrypt';
 
 export const taskerRegisterController: RequestHandler = async (req, res) => {
   try {
-    const { name, email, password, phone, lastName } = req.body as {
-      name: string;
+    const { firstName, email, password, phone, lastName } = req.body as {
+      firstName: string;
       email: string;
       password: string;
       lastName: string;
@@ -24,7 +24,7 @@ export const taskerRegisterController: RequestHandler = async (req, res) => {
     }
 
     await taskerModel.create({
-      firstName: name,
+      firstName: firstName,
       email: email,
       password: hashedPassword,
       phone: phone,

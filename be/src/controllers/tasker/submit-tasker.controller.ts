@@ -9,8 +9,6 @@ export const submitWorkDetailsController = async (
   const { workDetailsIds } = req.body;
   const taskerId = req.tasker.id; // Make sure to pass this in the route
 
-  console.log('taskerId:', taskerId);
-
   try {
     // Find tasker and add the submitted work details to their record
     const tasker = await taskerModel.findByIdAndUpdate(
