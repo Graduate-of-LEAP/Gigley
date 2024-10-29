@@ -12,7 +12,7 @@ import {
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-type UserType = {
+type TaskerType = {
   id: string;
   firstName: string;
   lastName: string;
@@ -21,7 +21,7 @@ type UserType = {
 };
 
 type AuthContextType = {
-  tasker: UserType | null;
+  tasker: TaskerType | null;
   login: (email: string, password: string) => Promise<void>;
   register: (
     email: string,
@@ -46,7 +46,7 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [tasker, setTasker] = useState<UserType | null>(null);
+  const [tasker, setTasker] = useState<TaskerType | null>(null);
   const [isReady, setIsReady] = useState(false);
 
   // Login function

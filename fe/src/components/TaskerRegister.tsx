@@ -14,6 +14,8 @@ export const TaskerRegister = () => {
   const [email, setEmail] = useState('');
   const { register } = useTaskerAuth();
 
+  console.log('firstName', firstName);
+
   return (
     <div className="relative w-screen h-screen ">
       <Image
@@ -31,7 +33,7 @@ export const TaskerRegister = () => {
           <h5 className="text-xl m-auto ">Become tasker</h5>
           <div className="flex flex-col gap-4">
             <Input
-              placeholder="Name"
+              placeholder="FirstName"
               onChange={(e) => {
                 setFirstName(e.target.value);
               }}
