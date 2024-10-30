@@ -13,6 +13,7 @@ import { GrGallery } from 'react-icons/gr';
 import { ReviewComponent } from '@/components/SecondOfFindTasker-components/ReviewComponent';
 import { it } from 'node:test';
 import { WorkPhotoComponent } from '../SecondOfFindTasker-components/WorkPhotoComponent';
+import { itemtype } from '../SecondOfFindTasker-components/TaskerIntroComponent';
 
 export type reviewDataType = {
   categoryTitle: string;
@@ -42,7 +43,7 @@ export const reviewData = [
   },
 ];
 
-export const TaskerDetailedProfileCard = () => {
+export const TaskerDetailedProfileCard = ({ item }: itemtype) => {
   return (
     <Dialog>
       <DialogTrigger>Read More</DialogTrigger>
@@ -50,19 +51,21 @@ export const TaskerDetailedProfileCard = () => {
         <DialogHeader className="w-full">
           <DialogTitle>
             <div className="flex gap-x-4 w-full">
-              <div className="w-[72px] h-[72px] rounded-full relative">
-                <Image
-                  src="/picture/how-it-works.png"
+              <div className="w-[72px] h-[72px] rounded-full relative border">
+                {/* <Image
+                  src={}
                   fill
                   alt="profile"
                   className="rounded-full"
-                />
+                /> */}
               </div>
 
               <div className="flex w-full flex-col justify-between">
                 <div className="flex gap-x-4 items-center justify-between">
                   <div className="flex gap-x-2">
-                    <div>Erick O.</div>
+                    <div>
+                      {item.firstName} {item.lastName}
+                    </div>
                     <div className="flex gap-1 py-[3xp] px-[4px] bg-[#f4e6f8] items-center text-[12px] text-[#8551b1]  rounded-sm w-fit font-semibold ">
                       <IoTrophySharp />
                       <div>ELITE</div>
@@ -93,27 +96,19 @@ export const TaskerDetailedProfileCard = () => {
           </DialogTitle>
           <DialogDescription className="text-base">
             <div className="flex flex-col gap-y-2 ">
-              <div className="flex flex-col ">
-                <div className="text-[#1b1e1d] pb-2 font-semibold">
-                  Миний тухай
-                </div>
-                <div className="text-[#1b1e1d] ">
-                  Би хийж байгаа ажилдаа маш туршлагатай
-                </div>
-              </div>
-
               <div>
                 <div className="text-[#1b1e1d] pb-2 font-semibold">
                   Ур чадвар болон туршлага
                 </div>
                 <div className="text-[#1b1e1d] ">
-                  Би гар урлалын багш бөгөөд тавилга засах, угсрах чиглэлээр 4
-                  жил ажиллаж байна.
+                  {item.workDetails.map((item) => item.skillsAndExperience)}
                 </div>
               </div>
             </div>
 
-            <WorkPhotoComponent />
+            {item.workDetails.map((detail, index) => {
+              return <WorkPhotoComponent key={index} images={detail.images} />;
+            })}
 
             <div>
               {reviewData.map((item, index) => {

@@ -95,7 +95,7 @@ export const FilterSideBar = () => {
 
   const [sliderValues, setSliderValues] = useState([10, 105]);
   return (
-    <div className="border border-[#848484] p-6 w-fit rounded-2xl bg-white">
+    <div className="border border-[#848484] p-6 w-fit h-fit rounded-2xl bg-white">
       <div>
         <div className="text-[#1e1e1e] font-bold mb-6">Date</div>
         <div className="flex gap-x-2">
