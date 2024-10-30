@@ -9,9 +9,9 @@ const data = [
 
 export const HowItWorks = () => {
   return (
-    <Container className="bg-[#FFFCE4] ">
-      <div className="h-fit bg-[#FFFCE4] ">
-        <div className="border py-12 pl-40 relative ">
+    <Container className="">
+      <div className="h-fit ">
+        <div className="py-12 pl-40 relative ">
           <Image
             src="/picture/how-it-works.png"
             height={494}

@@ -2,6 +2,7 @@
 import { apiGig } from '@/lib/axios';
 import { Container } from '../assets/Container';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 type CategoryType = {
   _id: string;
@@ -13,6 +14,13 @@ type SubCategoryType = {
   _id: string;
   subCategoryName: string;
 };
+
+const categoryImages = [
+  '/picture/assembly.jpg',
+  '/picture/mount.jpg',
+  '/picture/moving.png',
+  '/picture/cleaning.jpg',
+];
 
 export const HireTasker = () => {
   const [categories, setCategories] = useState<CategoryType[] | undefined>(
@@ -32,20 +40,39 @@ export const HireTasker = () => {
   }, []);
 
   return (
-    <Container className="bg-white">
+    <Container className="bg-white py-8">
       <div>
-        <div className="text-center font-bold text-2xl">Сонгоод ав</div>
-        <div className="grid grid-cols-3 border w-full gap-10">
+        <div className="text-center font-bold text-2xl pb-2">Сонгоод ав</div>
+        <div className="grid grid-cols-3 w-full gap-10">
           {categories?.map((category, i) => {
             return (
               <div key={i} className="border">
-                <div className="text-center font-semibold text-green-700 hover:text-black">
-                  {category.name}
+                <div className="relative w-full h-64">
+                  <Image
+                    fill
+                    alt={category.name}
+                    src={categoryImages[i % categoryImages.length]}
+                    className="object-cover cursor-pointer"
+                  />
                 </div>
-                <div>
-                  {category.subCategories.map((sub, i) => {
-                    return <div key={i}>{sub.subCategoryName}</div>;
-                  })}
+                <div className="px-4">
+                  <div className="border-b border-gray-400 py-4">
+                    <div className="font-bold text-[#1167b1]  hover:text-black">
+                      {category.name}
+                    </div>
+                  </div>
+                  <div className="py-4 flex flex-col gap-1">
+                    {category.subCategories.map((sub, i) => {
+                      return (
+                        <div
+                          className="cursor-pointer text-[#1167b1] hover:text-black"
+                          key={i}
+                        >
+                          {sub.subCategoryName}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             );

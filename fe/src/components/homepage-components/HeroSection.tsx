@@ -8,6 +8,7 @@ import { api } from '@/lib';
 
 type SubCategoryType = {
   subCategoryName: string;
+  _id: string;
 };
 
 export const HeroSection = () => {

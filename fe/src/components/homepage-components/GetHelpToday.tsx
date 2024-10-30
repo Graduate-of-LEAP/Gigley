@@ -1,24 +1,30 @@
+'use client';
+import { useEffect, useState } from 'react';
 import { Container } from '../assets/Container';
 import { FaArrowRight } from 'react-icons/fa';
+import { api } from '@/lib';
+import Link from 'next/link';
 
-const categories = [
-  'Ерөнхий суурилуулалт',
-  'ТВ суурилуулах',
-  'Tавилга угсралт',
-  'IKEA Tавилга угсралт',
-  'Нүүлгэлт',
-  'Гэр цэвэрлэгээ',
-  'Хашааны ажил',
-  'Тавилга салгах',
-  '3үлэг арчилгаа',
-  'Зураг хананд өлгөх',
-  'Гэрийн тавилга зөөх',
-  'Tавиур суурилуулах',
-  'Цахилгааны ажил',
-  ' Сантехник',
-];
+type SubCategoryType = {
+  subCategoryName: string;
+  _id: string;
+};
 
 export const GetHelpToday = () => {
+  const [subCategories, setSubCategories] = useState<SubCategoryType[]>([]);
+  useEffect(() => {
+    const getSubCategories = async () => {
+      try {
+        const res = await api.get('/subCategory/get');
+        setSubCategories(res.data);
+        console.log(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getSubCategories();
+  }, []);
+
   return (
     <Container className="bg-white">
       <div className="h-[516px] bg-white">
@@ -28,20 +34,21 @@ export const GetHelpToday = () => {
           </h1>
 
           <div className="flex flex-wrap mt-[48px]">
-            {categories.map((category, index) => (
+            {subCategories.slice(0, 12).map((category, index) => (
               <button
                 key={index}
-                className="border border-gray-300 rounded-full py-2 px-4 m-2 text-gray-700"
+                className="border border-black rounded-full py-2 px-4 m-2 hover:bg-blue-200 font-bold"
               >
-                {category}
+                {category.subCategoryName}
               </button>
             ))}
           </div>
-
-          <div className="flex mt-20  items-center text-center">
-            <p className="mr-1 text-[#0D7A5F]">Бүх үйлчилгээг харах</p>
-            <FaArrowRight />
-          </div>
+          <Link href="/clients-side/ServicesPage">
+            <div className="flex mt-20  items-center text-center gap-2 cursor-pointer">
+              <p className="mr-1 text-[#0D7A5F]">Бүх үйлчилгээг харах</p>
+              <FaArrowRight />
+            </div>
+          </Link>
         </div>
       </div>
     </Container>
