@@ -4,12 +4,18 @@ import { api } from '@/lib';
 
 type ConfirmedTask = {
   _id: string;
-  taskName: string; // Assuming taskName is part of your database model
+  subCategoryId: {
+    _id: string;
+    subCategoryName: string;
+  };
   specificDate: string;
   timeOfDay: string;
   location: string;
-  clientName: string;
-  clientAvatar: string;
+  taskSize: string;
+  customerId: {
+    _id: string;
+  };
+  description: string;
 };
 
 export const UpcomingTasks = () => {
@@ -19,12 +25,12 @@ export const UpcomingTasks = () => {
     // Function to fetch confirmed tasks from the backend
     const fetchConfirmedTasks = async () => {
       try {
-        const response = await api.get('/task/get', {
+        const response = await api.get('/task/getComfirmedTask', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
 
-        // Filter tasks to only include confirmed ones
-        const confirmedTasks = response.data.upcomingTasks; // Assuming 'upcomingTasks' contains confirmed tasks
+        // Extract confirmed tasks
+        const confirmedTasks = response.data.confirmedTasks || []; // Use an empty array if data is undefined
         setUpcomingTasks(confirmedTasks);
       } catch (error) {
         console.error('Error fetching confirmed tasks:', error);
@@ -44,12 +50,12 @@ export const UpcomingTasks = () => {
           upcomingTasks.map((task) => (
             <TaskCard
               key={task._id}
-              taskName={task.taskName}
+              taskName={task.subCategoryId.subCategoryName} // Display subcategory name
               date={new Date(task.specificDate).toLocaleDateString()}
               time={task.timeOfDay}
               location={task.location}
-              clientName={task.clientName}
-              clientAvatar={task.clientAvatar}
+              taskSize={task.taskSize}
+              description={task.description}
             />
           ))
         ) : (
