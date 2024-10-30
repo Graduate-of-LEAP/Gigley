@@ -16,7 +16,6 @@ type CustomerType = {
   userName: string;
   lastName: string;
   email: string;
-  phoneNumber: string;
   phone: string;
 };
 

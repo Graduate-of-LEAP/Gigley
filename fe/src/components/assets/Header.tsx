@@ -30,7 +30,10 @@ export const Header = () => {
           <p className="font-bold text-3xl">GiGley</p>
         </Link>
         <div className="flex items-center gap-4 font-medium">
-          <Link href="/clients-side/ServicesPage" className="cursor-pointer">
+          <Link
+            href="/clients-side/ServicesPage"
+            className="cursor-pointer hover:text-[#1167b1]"
+          >
             <p>Үйлчилгээ</p>
           </Link>
           <div className="flex items-center gap-4 font-medium">
@@ -49,9 +52,11 @@ export const Header = () => {
                     <UserRoundPen />
                   </PopoverTrigger>
                   <PopoverContent className="flex flex-col bg-white p-0 w-fit overflow-hidden">
-                    <div className="cursor-pointer hover:bg-[#1167b1] hover:text-white py-2 px-4">
-                      Хэрэглэгчийн мэдээлэл
-                    </div>
+                    <Link href={'/clients-side/UserAccount/Profile'}>
+                      <div className="cursor-pointer hover:bg-[#1167b1] hover:text-white py-2 px-4">
+                        Хэрэглэгчийн мэдээлэл
+                      </div>
+                    </Link>
                     <div
                       onClick={logOut}
                       className={`cursor-pointer hover:bg-[#1167b1] hover:text-white py-2 px-4 flex gap-2`}
