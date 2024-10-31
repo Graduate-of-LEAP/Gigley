@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Armchair, Car, Drill, House } from 'lucide-react';
 import { api } from '@/lib';
+import Link from 'next/link';
 
 type CategoryType = {
   name: string;
@@ -79,12 +80,11 @@ export const PopularServices = () => {
                   <div className="flex flex-wrap gap-6 max-w-screen-sm">
                     {category.subCategories.map((subCategory, i) => {
                       return (
-                        <div
-                          className="hover:bg-blue-200 w-fit px-8 text-sm py-2 rounded-full border border-black font-bold cursor-pointer"
-                          key={i}
-                        >
-                          {subCategory.subCategoryName}
-                        </div>
+                        <Link href={`/clients-side/${subCategory._id}`} key={i}>
+                          <div className="hover:bg-blue-200 w-fit px-8 text-sm py-2 rounded-full border border-black font-bold cursor-pointer">
+                            {subCategory.subCategoryName}
+                          </div>
+                        </Link>
                       );
                     })}
                   </div>
