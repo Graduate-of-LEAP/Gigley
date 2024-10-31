@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Container } from '../assets/Container';
 import {
   Select,
@@ -8,23 +9,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useEffect, useState } from 'react';
 import { api } from '@/lib';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const FlexibleWork = () => {
-  type Category = {
-    _id: string;
-    name: string;
-  };
+type Category = {
+  _id: string;
+  subCategoryName: string;
+};
 
+export const FlexibleWork = () => {
   const [authorization, setAuthorization] = useState<string | null>(null);
-  const [selectedArea, setSelectedArea] = useState<string | null>(null); // State to track the selected area
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null); // State to track selected category
-  const [mainCategories, setMainCategories] = useState<Category[]>([]);
-  const router = useRouter(); // Use Next.js useRouter hook
+  const [selectedArea, setSelectedArea] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [subCategories, setSubCategories] = useState<Category[]>([]);
+  const [averageHourlyRate, setAverageHourlyRate] = useState<number | string>(
+    'мэдээлэл олдсонгүй'
+  );
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -38,12 +41,12 @@ export const FlexibleWork = () => {
 
       try {
         const response = await api.get(
-          'http://localhost:3001/mainCategory/get',
+          'http://localhost:3001/subCategory/get',
           {
             headers: { Authorization: `Bearer ${authorization}` },
           }
         );
-        setMainCategories(response.data);
+        setSubCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -62,6 +65,37 @@ export const FlexibleWork = () => {
     setSelectedCategory(value);
   };
 
+  const calculateAverageHourlyRate = async () => {
+    if (!selectedArea || !selectedCategory) {
+      setAverageHourlyRate('');
+      return;
+    }
+
+    try {
+      const response = await api.get(
+        '/workDetails/getWorkDetailsBySubcategory',
+        {
+          headers: { Authorization: `Bearer ${authorization}` },
+          params: { location: selectedArea, subCategoryId: selectedCategory },
+        }
+      );
+
+      if (response.data.averageHourlyRate) {
+        setAverageHourlyRate(response.data.averageHourlyRate);
+      } else if (!response.data.averageHourlyRate) {
+        toast.error('Ийм мэдээлэл олдсонгүй');
+        setAverageHourlyRate('');
+      }
+    } catch (error) {
+      console.error('Error calculating average hourly rate:', error);
+      setAverageHourlyRate('');
+    }
+  };
+
+  useEffect(() => {
+    calculateAverageHourlyRate();
+  }, [selectedArea, selectedCategory]);
+
   const handleSubmit = async () => {
     if (!selectedArea) {
       alert('Please select an area.');
@@ -70,7 +104,7 @@ export const FlexibleWork = () => {
 
     try {
       await api.post(
-        'http://localhost:3001/submitWorkDetails/saveLocation', // Assuming this route exists
+        'http://localhost:3001/submitWorkDetails/saveLocation',
         { location: selectedArea },
         { headers: { Authorization: `Bearer ${authorization}` } }
       );
@@ -83,6 +117,8 @@ export const FlexibleWork = () => {
 
   return (
     <Container className="bg-white py-12">
+      {/* Toast container to display notifications */}
+      <ToastContainer />
       <div className="flex flex-col lg:flex-row items-center lg:items-start lg:justify-between gap-8">
         <div className="lg:w-1/2">
           <img
@@ -94,17 +130,18 @@ export const FlexibleWork = () => {
 
         <div className="lg:w-1/3 flex flex-col gap-6">
           <h2 className="text-2xl font-bold text-gray-900">
-            Earn Money Your Way
+            Мөнгө олж эхэлцгээе
           </h2>
           <p className="text-gray-700">
-            See how much you can make tasking on TaskRabbit. Start by selecting
-            your area and a category to explore the potential earnings.
+            Та хэр их мөнгө олох боломжтойг харцгаая. Хэр их мөнгө олох
+            боломжтой олж мэдэхийн тулд та өөрийн оршин суугаа дүүрэг болон ямар
+            төрлийн ажил хийх боломжтойгоо сонгоорой.
           </p>
 
           {/* Select Area */}
           <div className="flex flex-col gap-2">
             <label htmlFor="area" className="text-sm font-medium text-gray-700">
-              Select Your Area
+              Оршин суугаа дүүрэгээ сонгоорой
             </label>
             <Select onValueChange={handleAreaChange}>
               <SelectTrigger className="w-[180px]" aria-label="Select Area">
@@ -138,32 +175,35 @@ export const FlexibleWork = () => {
               htmlFor="category"
               className="text-sm font-medium text-gray-700"
             >
-              Choose a Category
+              Өөрийн ур хийж чаддаг ажлын чиглэлээ сонгоно уу!
             </label>
             <Select onValueChange={handleCategoryChange}>
               <SelectTrigger className="w-[180px]" aria-label="Select Category">
                 <SelectValue placeholder="Select Category" />
               </SelectTrigger>
               <SelectContent>
-                {mainCategories.map((item) => (
+                {subCategories.map((item) => (
                   <SelectItem key={item._id} value={item._id}>
-                    {item.name}
+                    {item.subCategoryName}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
 
-          <p className="text-lg font-bold text-green-600">$50 per hour</p>
+          <p className="text-lg font-bold text-green-600">
+            {averageHourlyRate !== null
+              ? `${averageHourlyRate}₮ нэг цагийн үнэлгээ`
+              : ''}
+          </p>
 
           {/* CTA Button */}
           <button
             className="bg-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-500 transition"
             onClick={handleSubmit}
           >
-            Get Started
+            Эхлүүлэх
           </button>
-          <p>Already have an account? Sign in</p>
         </div>
       </div>
     </Container>

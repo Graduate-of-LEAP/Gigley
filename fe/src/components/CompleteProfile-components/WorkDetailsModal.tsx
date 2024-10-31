@@ -87,40 +87,44 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
 
         <form>
           <div className="mb-4">
-            <label className="block text-gray-700">Hourly rate</label>
+            <label className="block text-gray-700">Цагийн үнэлгээ</label>
             <input
               type="text"
               className="border border-gray-300 rounded-lg w-full p-2"
-              placeholder="50'000"
+              placeholder="50'000 төгрөг"
               value={hourlyRate}
               onChange={(e) => setHourlyRate(e.target.value)}
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700">Vehicles</label>
+            <label className="block text-gray-700">
+              Тээврийн хэрэгсэлийн мэдээллээ оруулна уу?
+            </label>
             <input
               type="text"
               className="border border-gray-300 rounded-lg w-full p-2"
-              placeholder="e.g. Truck, Van"
+              placeholder="Портер,  Амжиргаа цагаан "
               value={vehicles}
               onChange={(e) => setVehicles(e.target.value)}
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700">Tools</label>
+            <label className="block text-gray-700">Хэрэгслийн мэдээлэл</label>
             <input
               type="text"
               className="border border-gray-300 rounded-lg w-full p-2"
-              placeholder="e.g. Drill, Ladder"
+              placeholder="Алх , дрилл , шат "
               value={tools}
               onChange={(e) => setTools(e.target.value)}
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700">Skills and Experience</label>
+            <label className="block text-gray-700">
+              Ур чадвар өмнөх туршилгаа дэлгэрэнгүй тайлбарлана уу?
+            </label>
             <textarea
               className="border border-gray-300 rounded-lg w-full p-2"
               rows={4}
@@ -144,7 +148,7 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
               className="bg-gray-500 text-white px-4 py-2 rounded-lg"
               onClick={handleCancel}
             >
-              Cancel
+              Цуцлах
             </button>
 
             <button
@@ -152,7 +156,7 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
               className="bg-blue-500 text-white px-4 py-2 rounded-lg"
               onClick={handleSave}
             >
-              Save
+              Хадгалах
             </button>
           </div>
         </form>
