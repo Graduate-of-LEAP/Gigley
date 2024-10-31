@@ -24,7 +24,7 @@ export const Login = () => {
         <div className="w-[500px] h-[430px] rounded-lg bg-white absolute  mt-[200px] flex flex-col gap-5 px-16">
           <h1 className="font-bold text-5xl text-green-950 px-24 py-6">
             {' '}
-            GiGley
+            gigLEY
           </h1>
           <div>
             <Label htmlFor="Email">Email</Label>

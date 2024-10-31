@@ -11,6 +11,8 @@ import { api } from '@/lib';
 export const TaskerProfileCard = () => {
   const [allTasker, setAllTasker] = useState<Tasker[]>([]);
 
+  console.log('allTasker', allTasker);
+
   const getAllTaskerData = async () => {
     try {
       const response = await api.get('/getAllTasker/taskers');
@@ -33,12 +35,11 @@ export const TaskerProfileCard = () => {
         >
           <div className="flex flex-col items-center">
             <div className="w-[204px] h-[204px] bg-gray-700 rounded-full relative flex">
-              {/* <Image
-                src={tasker.img || '/default-profile.jpg'}
-                fill
+              <img
+                src={tasker.profileImage}
                 alt="profile pic"
                 className="rounded-full"
-              /> */}
+              />
             </div>
 
             <div className="text-[#1167b1] font-semibold cursor-pointer py-2 text-center">

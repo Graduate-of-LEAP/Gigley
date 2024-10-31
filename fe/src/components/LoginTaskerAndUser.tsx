@@ -14,15 +14,14 @@ export const LoginTaskerAndUser = () => {
       />
       <div className="flex justify-center">
         <div className="w-[500px] h-[380px] rounded-lg bg-white absolute  mt-[200px] flex flex-col gap-5 px-16">
-          <h1 className="font-bold text-5xl text-green-950 px-24 py-10">
-            {' '}
-            GiGley
+          <h1 className="font-bold text-5xl text-[#000238] px-24 py-10">
+            gigLEY
           </h1>
 
           <Link href="/clients-side/Login">
             <Button
               variant="outline"
-              className="h-[43px] w-[356px] rounded-full bg-green-800 text-white"
+              className="h-[43px] w-[356px] rounded-full bg-[#1167b1] text-white"
             >
               Хэрэглэгчээр нэвтрэх
             </Button>
@@ -31,7 +30,7 @@ export const LoginTaskerAndUser = () => {
           <Link href="/tasker-side/TaskerLogin">
             <Button
               variant="outline"
-              className="h-[43px] w-[356px] border border-green-800 text-green-800 rounded-full"
+              className="h-[43px] w-[356px] border border-[#1167b1] text-[#1167b1] rounded-full"
             >
               Гиглэгчээр нэвтрэх
             </Button>

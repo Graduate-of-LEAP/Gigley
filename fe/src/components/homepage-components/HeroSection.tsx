@@ -43,10 +43,9 @@ export const HeroSection = () => {
   return (
     <Container className="bg-white py-10">
       <div className="h-[250px]">
-        <div className="w-[1200px] h-[154px] flex flex-col justify-center items-center">
-          <h1 className="text-[55px] text-[#1167b1] font-bold w-[550px] leading-tight text-center">
-            Таний итгэж болох гэрийн туслах
-          </h1>
+        <div className=" text-[55px] flex flex-col items-center text-[#1167b1] font-bold leading-none gap-2">
+          <h1>Таны итгэж болох</h1>
+          <h1> туслах </h1>
         </div>
         <div className="flex justify-center mx-auto items-center mt-16 w-fit relative">
           <Input

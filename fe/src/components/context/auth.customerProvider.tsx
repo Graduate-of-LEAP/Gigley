@@ -76,7 +76,7 @@ export const AuthCustomerProvider = ({ children }: PropsWithChildren) => {
       getMe();
       toast.success('Амжилттай нэвтэрлээ');
 
-      router.push('/');
+      router.push('/clients-side/Dashboard');
     } catch (err: any) {
       console.log(err);
       if (err.response) {

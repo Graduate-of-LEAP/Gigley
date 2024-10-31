@@ -39,7 +39,7 @@ const TaskersRecommended = ({ taskers }: TaskersRecommendedProps) => {
                 {tasker.workDetails.map((workDetail) => (
                   <li
                     key={workDetail._id}
-                    className="border hover:bg-green-100 rounded w-[270px] h-[40px] flex items-center p-2 mb-1"
+                    className="border hover:bg-blue-300 rounded w-[270px] h-[40px] flex items-center p-2 mb-1"
                   >
                     {workDetail.taskName}
                   </li>

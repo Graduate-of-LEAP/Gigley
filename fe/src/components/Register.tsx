@@ -26,12 +26,9 @@ export const Register = () => {
         objectFit="cover"
       />
       <div className="flex justify-center">
-        <div className="w-[500px] h-[650px] rounded-lg bg-white absolute  mt-[200px] flex flex-col gap-5 px-16">
-          <h1 className="font-bold text-5xl text-green-950 px-24 py-8">
-            {' '}
-            GiGley
-          </h1>
-          <h5 className="text-xl m-auto ">Become user</h5>
+        <div className="w-[500px] h-fit rounded-lg bg-white absolute  mt-[200px] flex flex-col gap-3 px-16 p-6">
+          <h1 className="font-bold text-5xl text-[#000238] m-auto"> gigLEY</h1>
+          <h5 className="text-lg m-auto ">Үйлчлүүлэгчээр бүртгүүлэх</h5>
           <div className="flex flex-col gap-4">
             <Input
               placeholder="Name"

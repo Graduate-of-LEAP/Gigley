@@ -11,7 +11,7 @@ interface ProjectCardProps {
 // ProjectCard component with typed props
 const ProjectCard: FC<ProjectCardProps> = ({ imageSrc, title, price }) => {
   return (
-    <div className="border-2 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
+    <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
       <figure className="h-[200px] overflow-hidden">
         <img
           className="w-full h-full object-cover"
@@ -39,25 +39,24 @@ export const PopularProjects: FC = () => {
   const projects: Project[] = [
     {
       imageSrc:
-        'https://t3.ftcdn.net/jpg/08/48/12/26/240_F_848122654_OXH1uBhbgn7W4Xy7aUUepq9uxD1tbBpf.jpg',
+        'https://images.ctfassets.net/vwt5n1ljn95x/run4IoZvybxDk65keaoAg/82975826e5988498faa92db72ba9a590/dolly-apartment-move-tile.jpg?w=750&q=75&fm=webp',
       title: 'Тавилга зөөнө',
       price: 'үнэ: цагийн 50,000 төгрөг',
     },
     {
       imageSrc:
-        'https://t4.ftcdn.net/jpg/02/41/70/32/240_F_241703248_5bFuTXMtO9YZB7QcD9jbWBjcDB3gT07z.jpg',
+        'https://images.ctfassets.net/vwt5n1ljn95x/2vw8Ct7BWBT12032WBzVyf/1b38538e7d8f28fcf03dc2a8a4a31554/Plumbing_Help.jpeg?w=750&q=75&fm=webp',
       title: 'Сангийн ажил',
       price: 'Үнэ: 75,000₮ эхэлнэ',
     },
     {
-      imageSrc:
-        'https://t3.ftcdn.net/jpg/02/26/87/45/240_F_226874572_oWORxTe8djCE94uHmHiAMqxrSxCbfsH3.jpg',
+      imageSrc: '/picture/electricity.jpg',
       title: 'Цахилгааны ажил',
       price: 'Үнэ: 100,000₮ эхэлнэ',
     },
     {
       imageSrc:
-        'https://t4.ftcdn.net/jpg/02/17/77/96/240_F_217779684_5e5ocGGDoHMNLL2dmXpA7HAvOxlQsJa3.jpg',
+        'https://images.ctfassets.net/vwt5n1ljn95x/15JB3WRwRtvEsf5rcVKmnK/610c440541b1cca93bee3534037379e7/Furniture_Assembly.jpeg?w=750&q=75&fm=webp',
       title: 'Тавилга угсралт ажил',
       price: 'Үнэ: 50,000₮ эхэлнэ',
     },
@@ -69,26 +68,25 @@ export const PopularProjects: FC = () => {
     },
     {
       imageSrc:
-        'https://t4.ftcdn.net/jpg/02/71/43/67/240_F_271436744_CCyve7a2CSe5KsxQuEzUmCO0HxxXuD7B.jpg',
+        'https://images.ctfassets.net/vwt5n1ljn95x/3sbIHOfdhBhVilGyaApius/829a05b423c4aff40b3bb007668e85cb/Hang_Pictures.jpeg?w=750&q=75&fm=webp',
       title: 'Ханын болон тохьжилтийн зураг',
       price: 'Үнэ: 50,000₮ эхэлнэ',
     },
     {
-      imageSrc:
-        'https://t3.ftcdn.net/jpg/02/71/68/50/240_F_271685015_gvEnHSis35gIRYXPZbWljchhTYhF14T8.jpg',
+      imageSrc: '/picture/roof.jpg',
       title: 'Дээвэр засвар',
       price: 'Үнэ: 500,000₮ эхэлнэ',
     },
     {
       imageSrc:
-        'https://t4.ftcdn.net/jpg/02/46/89/14/240_F_246891418_0aBcMZtE4oC6vNPjBxHWjoOB6G3jKHWE.jpg',
+        'https://images.ctfassets.net/vwt5n1ljn95x/3yZJxfcMurN3fYgm2VIw3v/1f0aee924e621fd5e2684f01f92ca7b2/Mount_TV.jpg?w=750&q=75&fm=webp',
       title: 'Зурагт тогтооно',
       price: 'Үнэ: 50,000₮ эхэлнэ',
     },
   ];
 
   return (
-    <Container className="bg-white py-12">
+    <Container className="bg-[#ecf4f1] py-12 ">
       <h2 className="text-4xl font-bold px-4 mb-12 text-gray-900">
         Popular Projects
       </h2>
