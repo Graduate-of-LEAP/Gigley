@@ -2,11 +2,20 @@ import React from 'react';
 import { Container } from '../assets/Container';
 import Image from 'next/image';
 import { Tasker } from '@/app/tasker-side/TaskerDashboard/page';
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface TaskersRecommendedProps {
   taskers: Tasker[];
+  id: string[] | string;
 }
-const TaskersRecommended = ({ taskers }: TaskersRecommendedProps) => {
+const TaskersRecommended = ({ taskers, id }: TaskersRecommendedProps) => {
+  const [selectedTasker, setSelectedTasker] = useState<Tasker | null>(null);
+
+  console.log(taskers);
+  const router = useRouter();
+
   return (
     <Container className="bg-white py-40">
       <div className="h-fit w-fit bg-[#F9FAFB] flex justify-center px-4 ">
@@ -45,7 +54,15 @@ const TaskersRecommended = ({ taskers }: TaskersRecommendedProps) => {
                   </li>
                 ))}
               </ul>
-              <p className="text-[#0E7A5F] mt-1">Ажилтны профайлыг харах</p>
+              {/* <Link href="/clients-side/TaskerProfile"> */}
+              <p
+                className="text-[#0E7A5F] mt-1 cursor-pointer"
+                onClick={() =>
+                  router.push(`/clients-side/TaskerProfile/${tasker?._id}`)
+                }
+              >
+                Ажилтны профайлыг харах
+              </p>
             </div>
           </div>
         ))}

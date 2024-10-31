@@ -9,11 +9,13 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib';
 import { Tasker } from '@/app/tasker-side/TaskerDashboard/page';
 import TaskersRecommended from '@/components/ClientSide-Dashboard/TaskersRecomended';
+import { useParams } from 'next/navigation';
 
 export default function Dashboard() {
   const [tasker, setTasker] = useState<Tasker[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [authorization, setAuthorization] = useState<string | null>(null);
+  const { _id } = useParams();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -28,6 +30,7 @@ export default function Dashboard() {
           headers: { Authorization: `Bearer ${authorization}` },
         });
         setTasker(response.data);
+        console.log(response.data);
       } catch (err) {
         console.error('Error fetching taskers:', err);
         setError('Failed to load taskers.');
@@ -38,10 +41,10 @@ export default function Dashboard() {
   return (
     <>
       <Header />
-      {error && <p className="text-red-500">{error}</p>}
+
       <BookYourNextTask />
       <PartnerWithIkea />
-      <TaskersRecommended taskers={tasker} />
+      <TaskersRecommended taskers={tasker} id={_id} />
       <Footer />
     </>
   );

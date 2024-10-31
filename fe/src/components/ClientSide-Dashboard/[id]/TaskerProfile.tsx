@@ -1,9 +1,9 @@
-import { Container } from '../assets/Container';
-import { TaskerAboutMe } from './AboutMe';
-import { SelectAndContinue } from './SelectAndContiune';
-import { TaskerSkillCard } from './TaskerSkillCard';
-import { TaskerSkills } from './TaskerSkills';
-import { useState } from 'react';
+import { useParams } from 'next/navigation';
+import { Container } from '../../assets/Container';
+import { TaskerAboutMe } from '../../TaskerProfile/AboutMe';
+import { SelectAndContinue } from '../../TaskerProfile/SelectAndContiune';
+import { TaskerSkillCard } from '../../TaskerProfile/TaskerSkillCard';
+import { TaskerSkills } from '../../TaskerProfile/TaskerSkills';
 
 export const TaskerProfile = () => {
   return (
