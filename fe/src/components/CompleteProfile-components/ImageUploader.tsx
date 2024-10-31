@@ -46,7 +46,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   return (
     <div className="p-4 border border-gray-300 rounded-lg  bg-white w-full h-full">
       <label className="block text-gray-700 font-medium mb-4">
-        Upload previous work images
+        Өмнөх гүйцэтгэсэн ажлынхаа зургуудыг оруулна уу!
       </label>
       <div className="flex space-x-4 ">
         {images.map((image, index) => (

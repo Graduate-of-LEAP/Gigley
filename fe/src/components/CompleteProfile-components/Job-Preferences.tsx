@@ -237,16 +237,16 @@ export const JobPreference = () => {
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 py-10">
         <div className="max-w-4xl w-full p-6 bg-white shadow-lg rounded-lg">
           <h1 className="text-2xl font-semibold text-gray-900 mb-4">
-            Great, so what kind of work are you here to do?
+            Сайн байна , Та ямар төрлийн ажил хийдэг вэ?
           </h1>
           <p className="text-gray-500 mb-6">
-            Don’t worry, you can change these choices later on.
+            Санаа зоволтгүй , та оруулсан мэдээллээ дараа өөрчлөх боломжтой
           </p>
 
           <div className="grid grid-cols-2 gap-6">
             <div>
               <h2 className="text-lg font-semibold text-gray-700 mb-3">
-                Select 1 category
+                Ангилалаа сонгоорой
               </h2>
               <ul className="space-y-2">
                 {mainCategories.map((category) => (
@@ -267,7 +267,7 @@ export const JobPreference = () => {
 
             <div>
               <h2 className="text-lg font-semibold text-gray-700 mb-3">
-                Now, select your specialties
+                Одоо нарийн ангиллаа сонгоорой
               </h2>
               <ul className="space-y-2">
                 {selectedCategory ? (
@@ -290,7 +290,7 @@ export const JobPreference = () => {
                     </li>
                   ))
                 ) : (
-                  <p className="text-gray-500">
+                  <p className="text-gray-500 ">
                     Please select a category to see the specialties.
                   </p>
                 )}
@@ -300,7 +300,7 @@ export const JobPreference = () => {
 
           <div className="mt-8">
             <h2 className="text-lg font-semibold text-gray-700 mb-3">
-              Selected Subcategories
+              Сонгогдсон нарийн ангиллууд
             </h2>
             <div className="grid grid-cols-2 gap-4">
               {selectedSubCategories.map((subcategory) => (
@@ -333,7 +333,7 @@ export const JobPreference = () => {
               className="mt-6 bg-[#1167b1] text-white py-2 px-4 rounded-lg w-full"
               onClick={handleSubmit}
             >
-              Submit All Work Details
+              Бүх мэдээллээ хадгалах
             </button>
           </Link>
         </div>

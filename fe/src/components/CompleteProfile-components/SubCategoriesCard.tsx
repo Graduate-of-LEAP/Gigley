@@ -29,7 +29,7 @@ export const SubCategoryCard: React.FC<SubCategoryCardProps> = ({
         <>
           {/* Add prompt to add details */}
           <span className="text-[#2a9df4]">{subCategory}</span>
-          <span className="text-[#1167b1]">Please add your details!</span>
+          <span className="text-[#1167b1]">Нарийн мэдээллээ нэмнэ үү!</span>
           <IoIosAddCircle
             className="w-10 h-10 text-[#1167b1]"
             onClick={() => onEdit(null)}
