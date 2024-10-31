@@ -166,7 +166,7 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
     localStorage.removeItem('token');
     setTasker(null);
     toast.success('You have been logged out.');
-    router.push('/tasker-side/TaskerLogin'); // Redirect to login page
+    router.push('/'); // Redirect to login page
   };
 
   return (

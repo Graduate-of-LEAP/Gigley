@@ -42,33 +42,29 @@ export const DashboardSidebar = () => {
         </Button>
       </Link>
 
-      <Link href="/dashboard/earnings">
-        <Button
-          variant="ghost"
-          className={`w-full flex items-start mb-4 p-2 rounded-md ${
-            isActive('/dashboard/earnings')
-              ? 'bg-[#2a9df4] text-white'
-              : 'text-[#1167b1] hover:bg-gray-100'
-          }`}
-        >
-          <DollarSign className="mr-2" />
-          Earnings
-        </Button>
-      </Link>
+      <Button
+        variant="ghost"
+        className={`w-full flex items-start mb-4 p-2 rounded-md ${
+          isActive('/dashboard/earnings')
+            ? 'bg-[#2a9df4] text-white'
+            : 'text-[#1167b1] hover:bg-gray-100'
+        }`}
+      >
+        <DollarSign className="mr-2" />
+        Earnings
+      </Button>
 
-      <Link href="/dashboard/settings">
-        <Button
-          variant="ghost"
-          className={`w-full flex items-start mb-4 p-2 rounded-md ${
-            isActive('/dashboard/settings')
-              ? 'bg-[#2a9df4] text-white'
-              : 'text-[#1167b1] hover:bg-gray-100'
-          }`}
-        >
-          <Settings className="mr-2" />
-          Settings
-        </Button>
-      </Link>
+      <Button
+        variant="ghost"
+        className={`w-full flex items-start mb-4 p-2 rounded-md ${
+          isActive('/dashboard/settings')
+            ? 'bg-[#2a9df4] text-white'
+            : 'text-[#1167b1] hover:bg-gray-100'
+        }`}
+      >
+        <Settings className="mr-2" />
+        Settings
+      </Button>
     </div>
   );
 };
