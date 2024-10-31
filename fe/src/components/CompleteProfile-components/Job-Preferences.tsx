@@ -38,8 +38,6 @@ export const JobPreference = () => {
     null
   );
 
-  console.log('workDetail222s:', workDetails);
-
   // Fetch token and categories on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {

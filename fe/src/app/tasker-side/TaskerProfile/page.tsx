@@ -15,17 +15,14 @@ const TaskerProfilePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('Profile');
 
-  console.log('profileData:', profileData);
-
   const fetchProfileData = async () => {
     try {
       const response = await api.get('/getTaskerAllInforouter/get', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
-      console.log('Fetched profile data from API:', response.data);
+
       setProfileData(response.data);
     } catch (error) {
-      console.error('Error fetching profile data:', error);
     } finally {
       setLoading(false);
     }
@@ -36,7 +33,6 @@ const TaskerProfilePage: React.FC = () => {
   }, []);
 
   const handleProfileUpdate = (updatedProfile: ProfileData) => {
-    console.log('Updating profileData in parent:', updatedProfile);
     setProfileData(updatedProfile);
   };
 

@@ -15,6 +15,14 @@ export const SubCategoryCard: React.FC<SubCategoryCardProps> = ({
   onEdit,
   onDelete,
 }) => {
+  const formatCurrency = (value: number | string) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'MNT', // assuming Mongolian Tögrög, adjust as needed
+      minimumFractionDigits: 0,
+    }).format(Number(value));
+  };
+
   return (
     <div className="h-fit border-2 border-dashed border-[#2a9df4] p-4 rounded-lg flex flex-col items-center justify-between">
       {workDetails.length === 0 ? (
@@ -34,7 +42,8 @@ export const SubCategoryCard: React.FC<SubCategoryCardProps> = ({
               <strong>Task Name:</strong> {detail.taskName}
             </p>
             <p>
-              <strong>Minimum Hours:</strong> {detail.minHours}
+              <strong>hourly rate:</strong>
+              {formatCurrency(detail.hourlyRate)}
             </p>
             <p>
               <strong>Vehicles:</strong> {detail.vehicles}

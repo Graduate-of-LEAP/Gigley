@@ -20,7 +20,6 @@ export const DashboardHeader = () => {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token');
       setAuthorization(token);
-      console.log('Authorization Token:', token);
     }
   }, []);
 
