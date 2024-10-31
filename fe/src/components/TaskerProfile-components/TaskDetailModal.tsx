@@ -9,6 +9,8 @@ import {
 import { Button } from '../ui/button';
 import { WorkDetail } from './ProfileSection'; // Adjust the import path if necessary
 import { api } from '@/lib';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type TaskDetailModalProps = {
   task: WorkDetail;
@@ -60,6 +62,7 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
           ...prevData,
           images: [...(prevData.images || []), imageUrl],
         }));
+        toast.success('Таны зураг амжилттай нэмэгдлээ');
       } catch (error) {
         console.error('Error uploading image:', error);
         alert('Failed to upload image');
@@ -88,15 +91,15 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
           <DialogTitle>Edit Task Detail</DialogTitle>
         </DialogHeader>
         <form className="space-y-4">
-          {/* Minimum Hours */}
+          {/* Hourly Rate */}
           <div>
             <label className="block text-gray-600 font-medium">
-              Minimum Hours
+              Hourly Rate
             </label>
             <input
               type="text"
-              name="minHours"
-              value={formData.minHours}
+              name="hourlyRate" // Corrected to camelCase
+              value={formData.hourlyRate || ''} // Allowing empty string for easy deletion
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
@@ -108,7 +111,7 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
             <input
               type="text"
               name="vehicles"
-              value={formData.vehicles}
+              value={formData.vehicles || ''} // Allowing empty string
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
@@ -120,7 +123,7 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
             <input
               type="text"
               name="tools"
-              value={formData.tools}
+              value={formData.tools || ''} // Allowing empty string
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
@@ -133,7 +136,7 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
             </label>
             <textarea
               name="skillsAndExperience"
-              value={formData.skillsAndExperience}
+              value={formData.skillsAndExperience || ''} // Allowing empty string
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />

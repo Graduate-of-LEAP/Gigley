@@ -36,6 +36,8 @@ const TaskDetailsSection: React.FC<TaskDetailsSectionProps> = ({
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
+      console.log('updatedTask', updatedTask);
+
       // Update the task in the local state
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
@@ -54,12 +56,16 @@ const TaskDetailsSection: React.FC<TaskDetailsSectionProps> = ({
       handleModalClose();
     }
   };
+  const formatCurrency = (value: number | string) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'MNT', // assuming Mongolian Tögrög, adjust as needed
+      minimumFractionDigits: 0,
+    }).format(Number(value));
+  };
 
   return (
     <div className="p-6 bg-white shadow-md rounded-lg border border-gray-300">
-      <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-        Task Details
-      </h2>
       <div className="grid grid-cols-1 gap-6">
         {tasks.map((task) => (
           <div key={task._id} className="p-4 border rounded-lg shadow-sm">
@@ -68,7 +74,7 @@ const TaskDetailsSection: React.FC<TaskDetailsSectionProps> = ({
             </h3>
             {/* Display summary information */}
             <p className="text-gray-600">
-              <strong>Minimum Hours:</strong> {task.minHours}
+              <strong>Hourly rate</strong> {formatCurrency(task.hourlyRate)}
             </p>
             <p className="text-gray-600">
               <strong>Vehicles:</strong> {task.vehicles}

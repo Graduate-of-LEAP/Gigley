@@ -15,6 +15,8 @@ const TaskerProfilePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('Profile');
 
+  console.log('profileData:', profileData);
+
   const fetchProfileData = async () => {
     try {
       const response = await api.get('/getTaskerAllInforouter/get', {

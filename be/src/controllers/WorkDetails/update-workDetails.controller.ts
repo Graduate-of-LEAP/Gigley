@@ -9,6 +9,8 @@ export const updateWorkDetailsController = async (
   const { id } = req.params; // Ensure that 'id' is correctly received from the request parameters
   const updateData = req.body; // Updated data from request body
 
+  console.log('updateDate', updateData);
+
   if (!id) {
     return res.status(400).json({ message: 'ID parameter is missing' });
   }

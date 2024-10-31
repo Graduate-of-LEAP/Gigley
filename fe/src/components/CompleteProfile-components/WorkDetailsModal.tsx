@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import ImageUploader from './ImageUploader';
+import Link from 'next/link';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface WorkDetailsModalProps {
   isOpen: boolean;
@@ -16,7 +19,7 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
   existingDetails,
   Authorization,
 }) => {
-  const [minHours, setMinHours] = useState('');
+  const [hourlyRate, setHourlyRate] = useState('');
   const [vehicles, setVehicles] = useState('');
   const [tools, setTools] = useState('');
   const [skillsAndExperience, setSkillsAndExperience] = useState('');
@@ -25,14 +28,14 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       if (existingDetails) {
-        setMinHours(existingDetails.minHours || '');
+        setHourlyRate(existingDetails.minHours || '');
         setVehicles(existingDetails.vehicles || '');
         setTools(existingDetails.tools || '');
         setSkillsAndExperience(existingDetails.skillsAndExperience || '');
         setImages(existingDetails.images || []);
       } else {
         // Reset form fields
-        setMinHours('');
+        setHourlyRate('');
         setVehicles('');
         setTools('');
         setSkillsAndExperience('');
@@ -43,18 +46,18 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
 
   const handleSave = () => {
     if (
-      !minHours ||
+      !hourlyRate ||
       !vehicles ||
       !tools ||
       !skillsAndExperience ||
       images.length === 0
     ) {
-      alert('Please complete all fields and upload at least one image.');
+      toast.error('та бүтэн бөглөнө үү!');
       return;
     }
 
     const details = {
-      minHours,
+      hourlyRate,
       vehicles,
       tools,
       skillsAndExperience,
@@ -65,7 +68,7 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
 
   const handleCancel = () => {
     // Reset form fields
-    setMinHours('');
+    setHourlyRate('');
     setVehicles('');
     setTools('');
     setSkillsAndExperience('');
@@ -84,15 +87,13 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
 
         <form>
           <div className="mb-4">
-            <label className="block text-gray-700">
-              Minimum Hours Available
-            </label>
+            <label className="block text-gray-700">Hourly rate</label>
             <input
-              type="number"
+              type="text"
               className="border border-gray-300 rounded-lg w-full p-2"
-              placeholder="e.g. 5 hours"
-              value={minHours}
-              onChange={(e) => setMinHours(e.target.value)}
+              placeholder="50'000"
+              value={hourlyRate}
+              onChange={(e) => setHourlyRate(e.target.value)}
             />
           </div>
 
@@ -145,6 +146,7 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
             >
               Cancel
             </button>
+
             <button
               type="button"
               className="bg-blue-500 text-white px-4 py-2 rounded-lg"

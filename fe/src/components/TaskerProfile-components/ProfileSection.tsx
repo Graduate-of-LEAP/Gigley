@@ -12,7 +12,7 @@ export type WorkDetail = {
   subCategoryId: string;
   taskName: string;
   images: string[];
-  minHours: string;
+  hourlyRate: string;
   vehicles: string;
   tools: string;
   skillsAndExperience: string;

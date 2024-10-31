@@ -9,7 +9,7 @@ export const createWorkDetailsController: RequestHandler = async (req, res) => {
 
     const taskerId = tasker.id;
     const {
-      minHours,
+      hourlyRate,
       vehicles,
       tools,
       skillsAndExperience,
@@ -19,7 +19,7 @@ export const createWorkDetailsController: RequestHandler = async (req, res) => {
     } = req.body as {
       vehicles: string;
       taskName: string;
-      minHours: number;
+      hourlyRate: number;
       tools: string;
       skillsAndExperience: string;
       password: string;
@@ -30,7 +30,7 @@ export const createWorkDetailsController: RequestHandler = async (req, res) => {
     const newUser = await workDetailsModel.create({
       taskerId: taskerId,
       taskName: taskName,
-      minHours: minHours,
+      hourlyRate: hourlyRate,
       vehicles: vehicles,
       tools: tools,
       images: images,
