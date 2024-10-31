@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Container } from '../assets/Container';
 import Image from 'next/image';
@@ -11,9 +13,6 @@ interface TaskersRecommendedProps {
   id: string[] | string;
 }
 const TaskersRecommended = ({ taskers, id }: TaskersRecommendedProps) => {
-  const [selectedTasker, setSelectedTasker] = useState<Tasker | null>(null);
-
-  console.log(taskers);
   const router = useRouter();
 
   return (
@@ -54,11 +53,10 @@ const TaskersRecommended = ({ taskers, id }: TaskersRecommendedProps) => {
                   </li>
                 ))}
               </ul>
-              {/* <Link href="/clients-side/TaskerProfile"> */}
               <p
                 className="text-[#0E7A5F] mt-1 cursor-pointer"
                 onClick={() =>
-                  router.push(`/clients-side/TaskerProfile/${tasker?._id}`)
+                  router.push(`/clients-side/TaskerProfile/${tasker._id}`)
                 }
               >
                 Ажилтны профайлыг харах

@@ -1,72 +1,35 @@
+// File: /components/TaskerProfile/SelectAndContinue.tsx
 import { Container } from '../assets/Container';
 import { FaStar } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
+import { WorkDetail } from '@/app/tasker-side/TaskerDashboard/page'; // Ensure this import is correct
 
-const services = [
-  {
-    title: 'Appliance Installation & Repairs',
-    price: '$92.91',
-    rating: '5.0',
-    reviews: '15',
-    description: 'I have over 10 years of experience',
-  },
-  {
-    title: 'Babyproofing',
-    price: '$80.52',
-    rating: 'No Reviews',
-    reviews: '0',
-    description: 'I have experience in that field! Did dozens jobs',
-  },
-  {
-    title: 'Branch & Hedge Trimming',
-    price: '$73.30',
-    rating: 'No Reviews',
-    reviews: '0',
-    description:
-      'I have experience with different types of yard work, have a lot of tools.',
-  },
-  {
-    title: 'Door, Cabinet, & Furniture Repair',
-    price: '$92.91',
-    rating: '5.0',
-    reviews: '10',
-    description: 'I have all tools required for minor repairs.',
-  },
-  {
-    title: 'Electrical Help',
-    price: '$134.21',
-    rating: '5.0',
-    reviews: '71',
-    description: 'Hi, I can help you complete your electrical projects.',
-  },
-];
+type SelectAndContinueProps = {
+  workDetails: WorkDetail[];
+};
 
-export const SelectAndContinue = () => {
+export const SelectAndContinue = ({ workDetails }: SelectAndContinueProps) => {
   return (
     <Container className="bg-white">
-      <div className="w-[907px] h-auto  ">
-        {services.map((service, index) => (
+      <div className="w-[907px] h-auto">
+        {workDetails.map((service, index) => (
           <div
             key={index}
             className="w-full h-[216px] border mb-6 rounded p-6 flex justify-between"
           >
             <div className="flex flex-col justify-between">
               <h2 className="font-bold">
-                {service.title} for {service.price}
+                {service.taskName} for ${service.minHours * 30} {/* Sample rate */}
               </h2>
-
               <div className="flex items-center gap-1">
                 <FaStar className="text-yellow-400" />
                 <p>
-                  {service.rating} ({service.reviews} сэтгэгдэл)
+                  5.0 (15 reviews) {/* Sample rating & reviews */}
                 </p>
               </div>
-
-              <p>{service.description}</p>
-
-              <p className="text-green-600">профайл & сэтгэгдэл харах</p>
+              <p>{service.skillsAndExperience}</p>
+              <p className="text-green-600">View Profile & Reviews</p>
             </div>
-
             <Button
               className="bg-green-600 h-[46px] w-[200px] text-white font-bold"
               variant="outline"
