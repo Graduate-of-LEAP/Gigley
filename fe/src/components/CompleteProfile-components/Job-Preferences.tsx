@@ -5,6 +5,9 @@ import { Container } from '../assets/Container';
 import { api } from '@/lib';
 import { WorkDetailsModal } from './WorkDetailsModal';
 import { SubCategoryCard } from './SubCategoriesCard';
+import Link from 'next/link';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const JobPreference = () => {
   type SubCategory = {
@@ -212,7 +215,6 @@ export const JobPreference = () => {
         (sc) => !workDetails.find((wd) => wd.subCategoryId === sc._id)
       )
     ) {
-      alert('You must complete details for all selected subcategories.');
       return;
     }
 
@@ -226,7 +228,7 @@ export const JobPreference = () => {
           headers: { Authorization: `Bearer ${authorization}` },
         }
       );
-      alert('Work details submitted successfully!');
+      toast.success('Та өөрийн чадваруудаа амжилттай бүртгэлээ');
     } catch (error) {
       console.error('Error submitting work details:', error);
     }
@@ -328,12 +330,14 @@ export const JobPreference = () => {
             Authorization={authorization}
           />
 
-          <button
-            className="mt-6 bg-[#1167b1] text-white py-2 px-4 rounded-lg w-full"
-            onClick={handleSubmit}
-          >
-            Submit All Work Details
-          </button>
+          <Link href="/tasker-side/TaskerDashboard">
+            <button
+              className="mt-6 bg-[#1167b1] text-white py-2 px-4 rounded-lg w-full"
+              onClick={handleSubmit}
+            >
+              Submit All Work Details
+            </button>
+          </Link>
         </div>
       </div>
     </Container>

@@ -36,6 +36,8 @@ const TaskDetailsSection: React.FC<TaskDetailsSectionProps> = ({
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
+      console.log('updatedTask', updatedTask);
+
       // Update the task in the local state
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
@@ -68,7 +70,7 @@ const TaskDetailsSection: React.FC<TaskDetailsSectionProps> = ({
             </h3>
             {/* Display summary information */}
             <p className="text-gray-600">
-              <strong>Minimum Hours:</strong> {task.minHours}
+              <strong>Hourly rate</strong> {task.hourlyRate}
             </p>
             <p className="text-gray-600">
               <strong>Vehicles:</strong> {task.vehicles}

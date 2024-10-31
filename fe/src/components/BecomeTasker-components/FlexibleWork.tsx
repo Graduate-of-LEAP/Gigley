@@ -11,6 +11,8 @@ import {
 import { useEffect, useState } from 'react';
 import { api } from '@/lib';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const FlexibleWork = () => {
   type Category = {
@@ -72,8 +74,7 @@ export const FlexibleWork = () => {
         { location: selectedArea },
         { headers: { Authorization: `Bearer ${authorization}` } }
       );
-      alert('Location saved successfully!');
-      // Navigate to the next page only when location is valid
+      toast.success('Таны байршил амжилттай бүртгэгдлээ');
       router.push('/tasker-side/CompleteProfile/PreferencesJob');
     } catch (error) {
       console.error('Error saving location:', error);

@@ -9,6 +9,8 @@ import {
 import { Button } from '../ui/button';
 import { WorkDetail } from './ProfileSection'; // Adjust the import path if necessary
 import { api } from '@/lib';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type TaskDetailModalProps = {
   task: WorkDetail;
@@ -60,6 +62,7 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
           ...prevData,
           images: [...(prevData.images || []), imageUrl],
         }));
+        toast.success('Таны зураг амжилттай нэмэгдлээ');
       } catch (error) {
         console.error('Error uploading image:', error);
         alert('Failed to upload image');
@@ -91,12 +94,12 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
           {/* Minimum Hours */}
           <div>
             <label className="block text-gray-600 font-medium">
-              Minimum Hours
+              Hourly rate
             </label>
             <input
               type="text"
-              name="minHours"
-              value={formData.minHours}
+              name="hourly rate"
+              value={formData.hourlyRate}
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />

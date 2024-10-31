@@ -17,7 +17,7 @@ const workDetailsSchema = new Schema({
     required: true,
   },
   images: [String],
-  minHours: {
+  hourlyRate: {
     type: String,
     required: true,
   },
