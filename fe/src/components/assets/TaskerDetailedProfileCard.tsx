@@ -14,6 +14,7 @@ import { ReviewComponent } from '@/components/SecondOfFindTasker-components/Revi
 import { it } from 'node:test';
 import { WorkPhotoComponent } from '../SecondOfFindTasker-components/WorkPhotoComponent';
 import { itemtype } from '../SecondOfFindTasker-components/TaskerIntroComponent';
+import { Tasker } from '@/app/tasker-side/TaskerDashboard/page';
 
 export type reviewDataType = {
   categoryTitle: string;
@@ -43,7 +44,11 @@ export const reviewData = [
   },
 ];
 
-export const TaskerDetailedProfileCard = ({ item }: itemtype) => {
+type itemType = {
+  item: Tasker;
+};
+
+export const TaskerDetailedProfileCard = ({ item }: itemType) => {
   return (
     <Dialog>
       <DialogTrigger>Read More</DialogTrigger>
@@ -53,7 +58,7 @@ export const TaskerDetailedProfileCard = ({ item }: itemtype) => {
             <div className="flex gap-x-4 w-full">
               <div className="w-[72px] h-[72px] rounded-full relative border">
                 <Image
-                  src={item.profileImage}
+                  src={item?.profileImage}
                   fill
                   alt="profile"
                   className="rounded-full"
@@ -64,7 +69,7 @@ export const TaskerDetailedProfileCard = ({ item }: itemtype) => {
                 <div className="flex gap-x-4 items-center justify-between">
                   <div className="flex gap-x-2">
                     <div>
-                      {item.firstName} {item.lastName}
+                      {item?.firstName} {item?.lastName}
                     </div>
                     <div className="flex gap-1 py-[3xp] px-[4px] bg-[#f4e6f8] items-center text-[12px] text-[#8551b1]  rounded-sm w-fit font-semibold ">
                       <IoTrophySharp />
@@ -101,12 +106,12 @@ export const TaskerDetailedProfileCard = ({ item }: itemtype) => {
                   Ур чадвар болон туршлага
                 </div>
                 <div className="text-[#1b1e1d] ">
-                  {item.workDetails.map((item) => item.skillsAndExperience)}
+                  {item?.workDetails.map((item) => item.skillsAndExperience)}
                 </div>
               </div>
             </div>
 
-            {item.workDetails.map((detail, index) => {
+            {item?.workDetails.map((detail, index) => {
               return <WorkPhotoComponent key={index} images={detail.images} />;
             })}
 

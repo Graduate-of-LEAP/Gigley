@@ -40,7 +40,7 @@ export const WorkPhotoComponent = ({ images }: WorkPhotoComponentProps) => {
         Гүйцэтгэсэн ажлын зургууд
       </div>
       <div className="flex gap-x-2 mt-2">
-        {images.slice(0, 4).map((image, index) => {
+        {images?.slice(0, 4).map((image, index) => {
           return (
             <div
               key={index}
@@ -57,7 +57,7 @@ export const WorkPhotoComponent = ({ images }: WorkPhotoComponentProps) => {
         })}
         <div className="relative w-[108px] h-[108px]">
           <Image
-            src={images[5]}
+            src={images[1]}
             alt="work photos"
             fill
             className="rounded-lg"

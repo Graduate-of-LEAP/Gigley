@@ -20,6 +20,7 @@ export const getMeController = async (req: CustomRequest, res: Response) => {
       id: user._id,
       userName: user.userName,
       email: user.email,
+      phone: user.phoneNumber,
     };
     return res.status(200).json(userData);
   } catch (error) {
