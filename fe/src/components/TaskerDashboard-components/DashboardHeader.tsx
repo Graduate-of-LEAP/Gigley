@@ -7,6 +7,7 @@ import { Bell, User } from 'lucide-react';
 import { api } from '@/lib';
 import { useTaskerAuth } from '../context/auth.taskerProvider';
 import { Task } from '../My-tasks-components/my-task';
+import Link from 'next/link';
 
 export const DashboardHeader = () => {
   const [notifications, setNotifications] = useState<Task[]>([]);
@@ -54,7 +55,9 @@ export const DashboardHeader = () => {
 
   return (
     <header className="flex items-center justify-between bg-[#2a9df4] p-4 text-white shadow-md">
-      <h1 className="text-xl font-semibold">Tasker Dashboard</h1>
+      <Link href="/tasker-side/TaskerDashboard">
+        <h1 className="text-xl font-semibold">Tasker Dashboard</h1>
+      </Link>
       <div className="flex items-center space-x-4">
         <Popover onOpenChange={clearNotifications}>
           <PopoverTrigger asChild>
@@ -114,12 +117,14 @@ export const DashboardHeader = () => {
             <p className="font-semibold">Profile Options</p>
             <ul className="space-y-2 mt-2">
               <li>
-                <Button
-                  variant="link"
-                  className="text-[#2a9df4] hover:underline"
-                >
-                  View Profile
-                </Button>
+                <Link href="/tasker-side/TaskerProfile">
+                  <Button
+                    variant="link"
+                    className="text-[#2a9df4] hover:underline"
+                  >
+                    View Profile
+                  </Button>
+                </Link>
               </li>
               <li>
                 <Button

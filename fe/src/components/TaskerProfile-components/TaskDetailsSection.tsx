@@ -1,27 +1,58 @@
-// TaskDetailsSection.tsx
-
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
+import { api } from '@/lib';
+import { WorkDetail } from './ProfileSection'; // Adjust the import path if necessary
+import TaskDetailModal from './TaskDetailModal';
 
-const TaskDetailsSection: React.FC = () => {
-  const [hourlyRate, setHourlyRate] = useState(25);
-  const [availability, setAvailability] = useState('Full-time');
-  const [skills, setSkills] = useState([
-    'Furniture Assembly',
-    'Plumbing',
-    'Electrical Work',
-  ]);
-  const [newSkill, setNewSkill] = useState('');
+type TaskDetailsSectionProps = {
+  workDetails: WorkDetail[];
+  onSave: (updatedWorkDetails: WorkDetail[]) => void;
+};
 
-  const handleAddSkill = () => {
-    if (newSkill.trim()) {
-      setSkills([...skills, newSkill]);
-      setNewSkill('');
-    }
+const TaskDetailsSection: React.FC<TaskDetailsSectionProps> = ({
+  workDetails,
+  onSave,
+}) => {
+  const [tasks, setTasks] = useState<WorkDetail[]>(workDetails);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentTask, setCurrentTask] = useState<WorkDetail | null>(null);
+
+  const handleEditClick = (task: WorkDetail) => {
+    setCurrentTask(task);
+    setIsModalOpen(true);
   };
 
-  const handleRemoveSkill = (skillToRemove: string) => {
-    setSkills(skills.filter((skill) => skill !== skillToRemove));
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setCurrentTask(null);
+  };
+
+  const handleModalSave = async (updatedTask: WorkDetail) => {
+    setIsSaving(true);
+    try {
+      // Update the task in the backend
+      await api.put(`/workDetails/update/${updatedTask._id}`, updatedTask, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+
+      // Update the task in the local state
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task._id === updatedTask._id ? updatedTask : task
+        )
+      );
+
+      onSave(
+        tasks.map((task) => (task._id === updatedTask._id ? updatedTask : task))
+      ); // Update the parent component
+    } catch (error) {
+      console.error('Error saving task detail:', error);
+      alert('Failed to save task detail');
+    } finally {
+      setIsSaving(false);
+      handleModalClose();
+    }
   };
 
   return (
@@ -29,79 +60,59 @@ const TaskDetailsSection: React.FC = () => {
       <h2 className="text-2xl font-semibold text-gray-700 mb-4">
         Task Details
       </h2>
+      <div className="grid grid-cols-1 gap-6">
+        {tasks.map((task) => (
+          <div key={task._id} className="p-4 border rounded-lg shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-700 mb-2">
+              {task.taskName}
+            </h3>
+            {/* Display summary information */}
+            <p className="text-gray-600">
+              <strong>Minimum Hours:</strong> {task.minHours}
+            </p>
+            <p className="text-gray-600">
+              <strong>Vehicles:</strong> {task.vehicles}
+            </p>
+            <p className="text-gray-600">
+              <strong>Tools:</strong> {task.tools}
+            </p>
+            <p className="text-gray-600">
+              <strong>Skills and Experience:</strong> {task.skillsAndExperience}
+            </p>
+            {/* Images */}
+            {task.images && task.images.length > 0 && (
+              <div className="flex space-x-4 mt-2">
+                {task.images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt="Task"
+                    className="w-20 h-20 object-cover rounded"
+                  />
+                ))}
+              </div>
+            )}
 
-      {/* Hourly Rate */}
-      <div className="mb-6">
-        <label className="block text-gray-600 font-medium mb-2">
-          Hourly Rate
-        </label>
-        <div className="flex items-center space-x-2">
-          <input
-            type="number"
-            value={hourlyRate}
-            onChange={(e) => setHourlyRate(parseInt(e.target.value))}
-            className="border border-gray-300 rounded-lg p-2 w-24 text-gray-700"
-          />
-          <span className="text-gray-600">USD/hr</span>
-        </div>
-      </div>
-
-      {/* Availability */}
-      <div className="mb-6">
-        <label className="block text-gray-600 font-medium mb-2">
-          Availability
-        </label>
-        <select
-          value={availability}
-          onChange={(e) => setAvailability(e.target.value)}
-          className="border border-gray-300 rounded-lg p-2 w-full text-gray-700"
-        >
-          <option value="Full-time">Full-time</option>
-          <option value="Part-time">Part-time</option>
-          <option value="Weekends only">Weekends only</option>
-        </select>
-      </div>
-
-      {/* Skills */}
-      <div className="mb-6">
-        <label className="block text-gray-600 font-medium mb-2">Skills</label>
-        <div className="space-y-2">
-          {skills.map((skill, index) => (
-            <div key={index} className="flex items-center justify-between">
-              <span className="text-gray-700">{skill}</span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleRemoveSkill(skill)}
-              >
-                Remove
-              </Button>
-            </div>
-          ))}
-          <div className="flex items-center space-x-2 mt-2">
-            <input
-              type="text"
-              value={newSkill}
-              onChange={(e) => setNewSkill(e.target.value)}
-              placeholder="Add new skill"
-              className="border border-gray-300 rounded-lg p-2 w-full"
-            />
-            <Button onClick={handleAddSkill} variant="outline" size="sm">
-              Add
+            <Button
+              variant="outline"
+              className="mt-4"
+              onClick={() => handleEditClick(task)}
+            >
+              Edit
             </Button>
           </div>
-        </div>
+        ))}
       </div>
 
-      {/* Save Changes */}
-      <div className="mt-6">
-        <Button
-          className="w-full bg-blue-600 text-white"
-          onClick={() => alert('Task details updated')}
-        >
-          Save Changes
-        </Button>
-      </div>
+      {/* Task Detail Modal */}
+      {isModalOpen && currentTask && (
+        <TaskDetailModal
+          task={currentTask}
+          onClose={handleModalClose}
+          onSave={handleModalSave}
+          isSaving={isSaving}
+        />
+      )}
     </div>
   );
 };
