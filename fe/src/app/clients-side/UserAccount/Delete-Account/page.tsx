@@ -1,7 +1,7 @@
 import { AccountSideBar } from '@/components/UserAccount-components/AccountSideBar';
 import { DeleteAccountDialog } from '@/components/UserAccount-components/DeleteAccountDialog';
 
-export default function () {
+const Page = () => {
   return (
     <div className="w-screen h-screen bg-[#f8fafc]">
       <div className="max-w-screen-lg m-auto p-14">
@@ -21,7 +21,7 @@ export default function () {
             </div>
             <div>
               <div>
-                Once you've deleted your account, you will no longer be able to
+                Once youve deleted your account, you will no longer be able to
                 log in to the TaskRabbit site or apps. This action cannot be
                 undone.
               </div>
@@ -34,4 +34,5 @@ export default function () {
       </div>
     </div>
   );
-}
+};
+export default Page;

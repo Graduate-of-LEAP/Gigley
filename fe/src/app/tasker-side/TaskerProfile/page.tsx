@@ -23,6 +23,7 @@ const TaskerProfilePage: React.FC = () => {
 
       setProfileData(response.data);
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
     }

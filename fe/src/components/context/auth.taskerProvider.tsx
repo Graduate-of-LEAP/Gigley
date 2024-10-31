@@ -1,6 +1,5 @@
 'use client';
 
-import { Tasker } from '@/app/tasker-side/TaskerDashboard/page';
 import { api } from '@/lib';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -49,15 +48,13 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
 
   const [tasker, setTasker] = useState<TaskerType | null>(null);
   const [isReady, setIsReady] = useState(false);
-  const [authorization, setAuthorization] = useState<string | null>(null);
-  const [profile, setProfile] = useState<Tasker | null>(null);
 
   const fetchTaskerProfile = async (token: string) => {
     try {
       const response = await api.get(`/getTaskerAllInforouter/get`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setProfile(response.data);
+
       return response.data;
     } catch (err) {
       console.error('Error fetching Tasker information:', err);

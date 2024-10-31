@@ -1,6 +1,5 @@
 'use client';
 import { AccountSideBar } from '@/components/UserAccount-components/AccountSideBar';
-import Image from 'next/image';
 import { ImUser } from 'react-icons/im';
 import { AiOutlineMail } from 'react-icons/ai';
 import { RiPhoneFill } from 'react-icons/ri';
@@ -9,7 +8,7 @@ import { useAuth } from '@/components/context/auth.customerProvider';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
-export default function () {
+const Page = () => {
   const { user, setUser } = useAuth();
   const router = useRouter();
   const logOut = async () => {
@@ -82,4 +81,5 @@ export default function () {
       </div>
     </div>
   );
-}
+};
+export default Page;

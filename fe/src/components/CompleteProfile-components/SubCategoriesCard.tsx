@@ -10,7 +10,6 @@ interface SubCategoryCardProps {
 
 export const SubCategoryCard: React.FC<SubCategoryCardProps> = ({
   subCategory,
-  subCategoryId,
   workDetails,
   onEdit,
   onDelete,

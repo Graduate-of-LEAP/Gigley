@@ -1,8 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { title } from 'process';
-import { useState } from 'react';
 
 export const AccountSideBar = () => {
   const pathname = usePathname();

@@ -3,7 +3,6 @@ import { TaskerAboutMe } from './AboutMe';
 import { SelectAndContinue } from './SelectAndContiune';
 import { TaskerSkillCard } from './TaskerSkillCard';
 import { TaskerSkills } from './TaskerSkills';
-import { useState } from 'react';
 
 export const TaskerProfile = () => {
   return (

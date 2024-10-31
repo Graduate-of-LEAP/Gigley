@@ -1,12 +1,6 @@
 import Image from 'next/image';
 import { Container } from '../assets/Container';
 
-const data = [
-  {
-    img: '/picture/how-it-works',
-  },
-];
-
 export const HowItWorks = () => {
   return (
     <Container className="bg-[#FFFCE4] ">

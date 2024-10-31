@@ -1,6 +1,6 @@
 import { AccountSideBar } from '@/components/UserAccount-components/AccountSideBar';
 
-export default function () {
+const Page = () => {
   return (
     <div className="w-screen h-screen bg-[#f8fafc]">
       <div className="max-w-screen-lg m-auto p-14">
@@ -18,8 +18,8 @@ export default function () {
             <div className="text-base text-[#022022] pr-2">
               To cancel a task, go to your tasks and select the circle with
               three dots in the upper right corner of the task card. This will
-              reveal the 'Cancel Task' button. Select 'Cancel Task' to cancel
-              all appointments for that task.
+              reveal the Cancel Task button. Select Cancel Task to cancel all
+              appointments for that task.
             </div>
             <div className="px-12 py-3 bg-[#1167b1] rounded-md text-white w-fit text-base font-semibold mt-8">
               Go to My Tasks
@@ -29,4 +29,5 @@ export default function () {
       </div>
     </div>
   );
-}
+};
+export default Page;

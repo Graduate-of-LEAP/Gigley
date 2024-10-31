@@ -1,9 +1,10 @@
 import { Register } from '@/components/Register';
-
-export default function () {
+const RegisterPage = () => {
   return (
     <>
       <Register />
     </>
   );
-}
+};
+
+export default RegisterPage;

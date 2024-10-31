@@ -1,9 +1,9 @@
 import { TaskerRegister } from '@/components/TaskerRegister';
-
-export default function () {
+const Page = () => {
   return (
     <>
       <TaskerRegister />
     </>
   );
-}
+};
+export default Page;

@@ -1,9 +1,10 @@
 import { TaskerLogin } from '@/components/TaskerLogin';
 
-export default function () {
+const Page = () => {
   return (
     <>
       <TaskerLogin />
     </>
   );
-}
+};
+export default Page;

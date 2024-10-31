@@ -1,5 +1,3 @@
-import { SelectItemText } from '@radix-ui/react-select';
-
 export const SortedBy = () => {
   const sortedData = [
     {

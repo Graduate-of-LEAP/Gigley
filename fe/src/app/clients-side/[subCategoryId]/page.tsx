@@ -31,7 +31,7 @@ type SubCatId = {
   subCategoryId: string;
 };
 
-export default function () {
+const Page = () => {
   const { subCategoryId } = useParams<SubCatId>();
   const [size, setSize] = useState<string>('');
   const [district, setDistrict] = useState<string>('');
@@ -173,4 +173,5 @@ export default function () {
       </Container>
     </>
   );
-}
+};
+export default Page;

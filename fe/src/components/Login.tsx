@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from './ui/input';
 import { Label } from '@radix-ui/react-label';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from './context/auth.customerProvider';
 
 export const Login = () => {
