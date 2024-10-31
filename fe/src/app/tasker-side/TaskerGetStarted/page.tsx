@@ -3,7 +3,7 @@ import { Header } from '@/components/assets/Header';
 import { TaskerBenefits } from '@/components/TaskerGetStarted-components/TaskerBenefits';
 import { TaskerEarningsEstimator } from '@/components/TaskerGetStarted-components/TaskerEarningsEstimator';
 
-export default function () {
+const Page = () => {
   return (
     <>
       <Header />
@@ -12,4 +12,5 @@ export default function () {
       <Footer />
     </>
   );
-}
+};
+export default Page;

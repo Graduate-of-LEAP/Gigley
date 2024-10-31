@@ -87,7 +87,7 @@ export const OrderDetails = () => {
         <div className="mt-4 text-sm">
           <p>
             You may see a temporary hold on your payment method in the amount of
-            your Tasker's hourly rate of $98.07. You can cancel at any time.
+            your Taskers hourly rate of $98.07. You can cancel at any time.
             Tasks cancelled less than 24 hours before the start time may be
             billed a{' '}
             <span className="text-green-600 underline">cancellation fee</span>{' '}

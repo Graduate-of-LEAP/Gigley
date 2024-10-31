@@ -12,7 +12,6 @@ import TaskersRecommended from '@/components/ClientSide-Dashboard/TaskersRecomen
 
 export default function Dashboard() {
   const [tasker, setTasker] = useState<Tasker[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [authorization, setAuthorization] = useState<string | null>(null);
 
   useEffect(() => {
@@ -30,7 +29,6 @@ export default function Dashboard() {
         setTasker(response.data);
       } catch (err) {
         console.error('Error fetching taskers:', err);
-        setError('Failed to load taskers.');
       }
     };
     fetchTasker();

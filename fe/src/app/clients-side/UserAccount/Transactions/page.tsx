@@ -1,8 +1,7 @@
 import { AccountSideBar } from '@/components/UserAccount-components/AccountSideBar';
-import { GoDownload } from 'react-icons/go';
 import { IoDownloadSharp } from 'react-icons/io5';
 
-export default function () {
+const Page = () => {
   return (
     <div className="w-screen h-screen bg-[#f8fafc]">
       <div className="max-w-screen-lg m-auto p-14">
@@ -31,4 +30,5 @@ export default function () {
       </div>
     </div>
   );
-}
+};
+export default Page;

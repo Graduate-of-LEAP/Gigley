@@ -9,12 +9,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { LogOut, UserRoundPen } from 'lucide-react';
-import { Button } from '../ui/button';
-import { useTaskerAuth } from '../context/auth.taskerProvider';
 
 export const Header = () => {
   const { user, setUser } = useAuth();
-  const { tasker } = useTaskerAuth();
 
   const logOut = async () => {
     try {

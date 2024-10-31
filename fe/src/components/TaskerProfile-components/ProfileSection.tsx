@@ -77,7 +77,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
           uploadResponse.data.secure_url || uploadResponse.data.url;
 
         // Step 2: Send image URL to backend to update profile image
-        const updateResponse = await api.post(
+        await api.post(
           '/submitWorkDetails/uploadImage',
           { profileImage: imageUrl },
           {

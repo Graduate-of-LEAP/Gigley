@@ -1,9 +1,10 @@
 import { OpportunitySection } from '@/components/CompleteProfile-components/Oppurtinity';
 
-export default function () {
+const Page = () => {
   return (
     <>
       <OpportunitySection />
     </>
   );
-}
+};
+export default Page;

@@ -14,7 +14,7 @@ export const OneReviewComponent = ({ item }: reviewItemType) => {
           <div> on {new Date(item.createAtDate).toLocaleDateString()}</div>
         </div>
 
-        <p>"{item.comment}"</p>
+        <p>{item.comment}</p>
       </div>
     </div>
   );

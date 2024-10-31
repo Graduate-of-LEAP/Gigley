@@ -1,7 +1,7 @@
 'use client';
 
 import { api } from '@/lib';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import {
   createContext,
   PropsWithChildren,
@@ -50,7 +50,7 @@ export const AuthCustomerProvider = ({ children }: PropsWithChildren) => {
     password: string
   ) => {
     try {
-      const response = await api.post('/user/register', {
+      await api.post('/user/register', {
         email,
         password,
         userName,

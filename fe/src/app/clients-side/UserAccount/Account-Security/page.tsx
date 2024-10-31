@@ -1,7 +1,7 @@
 import { AccountSideBar } from '@/components/UserAccount-components/AccountSideBar';
 import { TbPasswordMobilePhone } from 'react-icons/tb';
 
-export default function () {
+const Page = () => {
   return (
     <div className="w-screen h-screen bg-[#f8fafc]">
       <div className="max-w-screen-lg m-auto p-14">
@@ -40,4 +40,5 @@ export default function () {
       </div>
     </div>
   );
-}
+};
+export default Page;

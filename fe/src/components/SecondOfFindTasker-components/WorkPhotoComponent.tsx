@@ -1,32 +1,6 @@
 import { GrGallery } from 'react-icons/gr';
 
 import Image from 'next/image';
-import { itemtype } from './TaskerIntroComponent';
-import { WorkDetail } from '@/app/tasker-side/TaskerDashboard/page';
-
-const workPhoto = [
-  {
-    img: '/picture/how-it-works.png',
-  },
-  {
-    img: '/picture/wp-2.jpg',
-  },
-  {
-    img: '/picture/wp-1.jpg',
-  },
-  {
-    img: '/picture/wp-2.jpg',
-  },
-  {
-    img: '/picture/wp-2.jpg',
-  },
-  {
-    img: '/picture/how-it-works.png',
-  },
-  {
-    img: '/picture/wp-2.jpg',
-  },
-];
 
 interface WorkPhotoComponentProps {
   images: string[];

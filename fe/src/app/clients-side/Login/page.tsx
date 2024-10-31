@@ -1,9 +1,10 @@
 import { Login } from '@/components/Login';
 
-export default function () {
+const Page = () => {
   return (
     <>
       <Login />
     </>
   );
-}
+};
+export default Page;

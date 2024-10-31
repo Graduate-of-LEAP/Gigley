@@ -2,7 +2,6 @@
 import { Container } from '../assets/Container';
 import { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Armchair, Car, Drill, House } from 'lucide-react';
 import { api } from '@/lib';
 import Link from 'next/link';
 
@@ -16,7 +15,6 @@ type SubCategoryType = {
   subCategoryName: string;
   _id: string;
 };
-const categoryIcons = [Armchair, Car, Drill, House];
 export const PopularServices = () => {
   const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
   const [categories, setCategories] = useState<CategoryType[] | undefined>(

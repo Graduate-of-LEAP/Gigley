@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import ImageUploader from './ImageUploader';
-import Link from 'next/link';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

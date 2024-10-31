@@ -9,11 +9,8 @@ import {
 import Image from 'next/image';
 import { IoTrophySharp } from 'react-icons/io5';
 import { MdOutlineStar } from 'react-icons/md';
-import { GrGallery } from 'react-icons/gr';
 import { ReviewComponent } from '@/components/SecondOfFindTasker-components/ReviewComponent';
-import { it } from 'node:test';
 import { WorkPhotoComponent } from '../SecondOfFindTasker-components/WorkPhotoComponent';
-import { itemtype } from '../SecondOfFindTasker-components/TaskerIntroComponent';
 import { Tasker } from '@/app/tasker-side/TaskerDashboard/page';
 
 export type reviewDataType = {

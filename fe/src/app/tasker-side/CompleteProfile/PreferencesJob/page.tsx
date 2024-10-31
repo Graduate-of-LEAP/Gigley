@@ -1,9 +1,10 @@
 import { JobPreference } from '@/components/CompleteProfile-components/Job-Preferences';
 
-export default function () {
+const Page = () => {
   return (
     <>
       <JobPreference />
     </>
   );
-}
+};
+export default Page;
