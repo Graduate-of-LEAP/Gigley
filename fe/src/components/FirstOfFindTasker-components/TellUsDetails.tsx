@@ -25,7 +25,6 @@ export const TellUsDetails = () => {
           id="taskDetails"
           placeholder="Describe the task you need help with..."
           className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:border-blue-500"
-          rows="4"
         ></textarea>
         <p className="text-xs text-gray-500 mt-2">
           If you need two or more Taskers, please post additional tasks for each
