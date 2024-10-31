@@ -9,38 +9,46 @@ const data = [
 
 export const HowItWorks = () => {
   return (
-    <Container className="">
-      <div className="h-fit ">
-        <div className="py-12 pl-40 relative ">
+    <Container className="bg-[#FFFCE4] ">
+      <div className="h-fit bg-[#FFFCE4] ">
+        <div className=" py-20 pl-40 relative ">
           <Image
             src="/picture/how-it-works.png"
-            height={494}
-            width={950}
+            height={500}
+            width={1000}
             alt="how it works"
           />
 
-          <div className="bg-white w-[393px] h-fit px-6 pl-16 pr-9 py-16 rounded-lg absolute top-[80px] left-[56px]">
-            <h1 className="text-2xl font-bold">How it works</h1>
+          <div className="bg-white w-[400px] h-fit px-6 pl-16 pr-9 py-16 rounded-lg absolute top-[120px] left-[56px] ">
+            <h1 className="text-2xl font-bold">
+              gigLEY-с та хэрхэн үйлчилгээ авах вэ{' '}
+            </h1>
             <div className="flex flex-col gap-y-6 mt-10">
               <div className="flex gap-x-6 items-center ">
                 <div className="px-[22px] py-3 bg-[#D7D7FD] rounded-full text-2xl font-bold">
                   1
                 </div>
-                <div>Choose a Tasker by price, skills, and reviews.</div>
+                <div>
+                  Ур чадвар, сэтгэгдэлүүд болон үнийн тарифтай танилцаад
+                  туслагчаа сонгоорой.
+                </div>
               </div>
 
               <div className="flex gap-x-6 items-center ">
                 <div className="px-[22px] py-3 bg-[#FFFCE4] rounded-full text-2xl font-bold">
                   2
                 </div>
-                <div>Choose a Tasker by price, skills, and reviews.</div>
+                <div>Сонгосон туслагчтайгаа цагаа тохиролцоорой.</div>
               </div>
 
               <div className="flex gap-x-6 items-center ">
                 <div className="px-[22px] py-3 bg-[#E3FFEF] rounded-full text-2xl font-bold">
                   3
                 </div>
-                <div>Choose a Tasker by price, skills, and reviewsa.</div>
+                <div>
+                  Холбогдох, төлбөр тооцоогоо хийх, сэтгэгдэлүүдтэй танилцах
+                  зэрэг бүгдийг нэг доороос.
+                </div>
               </div>
             </div>
           </div>

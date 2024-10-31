@@ -49,7 +49,7 @@ export const PopularServices = () => {
       <div className="mt-4"></div>
       <div>
         <div className="flex gap-10 justify-center">
-          <Tabs defaultValue={categories[0]._id} className="w-fit">
+          <Tabs defaultValue={categories[0]._id} className="w-fit ">
             <TabsList className="h-fit w-fit mx-auto overflow-hidden flex border-b border-black p-0">
               {categories?.map((category, i) => {
                 // const Icon = el.icon;

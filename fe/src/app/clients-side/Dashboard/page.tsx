@@ -38,7 +38,6 @@ export default function Dashboard() {
   return (
     <>
       <Header />
-      {error && <p className="text-red-500">{error}</p>}
       <BookYourNextTask />
       <PartnerWithIkea />
       <TaskersRecommended taskers={tasker} />

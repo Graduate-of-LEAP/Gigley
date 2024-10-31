@@ -15,8 +15,10 @@ export default function Home() {
       <Header />
       <HeroSection />
       <PopularServices />
+      {/* <StatisticsOfServices /> */}
       <PopularProjects />
       <Testimonials />
+      {/* <TrustAndGuarantees /> */}
       <HowItWorks />
       <GetHelpToday />
       <Footer />

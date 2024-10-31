@@ -52,12 +52,12 @@ export const TaskerDetailedProfileCard = ({ item }: itemtype) => {
           <DialogTitle>
             <div className="flex gap-x-4 w-full">
               <div className="w-[72px] h-[72px] rounded-full relative border">
-                {/* <Image
-                  src={}
+                <Image
+                  src={item.profileImage}
                   fill
                   alt="profile"
                   className="rounded-full"
-                /> */}
+                />
               </div>
 
               <div className="flex w-full flex-col justify-between">

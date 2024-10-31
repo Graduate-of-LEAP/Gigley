@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/components/context/auth.customerProvider';
 
 const districts = [
   'Налайх',
@@ -36,17 +37,32 @@ export default function () {
   const [district, setDistrict] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [addInfo, setAddInfo] = useState<string>('');
+  const { user } = useAuth();
   const router = useRouter();
-
+  const userId = user?.id;
   const handleSubmit = () => {
-    const queryParams = new URLSearchParams({
+    console.log('Submitting:', {
+      size,
+      subCategoryId,
+      district,
+      userId,
+      address,
+      addInfo,
+    });
+
+    const params: Record<string, string> = {
       size,
       subCategoryId,
       district,
       address,
       addInfo,
-    }).toString();
+    };
 
+    if (userId) {
+      params.userId = userId;
+    }
+
+    const queryParams = new URLSearchParams(params).toString();
     router.push(`/clients-side/SecondOfFindTasker?${queryParams}`);
   };
   return (
@@ -100,7 +116,10 @@ export default function () {
         <h2 className="text-lg font-semibold mb-4">Task Options</h2>
         <p className="text-sm text-gray-700 mb-4">How big is your task?</p>
         <div className="space-y-4 mb-6">
-          <RadioGroup defaultValue="" onValueChange={(value) => setSize(value)}>
+          <RadioGroup
+            defaultValue=""
+            onValueChange={(value: string) => setSize(value)}
+          >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="small" id="option-one" />
               <Label htmlFor="option-one">Бага</Label>

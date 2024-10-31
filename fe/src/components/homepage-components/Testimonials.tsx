@@ -4,7 +4,7 @@ import { FaStar } from 'react-icons/fa';
 export const Testimonials = () => {
   return (
     <Container className="bg-white">
-      <div className="h-[#923px]   bg-white">
+      <div className="h-[#923px]   bg-white mt-8 mb-8">
         <h2 className="text-[#2B4C32] pb-[48px] font-bold text-2xl">
           Хэрэглэгчид Gigley-н талаар ямар бодолтой байгааг харцгаая
         </h2>

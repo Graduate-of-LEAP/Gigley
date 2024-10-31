@@ -20,10 +20,10 @@ export const TaskerLogin = () => {
         objectFit="cover"
       />
       <div className="flex justify-center">
-        <div className="w-[500px] h-[430px] rounded-lg bg-white absolute  mt-[200px] flex flex-col gap-5 px-16">
-          <h1 className="font-bold text-5xl text-green-950 px-24 py-6">
+        <div className="w-[500px] h-fit rounded-lg bg-white absolute  mt-[200px] flex flex-col gap-5 px-16 p-8">
+          <h1 className="font-bold text-5xl text-[#000238] text-center">
             {' '}
-            GiGley
+            gigLEY
           </h1>
 
           <h5 className="text-xl m-auto ">Please tasker log in</h5>
@@ -49,7 +49,7 @@ export const TaskerLogin = () => {
 
           <Button
             variant="outline"
-            className="h-[43px] w-[356px] rounded-full bg-green-800 text-white"
+            className="h-[43px] w-[356px] rounded-full bg-[#1167b1] text-white"
             onClick={() => login(email, password)}
           >
             Нэвтрэх

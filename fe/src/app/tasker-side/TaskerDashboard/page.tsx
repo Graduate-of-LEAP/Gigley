@@ -27,6 +27,7 @@ export type Tasker = {
   phone: number;
   location: string;
   workDetails: WorkDetail[];
+  profileImage: string;
   createdAt: string;
   updatedAt: string;
 };

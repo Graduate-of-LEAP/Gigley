@@ -27,24 +27,25 @@ export const Header = () => {
   };
 
   return (
-    <Container className="bg-white ">
-      <div className="h-[70px]  flex justify-between items-center  border-b border-gray-500">
+    <Container className="bg-white border-b border-gray-300">
+      <div className="h-[70px]  flex justify-between items-center  ">
         <Link href={'/'}>
-          <p className="font-bold text-3xl">GiGley</p>
+          <p className="font-bold text-3xl text-[#000238]">gigLEY</p>
         </Link>
         <div className="flex items-center gap-4 font-medium">
-          <Link
-            href="/clients-side/ServicesPage"
-            className="cursor-pointer hover:text-[#1167b1]"
-          >
-            <p>Үйлчилгээ</p>
+          <Link href="/clients-side/ServicesPage" className="cursor-pointer">
+            <p className="cursor-pointer hover:text-[#1167b1] px-2 font-semibold ">
+              Үйлчилгээ
+            </p>
           </Link>
-          <div className="flex items-center gap-4 font-medium">
+          <div className="flex items-center gap-4 font-semibold">
             <Link
               href="/clients-side/RegisterTaskerAndUser"
               className={`${user ? 'hidden' : ''}`}
             >
-              <p className="hover:text-[#1167b1] cursor-pointer">Бүртгүүлэх</p>
+              <p className="hover:text-[#1167b1] cursor-pointer font-semibold">
+                Бүртгүүлэх
+              </p>
             </Link>
             <span>|</span>
             {user && (
@@ -55,7 +56,7 @@ export const Header = () => {
                     <UserRoundPen />
                   </PopoverTrigger>
                   <PopoverContent className="flex flex-col bg-white p-0 w-fit overflow-hidden">
-                    <Link href={'/clients-side/UserAccount/Profile'}>
+                    <Link href="/clients-side/UserAccount/Profile">
                       <div className="cursor-pointer hover:bg-[#1167b1] hover:text-white py-2 px-4">
                         Хэрэглэгчийн мэдээлэл
                       </div>
