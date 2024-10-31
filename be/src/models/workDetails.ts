@@ -5,6 +5,7 @@ const workDetailsSchema = new Schema({
   taskerId: {
     type: mongoose.Schema.Types.ObjectId, // Reference to the tasker
     ref: 'taskers',
+    required: true,
   },
 
   subCategoryId: {

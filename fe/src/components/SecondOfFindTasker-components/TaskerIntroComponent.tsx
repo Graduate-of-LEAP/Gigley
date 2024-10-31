@@ -11,18 +11,33 @@ import {
 } from '../assets/TaskerDetailedProfileCard';
 import { Tasker } from '@/app/tasker-side/TaskerDashboard/page';
 
+type WorkDetail = {
+  _id: string;
+  taskerId: Tasker;
+  subCategoryId: string;
+  taskName: string;
+  images: string[];
+  hourlyRate: string;
+  vehicles: string;
+  tools: string;
+  skillsAndExperience: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+
 export type itemtype = {
-  item: Tasker;
+  item: WorkDetail;
 };
 
 export const TaskerIntroComponent = ({ item }: itemtype) => {
-  const work = item.workDetails;
+  const work = item.taskerId;
   console.log(work, 'workDetail shuu');
   return (
     <div className="">
       <div className="text-[24px] text-[#1f1f1f] font-bold flex justify-between">
         <div className="cursor-pointer hover:text-[#1167b1]">
-          {item.firstName} {item.lastName}
+          {item.taskerId?.firstName} {item.taskerId?.lastName}
         </div>
         <div className="font-semibold">{}</div>
       </div>
@@ -57,7 +72,7 @@ export const TaskerIntroComponent = ({ item }: itemtype) => {
         <div className="font-bold mb-2">How I can help:</div>
         <div className="w-[480px]">TaskIntro</div>
         <div className="text-[#2a9df4] font-semibold">
-          <TaskerDetailedProfileCard item={item} />
+          <TaskerDetailedProfileCard item={item.taskerId} />
         </div>
       </div>
 

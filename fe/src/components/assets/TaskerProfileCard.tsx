@@ -1,8 +1,5 @@
 // TaskerProfileCard.tsx
 
-import Image from 'next/image';
-import { IoTrophySharp } from 'react-icons/io5';
-import { MdOutlineStar } from 'react-icons/md';
 import { TaskerIntroComponent } from '../SecondOfFindTasker-components/TaskerIntroComponent';
 import { Tasker } from '@/app/tasker-side/TaskerDashboard/page';
 import { useEffect, useState } from 'react';
@@ -16,6 +13,8 @@ export const TaskerProfileCard = () => {
   const getAllTaskerData = async () => {
     try {
       const response = await api.get('/getAllTasker/taskers');
+      console.log(response.data);
+
       setAllTasker(response.data);
     } catch (error) {
       console.error('Error fetching taskers:', error);
@@ -57,7 +56,9 @@ export const TaskerProfileCard = () => {
           </div>
 
           <div className="flex-1">
-            <TaskerIntroComponent item={tasker} />
+            {tasker.workDetails.map((workDetail) => (
+              <TaskerIntroComponent key={workDetail._id} item={workDetail} />
+            ))}
           </div>
         </div>
       ))}
