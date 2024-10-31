@@ -91,15 +91,15 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
           <DialogTitle>Edit Task Detail</DialogTitle>
         </DialogHeader>
         <form className="space-y-4">
-          {/* Minimum Hours */}
+          {/* Hourly Rate */}
           <div>
             <label className="block text-gray-600 font-medium">
-              Hourly rate
+              Hourly Rate
             </label>
             <input
               type="text"
-              name="hourly rate"
-              value={formData.hourlyRate}
+              name="hourlyRate" // Corrected to camelCase
+              value={formData.hourlyRate || ''} // Allowing empty string for easy deletion
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
@@ -111,7 +111,7 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
             <input
               type="text"
               name="vehicles"
-              value={formData.vehicles}
+              value={formData.vehicles || ''} // Allowing empty string
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
@@ -123,7 +123,7 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
             <input
               type="text"
               name="tools"
-              value={formData.tools}
+              value={formData.tools || ''} // Allowing empty string
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
@@ -136,7 +136,7 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
             </label>
             <textarea
               name="skillsAndExperience"
-              value={formData.skillsAndExperience}
+              value={formData.skillsAndExperience || ''} // Allowing empty string
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
