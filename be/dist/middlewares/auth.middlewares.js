@@ -10,7 +10,9 @@ const authMiddleware = (req, res, next) => {
         req.path.startsWith('/user/register') ||
         req.path.startsWith('/user/login') ||
         req.path.startsWith('/mainCategory') ||
-        req.path.startsWith('/subCategory'))
+        req.path.startsWith('/subCategory') ||
+        req.path.startsWith('/getAllTasker') ||
+        req.path.startsWith('/task'))
         return next();
     const auth = req.headers.authorization;
     const token = auth?.split(' ')[1];

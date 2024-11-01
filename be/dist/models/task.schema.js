@@ -27,7 +27,7 @@ const taskSchema = new Schema({
     },
     taskSize: {
         type: String,
-        enum: ['Small', 'Medium', 'Large'],
+        enum: ['small', 'medium', 'large'],
         required: true,
     },
     description: {
