@@ -4,6 +4,7 @@ import { taskModel } from '../../models/task.schema';
 
 export const getNewTasksForTasker = async (req: Request, res: Response) => {
   const taskerId = req.tasker.id;
+  console.log(req.tasker);
 
   if (!taskerId) {
     return res.status(400).json({ message: 'Tasker ID is missing' });

@@ -30,7 +30,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     req.path.startsWith('/mainCategory') ||
     req.path.startsWith('/subCategory') ||
     req.path.startsWith('/getAllTasker') ||
-    req.path.startsWith('/task')
+    req.path.startsWith('/task/create')
   )
     return next();
 
