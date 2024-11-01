@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.authTaskerRouter = void 0;
+const express_1 = require("express");
+const register_tasker_controller_1 = require("../controllers/tasker/register-tasker.controller");
+const login_tasker_controller_1 = require("../controllers/tasker/login-tasker.controller");
+const authTaskerRouter = (0, express_1.Router)();
+exports.authTaskerRouter = authTaskerRouter;
+authTaskerRouter.post('/register', register_tasker_controller_1.taskerRegisterController);
+authTaskerRouter.post('/login', login_tasker_controller_1.taskerLoginController);

@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import ImageUploader from './ImageUploader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { WorkDetail } from '../TaskerProfile-components/ProfileSection';
 
 interface WorkDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (details: any) => void;
-  existingDetails?: any | null;
+  onSave: (details: WorkDetail) => void;
+  existingDetails?: WorkDetail | null;
   Authorization: string | null;
 }
 
@@ -27,7 +28,7 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       if (existingDetails) {
-        setHourlyRate(existingDetails.minHours || '');
+        setHourlyRate(existingDetails.hourlyRate || '');
         setVehicles(existingDetails.vehicles || '');
         setTools(existingDetails.tools || '');
         setSkillsAndExperience(existingDetails.skillsAndExperience || '');
@@ -55,13 +56,21 @@ export const WorkDetailsModal: React.FC<WorkDetailsModalProps> = ({
       return;
     }
 
-    const details = {
+    const details: WorkDetail = {
+      _id: existingDetails?._id || 'new_id',
+      taskName: existingDetails?.taskName || 'Default Task Name',
+      subCategoryId: existingDetails?.subCategoryId || 'defaultSubCategoryId',
       hourlyRate,
       vehicles,
       tools,
       skillsAndExperience,
       images,
+      taskerId: '',
+      createdAt: '',
+      updatedAt: '',
+      __v: 0,
     };
+
     onSave(details);
   };
 

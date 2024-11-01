@@ -50,43 +50,33 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
   const [isReady, setIsReady] = useState(false);
 
   const fetchTaskerProfile = async (token: string) => {
-    try {
-      const response = await api.get(`/getTaskerAllInforouter/get`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+    const response = await api.get(`/getTaskerAllInforouter/get`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-      return response.data;
-    } catch (err) {
-      console.error('Error fetching Tasker information:', err);
-      return null;
-    }
+    return response.data;
   };
 
   // Login function
   const login = async (email: string, password: string) => {
-    try {
-      const res = await api.post('/authTasker/login', { email, password });
+    const res = await api.post('/authTasker/login', { email, password });
 
-      const token = res.data.token;
-      localStorage.setItem('token', token);
+    const token = res.data.token;
+    localStorage.setItem('token', token);
 
-      // Fetch the tasker's profile after login
-      const fetchedProfile = await fetchTaskerProfile(token);
+    // Fetch the tasker's profile after login
+    const fetchedProfile = await fetchTaskerProfile(token);
 
-      toast.success('Login successful');
+    toast.success('Login successful');
 
-      setTimeout(() => {
-        // Check if the profile contains necessary details
-        if (fetchedProfile && fetchedProfile.workDetails.length > 0) {
-          router.push('/tasker-side/TaskerDashboard'); // Redirect to the dashboard if profile is complete
-        } else {
-          router.push('/tasker-side/CompleteProfile/GetStarted'); // Redirect to the profile setup if not completed
-        }
-      }, 1000);
-    } catch (err: any) {
-      console.log(err);
-      toast.error('Invalid credentials');
-    }
+    setTimeout(() => {
+      // Check if the profile contains necessary details
+      if (fetchedProfile && fetchedProfile.workDetails.length > 0) {
+        router.push('/tasker-side/TaskerDashboard'); // Redirect to the dashboard if profile is complete
+      } else {
+        router.push('/tasker-side/CompleteProfile/GetStarted'); // Redirect to the profile setup if not completed
+      }
+    }, 1000);
   };
 
   const register = async (
@@ -96,24 +86,19 @@ export const AuthTaskerProvider = ({ children }: PropsChildren) => {
     lastName: string,
     phone: string
   ) => {
-    try {
-      await api.post('/authTasker/register', {
-        firstName,
-        lastName,
-        email,
-        password,
-        phone,
-      });
+    await api.post('/authTasker/register', {
+      firstName,
+      lastName,
+      email,
+      password,
+      phone,
+    });
 
-      toast.success('Registration successful! Please login.');
+    toast.success('Registration successful! Please login.');
 
-      setTimeout(() => {
-        router.push('/tasker-side/TaskerLogin');
-      }, 1000);
-    } catch (err: any) {
-      console.log(err);
-      toast.error(err?.response?.data?.message || 'Registration failed');
-    }
+    setTimeout(() => {
+      router.push('/tasker-side/TaskerLogin');
+    }, 1000);
   };
 
   useEffect(() => {

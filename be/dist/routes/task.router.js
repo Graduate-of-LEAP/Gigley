@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.taskRouter = void 0;
+const express_1 = require("express");
+const create_task_controller_1 = require("../controllers/task/create-task.controller");
+const get_task_controller_1 = require("../controllers/task/get-task.controller");
+const notification_controller_1 = require("../controllers/task/notification.controller");
+const update_taskStatus_controller_1 = require("../controllers/task/update-taskStatus.controller");
+const getUpcomingTasks_controller_1 = require("../controllers/task/getUpcomingTasks.controller");
+const taskRouter = (0, express_1.Router)();
+exports.taskRouter = taskRouter;
+taskRouter.post('/create', create_task_controller_1.createTaskController);
+taskRouter.get('/get', get_task_controller_1.getTaskerTasksController);
+taskRouter.get('/notification', notification_controller_1.getNewTasksForTasker);
+taskRouter.patch('/update/:taskId', update_taskStatus_controller_1.updateTaskStatusController);
+taskRouter.get('/getComfirmedTask', getUpcomingTasks_controller_1.getConfirmedTasksController);
