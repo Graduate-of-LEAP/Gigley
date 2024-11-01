@@ -26,9 +26,9 @@ export const TaskerLogin = () => {
             gigLEY
           </h1>
 
-          <h5 className="text-xl m-auto ">Please tasker log in</h5>
+          <h5 className="text-xl m-auto ">Гиглэгчээр нэвтрэнэ үү!</h5>
           <div>
-            <Label htmlFor="Email">Email</Label>
+            <Label htmlFor="Email">И-Майл</Label>
             <Input
               placeholder="Email"
               onChange={(e) => {
@@ -38,7 +38,7 @@ export const TaskerLogin = () => {
           </div>
 
           <div>
-            <Label htmlFor="Email">Password</Label>
+            <Label htmlFor="Email">Нууц үг</Label>
             <Input
               placeholder="Password"
               onChange={(e) => {
@@ -54,10 +54,6 @@ export const TaskerLogin = () => {
           >
             Нэвтрэх
           </Button>
-          <p className="text-base text-center mt-5">
-            Did you purchase an assembly from IKEA or sign up via Facebook or
-            Google? Create Password
-          </p>
         </div>
       </div>
     </div>
