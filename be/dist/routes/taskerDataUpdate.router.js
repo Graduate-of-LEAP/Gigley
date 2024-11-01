@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.submitTaskerRouter = void 0;
+const express_1 = require("express");
+const submit_tasker_controller_1 = require("../controllers/tasker/submit-tasker.controller");
+const saveLocation_controller_1 = require("../controllers/tasker/saveLocation.controller");
+const upload_profileImages_controller_1 = require("../controllers/tasker/upload-profileImages.controller");
+const update_tasker_controller_1 = require("../controllers/tasker/update-tasker.controller");
+const submitTaskerRouter = (0, express_1.Router)();
+exports.submitTaskerRouter = submitTaskerRouter;
+submitTaskerRouter.post('/submit', submit_tasker_controller_1.submitWorkDetailsController);
+submitTaskerRouter.post('/saveLocation', saveLocation_controller_1.saveTaskerLocationController);
+submitTaskerRouter.post('/uploadImage', upload_profileImages_controller_1.uploadProfileImageController);
+submitTaskerRouter.put('/updateTaskerInfo', update_tasker_controller_1.UpdateTaskerInfoController);

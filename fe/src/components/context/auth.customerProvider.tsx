@@ -49,42 +49,28 @@ export const AuthCustomerProvider = ({ children }: PropsWithChildren) => {
     phoneNumber: string,
     password: string
   ) => {
-    try {
-      await api.post('/user/register', {
-        email,
-        password,
-        userName,
-        lastName,
-        phoneNumber,
-      });
+    await api.post('/user/register', {
+      email,
+      password,
+      userName,
+      lastName,
+      phoneNumber,
+    });
 
-      toast.success('Амжилттай бүртгэгдлээ! Та нэвтэрнэ үү.');
+    toast.success('Амжилттай бүртгэгдлээ! Та нэвтэрнэ үү.');
 
-      router.push('/clients-side/Login');
-    } catch (err: any) {
-      console.log(err);
-      toast.error(err?.response?.data?.message || 'Бүртгэл амжилтгүй боллоо');
-    }
+    router.push('/clients-side/Login');
   };
 
   const login = async (email: string, password: string) => {
-    try {
-      const response = await api.post('/user/login', { email, password });
-      console.log(response, 'res');
+    const response = await api.post('/user/login', { email, password });
+    console.log(response, 'res');
 
-      localStorage.setItem('token', response.data.token);
-      getMe();
-      toast.success('Амжилттай нэвтэрлээ');
+    localStorage.setItem('token', response.data.token);
+    getMe();
+    toast.success('Амжилттай нэвтэрлээ');
 
-      router.push('/clients-side/Dashboard');
-    } catch (err: any) {
-      console.log(err);
-      if (err.response) {
-        toast.error(err.response.data.message || 'Хэрэглэгч олдсонгүй');
-      } else {
-        toast.error('Сүлжээний алдаа');
-      }
-    }
+    router.push('/clients-side/Dashboard');
   };
   const getMe = async () => {
     try {
@@ -102,22 +88,17 @@ export const AuthCustomerProvider = ({ children }: PropsWithChildren) => {
   };
   useEffect(() => {
     const loadUser = async () => {
-      try {
-        const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token');
 
-        if (!token) return;
+      if (!token) return;
 
-        const res = await api.get('/user/me', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      const res = await api.get('/user/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        setUser(res.data);
-      } catch (err) {
-      } finally {
-        setLoading(false);
-      }
+      setUser(res.data);
     };
     loadUser();
   }, []);

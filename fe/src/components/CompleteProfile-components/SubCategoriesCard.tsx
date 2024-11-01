@@ -1,10 +1,11 @@
 import { IoIosAddCircle } from 'react-icons/io';
+import { WorkDetail } from '../TaskerProfile-components/ProfileSection';
 
 interface SubCategoryCardProps {
   subCategory: string;
   subCategoryId: string;
-  workDetails: any[]; // Array of work details, including images
-  onEdit: (details: any) => void;
+  workDetails: WorkDetail[]; // Array of work details, including images
+  onEdit: (details: WorkDetail | null) => void;
   onDelete: (workDetailId: string) => void;
 }
 
