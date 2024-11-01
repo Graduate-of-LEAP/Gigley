@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Container } from '../assets/Container';
-// import { TaskerProfileCard } from '../assets/TaskerProfileCard';
-import { FilterSideBar } from './FilterSideBar';
 import { SortedBy } from './SortedBy';
 import { api } from '@/lib';
 import { Tasker } from '@/app/tasker-side/TaskerDashboard/page';
-import { useSearchParams } from 'next/navigation';
-// import { TaskerIntroComponent } from './TaskerIntroComponent';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Slider } from '@radix-ui/react-slider';
 import { IoTrophySharp } from 'react-icons/io5';
 import { MdOutlineStar } from 'react-icons/md';
 import { TaskerDetailedProfileCard } from '../assets/TaskerDetailedProfileCard';
+import { toast } from 'react-toastify';
+
 const timeData = [
   {
     time: "I'm Flexible",
@@ -118,10 +117,8 @@ export type WorkDetailType = {
 
 export const MainBody = () => {
   const [workDetails, setWorkDetails] = useState<WorkDetailType[]>([]);
-  console.log(workDetails, 'workDetagil');
-
+  const router = useRouter();
   const searchParams = useSearchParams();
-  console.log(searchParams.toString, 'all search params');
   const [sliderValues, setSliderValues] = useState([10, 105]);
 
   const getTaskersByWork = async () => {
@@ -129,7 +126,6 @@ export const MainBody = () => {
       const response = await api.get('/getAllTasker/taskersWithWork', {
         params: { workId: subCategoryId },
       });
-      console.log(response.data);
       setWorkDetails(response.data);
     } catch (error) {
       console.log(error);
@@ -147,7 +143,23 @@ export const MainBody = () => {
   const addInfo = searchParams.get('addInfo');
   const userId = searchParams.get('userId');
 
-  console.log(subCategoryId, 'subCAtegory shuu');
+  const createTask = async (taskerId: string) => {
+    try {
+      await api.post('/task/create', {
+        taskSize: size,
+        location: address,
+        description: addInfo,
+        customerId: userId,
+        taskerId,
+        district,
+        subCategoryId,
+      });
+      toast.success('Tasker луу амжилттай хүсэлт илгээлээ');
+      router.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container className="bg-[#f4f7f6] h-fit">
@@ -269,8 +281,11 @@ export const MainBody = () => {
                   View Profiles & <br /> Reviews
                 </div>
 
-                <button className="py-3 px-6 bg-[#1167b1] text-white font-semibold rounded-full">
-                  Select & Continue
+                <button
+                  onClick={() => createTask(detail.taskerId._id)}
+                  className="py-3 px-6 bg-[#1167b1] text-white font-semibold rounded-full cursor-pointer"
+                >
+                  Hire tasker
                 </button>
               </div>
 
