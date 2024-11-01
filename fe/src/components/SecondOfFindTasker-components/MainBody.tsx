@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Container } from '../assets/Container';
-import { TaskerProfileCard } from '../assets/TaskerProfileCard';
+// import { TaskerProfileCard } from '../assets/TaskerProfileCard';
 import { FilterSideBar } from './FilterSideBar';
 import { SortedBy } from './SortedBy';
 import { api } from '@/lib';
 import { Tasker } from '@/app/tasker-side/TaskerDashboard/page';
 import { useSearchParams } from 'next/navigation';
-import { TaskerIntroComponent } from './TaskerIntroComponent';
+// import { TaskerIntroComponent } from './TaskerIntroComponent';
 import { Slider } from '@radix-ui/react-slider';
+import { IoTrophySharp } from 'react-icons/io5';
+import { MdOutlineStar } from 'react-icons/md';
+import { TaskerDetailedProfileCard } from '../assets/TaskerDetailedProfileCard';
 const timeData = [
   {
     time: "I'm Flexible",
@@ -97,7 +100,8 @@ const timeData = [
     time: '9:30pm',
   },
 ];
-type WorkDetail = {
+
+export type WorkDetailType = {
   _id: string;
   taskerId: Tasker;
   subCategoryId: string;
@@ -113,14 +117,17 @@ type WorkDetail = {
 };
 
 export const MainBody = () => {
-  const [workDetails, setWorkDetails] = useState<WorkDetail[]>([]);
+  const [workDetails, setWorkDetails] = useState<WorkDetailType[]>([]);
+  console.log(workDetails, 'workDetagil');
+
   const searchParams = useSearchParams();
+  console.log(searchParams.toString, 'all search params');
   const [sliderValues, setSliderValues] = useState([10, 105]);
 
   const getTaskersByWork = async () => {
     try {
       const response = await api.get('/getAllTasker/taskersWithWork', {
-        params: { workId: subCategoryId }, //
+        params: { workId: subCategoryId },
       });
       console.log(response.data);
       setWorkDetails(response.data);
@@ -139,6 +146,8 @@ export const MainBody = () => {
   const address = searchParams.get('address');
   const addInfo = searchParams.get('addInfo');
   const userId = searchParams.get('userId');
+
+  console.log(subCategoryId, 'subCAtegory shuu');
 
   return (
     <Container className="bg-[#f4f7f6] h-fit">
@@ -240,8 +249,9 @@ export const MainBody = () => {
         </div>
         {/* <FilterSideBar /> */}
         {/* <TaskerProfileCard /> */}
+
         <div className="flex-col gap-y-3">
-          {workDetails.map((workDetails, index) => (
+          {workDetails.map((detail, index) => (
             <div
               key={index}
               className="w-fit h-fit flex gap-x-6 p-6 border border-[#848484] rounded-2xl bg-white mb-[24px]"
@@ -249,7 +259,7 @@ export const MainBody = () => {
               <div className="flex flex-col items-center">
                 <div className="w-[204px] h-[204px] bg-gray-700 rounded-full relative flex">
                   <img
-                    src={workDetails.taskerId?.profileImage}
+                    src={detail.taskerId?.profileImage}
                     alt="profile pic"
                     className="rounded-full"
                   />
@@ -265,7 +275,55 @@ export const MainBody = () => {
               </div>
 
               <div className="flex-1">
-                <TaskerIntroComponent item={workDetails} />
+                <div className="">
+                  <div className="text-[24px] text-[#1f1f1f] font-bold flex justify-between">
+                    <div className="cursor-pointer hover:text-[#1167b1]">
+                      {detail.taskerId?.firstName} {detail.taskerId?.lastName}
+                    </div>
+                    <div className="font-semibold">{}</div>
+                  </div>
+
+                  <div className="flex gap-x-2 mt-2">
+                    <div className="flex gap-1 py-[3px] px-[4px] bg-[#f4e6f8] items-center text-[12px] text-[#8551b1] rounded-sm w-fit font-semibold uppercase">
+                      <IoTrophySharp />
+                      <div>Tag</div>
+                    </div>
+
+                    <div className="flex gap-1 py-[3px] px-[4px] bg-[#dbfff2] items-center text-[12px] text-[#1167b1] rounded-sm w-fit font-semibold uppercase">
+                      rating
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <div className="flex items-center gap-x-1">
+                      <MdOutlineStar className="text-[18px]" />
+                      <div className="flex text-[#1a1e1d] gap-x-1">
+                        <div>avarage rating</div>
+                        <div>(total Reviews)</div>
+                      </div>
+                    </div>
+
+                    <div className="text-[#2a9df4] font-semibold">
+                      total task,
+                    </div>
+                    <div className="text-[#595c5b]">category tasks overall</div>
+                  </div>
+
+                  <div className="text-[#595c5b] bg-[#f4f7f6] p-3 rounded-md mt-6">
+                    <div className="font-bold mb-2">How I can help:</div>
+                    <div className="w-[480px]">
+                      {detail.skillsAndExperience}
+                    </div>
+                    <div className="text-[#2a9df4] font-semibold">
+                      <TaskerDetailedProfileCard item={detail} />
+                    </div>
+                  </div>
+
+                  {/* {reviewData.slice(0, 1).map((review, index) => (
+                    <OneReviewComponent key={index} item={review} />
+                  ))} */}
+                </div>
+                {/* <TaskerIntroComponent key={index} item={detail} /> */}
               </div>
             </div>
           ))}
