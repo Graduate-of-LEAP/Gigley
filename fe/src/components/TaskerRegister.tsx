@@ -24,7 +24,7 @@ export const TaskerRegister = () => {
         objectFit="cover"
       />
       <div className="flex justify-center">
-        <div className="w-[500px] h-[650px] rounded-lg bg-white absolute  mt-[200px] flex flex-col gap-5 px-16">
+        <div className="w-[500px] h-fit rounded-lg bg-white absolute  mt-[200px] flex flex-col gap-5 px-16 pb-4">
           <h1 className="font-bold text-5xl text-green-950 px-24 py-8">
             {' '}
             GiGley
@@ -66,7 +66,7 @@ export const TaskerRegister = () => {
 
           <Button
             variant="outline"
-            className="h-[43px] w-[356px] rounded-full bg-green-800 text-white mt-6"
+            className="h-[43px] w-[356px] rounded-full bg-[#1066b2] text-white mt-6"
             onClick={() =>
               register(email, password, firstName, lastName, phone)
             }

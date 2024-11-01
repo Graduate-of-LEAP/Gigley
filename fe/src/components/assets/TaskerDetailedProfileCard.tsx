@@ -84,7 +84,7 @@ export const TaskerDetailedProfileCard = ({ item }: itemTypes) => {
                     </div>
                   </div>
 
-                  <div className="text-2xl">$37.6/hr</div>
+                  <div className="text-2xl">{item.hourlyRate}₮/цаг</div>
                 </div>
 
                 <div className="flex justify-between mt-2">
@@ -120,13 +120,13 @@ export const TaskerDetailedProfileCard = ({ item }: itemTypes) => {
                 <GrGallery />
                 Гүйцэтгэсэн ажлын зургууд
               </div>
+              <div className="w-fit h-fit mb-3 bg-blue-200 px-2 text-[12px] rounded-md text-blue-950">
+                {item.taskName}
+              </div>
               <div className="flex gap-x-2 mt-2">
                 {item.images.slice(0, 4).map((image, index) => {
                   return (
                     <div key={index}>
-                      <div className="w-full mb-3 bg-blue-200 px-2 text-[12px] rounded-md text-blue-950">
-                        {item.taskName}
-                      </div>
                       <div className="relative w-[108px] h-[108px] cursor-pointer border rounded-lg">
                         <Link href={image} target="_blank">
                           <Image
