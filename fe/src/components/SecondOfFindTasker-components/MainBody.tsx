@@ -280,7 +280,9 @@ export const MainBody = () => {
                     <div className="cursor-pointer hover:text-[#1167b1]">
                       {detail.taskerId?.firstName} {detail.taskerId?.lastName}
                     </div>
-                    <div className="font-semibold">{}</div>
+                    <div className="font-semibold">
+                      {detail.hourlyRate}₮/цаг
+                    </div>
                   </div>
 
                   <div className="flex gap-x-2 mt-2">
