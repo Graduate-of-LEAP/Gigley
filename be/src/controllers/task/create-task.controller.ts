@@ -3,6 +3,8 @@ import { taskModel } from '../../models/task.schema';
 
 // Controller to create a new task
 export const createTaskController = async (req: Request, res: Response) => {
+  console.log('irlee');
+
   const {
     customerId,
     taskerId, // This can be null if the customer has not selected a tasker yet
@@ -11,6 +13,7 @@ export const createTaskController = async (req: Request, res: Response) => {
     description,
     timeOfDay,
     specificDate,
+    subCategoryId,
   } = req.body;
 
   try {
@@ -23,6 +26,7 @@ export const createTaskController = async (req: Request, res: Response) => {
       description,
       timeOfDay,
       specificDate,
+      subCategoryId,
     });
 
     // Save the task to the database
