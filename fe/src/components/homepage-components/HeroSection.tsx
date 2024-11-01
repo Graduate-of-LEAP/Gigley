@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { FaSearch } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib';
+import Link from 'next/link';
 
 type SubCategoryType = {
   subCategoryName: string;
@@ -68,12 +69,11 @@ export const HeroSection = () => {
             >
               {filteredSubCat?.map((subCat, i) => {
                 return (
-                  <div
-                    className="cursor-pointer hover:bg-gray-200 w-full px-4 py-2"
-                    key={i}
-                  >
-                    {subCat.subCategoryName}
-                  </div>
+                  <Link href={`/clients-side/${subCat._id}`} key={i}>
+                    <div className="cursor-pointer hover:font-bold  w-full px-4 py-2">
+                      {subCat.subCategoryName}
+                    </div>
+                  </Link>
                 );
               })}
             </div>

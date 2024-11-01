@@ -41,7 +41,6 @@ const AuthCustomerContext = createContext<CustomerContextType>(
 export const AuthCustomerProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [user, setUser] = useState<CustomerType | undefined>(undefined);
-  const [loading, setLoading] = useState(true);
   const register = async (
     userName: string,
     lastName: string,
@@ -83,7 +82,6 @@ export const AuthCustomerProvider = ({ children }: PropsWithChildren) => {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
@@ -102,9 +100,6 @@ export const AuthCustomerProvider = ({ children }: PropsWithChildren) => {
     };
     loadUser();
   }, []);
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <AuthCustomerContext.Provider

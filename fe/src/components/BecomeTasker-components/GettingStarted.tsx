@@ -7,7 +7,7 @@ import { GuravIcon } from '../assets/icons/GuravIcon';
 import { HoyrIcon } from '../assets/icons/HoyrIcon';
 import { TavIcon } from '../assets/icons/TavIcon';
 import { ZurgaaIcon } from '../assets/icons/ZurgaaIcon';
-import { HoyrTseg } from '../assets/icons/hoyrtseg';
+import { HoyrTseg } from '../assets/icons/HoyrTseg';
 import { AddIcon } from '../assets/icons/AddIcon';
 
 export const GettingStarted = () => {
